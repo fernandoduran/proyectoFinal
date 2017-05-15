@@ -8,9 +8,9 @@ if(!$_SESSION['rol']){
 <div class="container">
 	<div class="col-lg-9">
 		<div class="row">
-			<div class="col-lg-12 col-sm-12">
+			<div class="col-lg-7 col-sm-7">
 				<div id="logo">
-					<img alt="Logo página" src="../img/logoF1.png">
+					<img alt="Logo página" src="../img/logoF1_2.jpg" width="350" id="f1_logo">
 				</div>
 			</div>
 		</div>
@@ -20,18 +20,20 @@ if(!$_SESSION['rol']){
 		if($_SESSION['rol'] == ""){
 	?>
 
-	<div class="container">
-	<div class="login-container">
-            <div id="output"></div>
-            <div class="avatar"></div>
-            <div class="form-box">
+	
+		<div class="col-lg-7 col-sm-7">
+			<div class="login-container">
+            	<div id="output"></div>
+            	<div class="avatar"></div>
+            	<div class="form-box">
                 <form action="" method="">
                     <input name="user" type="text" placeholder="username">
                     <input type="password" placeholder="password">
                     <button class="btn btn-info btn-block login" type="submit">Login</button>
                 </form>
             </div>
-        </div>
+           </div>
+        
         <script type="text/javascript">
 $(function(){
 var textfield = $("input[name=user]");
@@ -71,10 +73,10 @@ var textfield = $("input[name=user]");
                 //console.log(textfield.val());
 
             });
-});
+	});
 
-</script>
-        
-</div>
+	</script>
+	        
+	</div>
 	<?php } ?>
 </div>
