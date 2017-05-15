@@ -1,7 +1,7 @@
 # proyectoFinal
 Proyecto final de ciclo
 
-En este repositorio se encuentran tanto lso archivos de código como toda la documentación
+En este repositorio se encuentran tanto los archivos de código como toda la documentación. En el archivo README.md se irá informando de los cambios realizados ordenados por fecha para que la supervisión del contenido sea más sencilla y se pueda ir directamente a la visualización de los cambios.
 
 	- A fecha de 10/05/17:
 		- Se ha subido una nueva versión de la documentación del proyecto.
