@@ -15,3 +15,7 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 		- Se ha subido el diagrama de clases
 		- Se ha subido una nueva versión de la documentación.
 		- Se ha subido la nueva versión del archivo include/funcions_dibuix.php
+		- Actualización del archivo css/login.css
+		- Nuevo archivo css/estils.css
+		- Actualización del archivo include/estructura.php
+		- Actualización del archivo inici/contingut.php
