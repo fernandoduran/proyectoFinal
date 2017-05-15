@@ -12,3 +12,6 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 		- Se ha subido la nueva versión del modelo relacional.
 		- Se ha subido la nueva versión del diagrama de actores.
 		- Se ha subido la nueva versión de la documentación.
+		- Se ha subido el diagrama de clases
+		- Se ha subido una nueva versión de la documentación.
+		- Se ha subido la nueva versión del archivo include/funcions_dibuix.php
