@@ -25,3 +25,7 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 		- Actualización del archivo include/funcions_dibuix.php
 			- Modificada la función pintaMenu();
 			- Modificada la función pinta_items_menu();
+		- Actualización del archivo SQL con las tablas
+			- Nuevos campos en tablas y eliminación en otros
+		- Actualización del Modelo relacional
+		- Inserción de datos en la BBDD (pendiente de subir a git)
