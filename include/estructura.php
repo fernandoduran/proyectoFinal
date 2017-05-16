@@ -18,7 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css.map">
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="../css/boostrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css.map">
 	
 
@@ -26,14 +26,19 @@
 	<script src="../js/bootstrap.min.js"></script>
 
 	<!-- Fancybox -->
-	<link rel="stylesheet" type="text/css" media="screen" href="../jquery.fancybox-1.3.4/jquery.easing-1.3.pack.js">
-	<link rel="stylesheet" type="text/css" media="screen" href="../jquery.fancybox-1.3.4/jquery.fancybox-1.3.4.css">
-	<link rel="stylesheet" type="text/css" media="screen" href="../jquery.fancybox-1.3.4/jquery.fancybox-1.3.4.js">
-	<link rel="stylesheet" type="text/css" media="screen" href="../jquery.fancybox-1.3.4/jquery.fancybox-1.3.4.pack.js">
-	<link rel="stylesheet" type="text/css" media="screen" href="../jquery.fancybox-1.3.4/jquery.mousewheel-3.0.4.pack.js">
+	<script type="text/javascript" href="../jquery.fancybox-1.3.4/fancybox/jquery.easing-1.3.pack.js"></script>
+	<script type="text/javascript" href="../jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.js"></script>
+	<script type="text/javascript" href="../jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<script type="text/javascript" href="../jquery.fancybox-1.3.4/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="../jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.css">
+	
+	
+	
 
 	<!-- jQuery -->
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    
 
 </head>
 <!-- Llibreries -->
@@ -44,7 +49,7 @@
 ?>
 <body>
 <?php 
-	if($_SESSION['rol']){
+	if(!$_SESSION['rol']){
 		?>
 		<nav class="navbar navbar-default">
   			<div class="container-fluid">
@@ -69,7 +74,7 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="../acceso/index.php?sec=registro">Registrate</a></li>
+        <li><a href="../acceso/index.php?sec=registro"><span><i class="glyficon glyficon-login"></i></span> Registrate</a></li>
         <li><a href="../acceso/index.php?sec=contacto">Contacto</a></li>
 
       </ul>
@@ -81,7 +86,9 @@
 		echo pintaMenu();
 	}
 	include_once 'contingut.php';
-?><script src="../js/bootstrap.min.js"></script>
+?>
+<script src="../js/jquery-3.2.1.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
 
 </body>
 </html>

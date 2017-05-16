@@ -38,8 +38,7 @@
 		
 		foreach ($titol_dropdown as $stringMenu) {
 		
-			if($stringMenu[0] != ""){
-				
+			if($stringMenu != ""){
 				$itemMenuGeneral = explode("#", $stringMenu);
 				
 				if($itemMenuGeneral[0] != ""){
@@ -48,8 +47,8 @@
 						
 						$nomDelItemPrincipal = explode("*", $valor);
 						
-						$result .= '<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>';
-						$result.= '<a href="#">'.$nomDelItemPrincipal[0].'</a>';
+						$result .= '<li class="dropdown">';
+						$result.= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'.$nomDelItemPrincipal[0].'<span class="caret"></span></a>';
 						
 						$llista_links = array($nomDelItemPrincipal[1]);
 						
@@ -60,10 +59,10 @@
 							$result .= '<ul class="dropdown-menu">';
 
 							foreach ($subItem as $valor) {
-									
+								
 								$nomDelSubItem = explode("|", $valor);
-									
-								if(preg_match('#^https://.*#s', $nomDelSubItem[1])){
+								if($nomDelSubItem[0] != ""){
+									if(preg_match('#^https://.*#s', $nomDelSubItem[1])){
 
 									$result .= '<li><a target="_blank" href="'.$nomDelSubItem[1].'">'.$nomDelSubItem[0].'</a></li>';
 
@@ -71,6 +70,8 @@
 										
 									$result .= '<li><a href="'.$nomDelSubItem[1].'">'.$nomDelSubItem[0].'</a></li>';
 								}
+								}
+								
 							}
 							$result .= '</ul>
 									</li>
