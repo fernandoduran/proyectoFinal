@@ -93,16 +93,49 @@ echo $result;
 	function pintaMenu()
 	{
 
-		//Menu invitados
-		$menu_invitados = "#Campeonatos*2017|../campeonatos/index.php?sec=2017;";
-		/*$menu_invitados .= "#Accede*Registrate|../datos/index.php?sec=registro;";
-		$menu_invitados .= "#Accede*Login|../datos/index.php?sec=login;";*/
+		//Menu Campeonatos
+		$menu_campeonatos = "#Campeonatos*2017|../campeonatos/index.php?sec=2017;";
+		$menu_campeonatos .= "2016|../campeonatos/index.php?sec=2016;";
+		$menu_campeonatos .= "2015|../campeonatos/index.php?sec=2015;";
+		$menu_campeonatos .= "2014|../campeonatos/index.php?sec=2014;";
+		$menu_campeonatos .= "2013|../campeonatos/index.php?sec=2013;";
+		$menu_campeonatos .= "2012|../campeonatos/index.php?sec=2012;";
+		$menu_campeonatos .= "2011|../campeonatos/index.php?sec=2011;";
+		$menu_campeonatos .= "2010|../campeonatos/index.php?sec=2010;";
+		$menu_campeonatos .= "2009|../campeonatos/index.php?sec=2009;";
+		$menu_campeonatos .= "2008|../campeonatos/index.php?sec=2008;";
+		$menu_campeonatos .= "2007|../campeonatos/index.php?sec=2007;";
+
+		//Menú Pilotos
+		$menu_pilotos = "#Pilotos*Todos|../pilotos/index.php?sec=lista_pilotos;";
+		$menu_pilotos .= "Por nacionalidad|../pilotos/index.php?sec=nacionalidad;";
+
+		//Menu escuderías
+		$menu_escuderias = "#Escuderías*Todas|../escuderias/index.php?sec=lista_escuderias;";
+		$menu_escuderias .= "Por sede|../escuderias/index.php?sec=sede;";
+
+		//Menu favoritos
+		$menu_favoritos = "#Tus favoritos*Pilotos|../favoritos/index.php?sec=pilotos;";
+		$menu_favoritos .= "Escuderias|../favoritos/index.php?sec=escuderias;";
+
+		//Menu tienda
+		$menu_tienda = "#Tienda*Productos|../tienda/index.php?sec=lista_productos;";
+		$menu_tienda .= "Carrito|../tienda/..index.php?sec=carrito;";
+		$menu_tienda .= "Mis compras|../tienda/index.php?sec=historico;"
+		
+
+
 
 		switch ($_SESSION['rol']) {
 			
-			
-			default:
-				$menu_usuario = $menu_invitados;
+			case 'registrado':
+				$menu_usuario = $menu_campeonatos.$menu_pilotos.$menu_escuderias.$menu_favoritos.$menu_tienda;
+				break;
+			case 'admin':
+				$menu_usuario = $menu_admin;
+				break;
+			case 'super':
+				$menu_usuario = $menu_campeonatos.$menu_pilotos.$menu_escuderias.$menu_tienda.$menu_admin.$menu_super;
 				break;
 		}
 
