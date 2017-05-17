@@ -29,3 +29,9 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 			- Nuevos campos en tablas y eliminación en otros
 		- Actualización del Modelo relacional
 		- Inserción de datos en la BBDD (pendiente de subir a git)
+	
+	- A fecha de 17/05/17:
+		- Actualización del modelo relacional
+		- Actualización del archivo include/funcions_dibuix.php
+		- Inserción de datos en la BBDD (pendiente de subir a git)
+		- Actualización de la documentación
