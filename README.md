@@ -35,3 +35,31 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 		- Actualización del archivo include/funcions_dibuix.php
 		- Inserción de datos en la BBDD (pendiente de subir a git)
 		- Actualización de la documentación
+	
+	- A fecha de 18/05/17:
+		- Actualización del archivo css/login.css
+		- Actualización del arhivo css/estils.css
+		- Actualización del archivo inici/contingut.php
+		- Actualización del archivo include/funcions_dibuix.php
+		- Actualización del archivo include/estructura.php
+		- Actualización del archivo include/connect.php
+		- Nuevos ficheros:
+			- inici/valida.php
+			- inici/surt.php
+			- include/funcions.php
+		- Nueva carpeta clases con los archivos:
+			- clases/Usuario.php
+			- clases/Producto.php
+			- clases/CarritoProducto.php
+			- clases/Carrito.php
+			- clases/EscuderiaUsuario.php
+			- clases/PilotoUsuario.php
+			- clases/Foro.php
+			- clases/Piloto.php
+			- clases/Mundial.php
+			- clases/Escuderia.php
+			- clases/TemporadaPilotEscuderia.php
+			- clases/Temporada.php
+			- clases/Classificacio.php
+			- clases/Carrera.php
+			- clases/Circuit.php
