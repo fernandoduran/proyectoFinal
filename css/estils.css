@@ -1,3 +1,11 @@
 #f1_logo{
-	margin: 10% -20% auto;
+	margin: 10% -10% auto;
 }
+#f1_logo2{
+	margin: 0% 55% auto;
+}
+
+.menu_top {width:100%;  overflow: hidden; text-align: float:left;}
+.menu_top i {width:24px;}
+.menu_top_nom {float:left; width:30%;   overflow: hidden; margin-left:10px;}
+.menu_top_botons {float:right; width:30%;  overflow: hidden; text-align: right; margin-right:10px;}
