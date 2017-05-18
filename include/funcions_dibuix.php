@@ -18,20 +18,46 @@
 	}
 
 	function pinta_items_menu($menu)
-	{
-		$result = '
+	{	
+		$result='
+			<div class="menu_top">
+				<div class="menu_top_nom" >
+					<a href="../inici/"><img alt="Logo página" src="../img/logoF1_2.jpg" width="55"></a>
+
+					<a href="" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
+
+					<a href="" class="btn btn-social-icon btn-twitter"><span class="fa fa-twitter"></span></a>
+
+					<a href="" class="btn btn-social-icon btn-vimeo"><span class="fa fa-vimeo"></span></a>
+				</div>
+
+				<div class="menu_top_botons"><br>';
+
+									
+						if($_SESSION['nomUsuari'] <> ""){
+							$result.='<span class="glyphicon glyphicon-user"></span> Bienvenido '.$_SESSION['nomUsuari'].' | 
+        <a href="../inici/surt.php" style="color:#ff693f"><span class="glyphicon glyphicon-log-out"></span> Salir</a>';
+						}
+					
+
+		$result.='
+				</div>
+			</div>';
+		
+		$result .= '
 		<nav class="navbar navbar-default">
   			<div class="container-fluid">
     			<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-     			 	<a class="navbar-brand" href="../index.php">F1 history</a>
+      				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				        <span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+      				</button>
+      				<a class="navbar-brand" href="#">F1 History</a>
     			</div>
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+    			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       				<ul class="nav navbar-nav">';
       	
       	$titol_dropdown = explode("#", $menu);
@@ -48,7 +74,7 @@
 						$nomDelItemPrincipal = explode("*", $valor);
 						
 						$result .= '<li class="dropdown">';
-						$result.= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'.$nomDelItemPrincipal[0].'<span class="caret"></span></a>';
+						$result.= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">'.$nomDelItemPrincipal[0].'<span class="caret"></span></a>';
 						
 						$llista_links = array($nomDelItemPrincipal[1]);
 						
@@ -121,7 +147,17 @@ echo $result;
 		//Menu tienda
 		$menu_tienda = "#Tienda*Productos|../tienda/index.php?sec=lista_productos;";
 		$menu_tienda .= "Carrito|../tienda/..index.php?sec=carrito;";
-		$menu_tienda .= "Mis compras|../tienda/index.php?sec=historico;"
+		$menu_tienda .= "Mis compras|../tienda/index.php?sec=historico;";
+
+		//Menu admin
+		$menu_admin = "#Admin*Gestión usuarios|../admin/index.php?sec=lista_usuarios;";
+		$menu_admin .= "Gestión foro|../admin/index.php?sec=gestion_foro;";
+
+		//Menu super
+		$menu_super = "#Super*Gestión pilotos|../super/index.php?sec=lista_pilotos;";
+		$menu_super .= "Gestión escuderías|../super/index.php?sec=lista_escuderias;";
+		$menu_super .= "Gestión campeonatos|../super/index.php?sec=lista_campeonatos;";
+		$menu_super .= "Gestión tienda|../super/index.php?sec=lista_productos;";
 		
 
 
