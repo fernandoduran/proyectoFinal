@@ -12,7 +12,6 @@
 		private $temporada_any;
 		private $pilot_id;
 		private $scuderia_id;
-		private $nom_cotxe;
 		private $xasis;
 		private $numero_pilot;
 		private $director;
@@ -82,27 +81,6 @@
     public function _setScuderiaId($scuderia_id)
     {
         $this->scuderia_id = $scuderia_id;
-    }
-
-    /**
-     * Gets the value of nom_cotxe.
-     *
-     * @return mixed
-     */
-    public function getNomCotxe()
-    {
-        return $this->nom_cotxe;
-    }
-
-    /**
-     * Sets the value of nom_cotxe.
-     *
-     * @param mixed $nom_cotxe the nom cotxe
-     *
-     */
-    public function _setNomCotxe($nom_cotxe)
-    {
-        $this->nom_cotxe = $nom_cotxe;
     }
 
     /**
