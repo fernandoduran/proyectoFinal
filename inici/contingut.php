@@ -7,18 +7,18 @@ if(!$_SESSION['rol']){
 
 if($_SESSION['rol'] == ""){
 	?>
-		<div class="container">
-			<div class="col-lg-9">
-				<div class="row">
-					<div class="col-lg-7 col-sm-7">
-						<div id="logo">
-							<img alt="Logo página" src="../img/logoF1_2.jpg" width="350" id="f1_logo">
-						</div>
+	<div class="container" style="padding-top: 10%">
+		<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+			<div class="row">
+				<div class="col-lg-7 col-sm-7">
+					<div id="logo">
+						<img alt="Logo página" src="../img/logoF1_2.jpg" width="350" id="f1_logo" class="img-responsive">
 					</div>
 				</div>
 			</div>
+		</div>
 	
-		<div class="col-lg-7 col-sm-7">
+		<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
 			<div class="login-container">
             	<div id="output"></div>
             	<div class="avatar"></div>
@@ -27,17 +27,19 @@ if($_SESSION['rol'] == ""){
                     <input name="fMail" type="text" placeholder="email">
                     <input type="password" placeholder="password" name="fPass"><br><br>
                     
-                    <input class="btn btn-lg btn-success active" type="submit" name="fLogin" value="Login">
+                    <input class="btn btn-lg btn-success active login" type="submit" name="fLogin" value="Login">
                 </form>
             </div>
            </div>
-	</div>
+		</div>
 </div>
-<?php } else {?>
+<?php 
+
+	} else {?>
 	<div class="container">
 		<div class="col-lg-9">
 			<div class="row">
-				<div class="col-lg-7 col-sm-7">
+				<div class="col-lg-7 col-sm-12 col-xs-12">
 					<div id="logo">
 						<img alt="Logo página" src="../img/logoF1_2.jpg" width="350" id="f1_logo2">
 					</div>
@@ -46,3 +48,5 @@ if($_SESSION['rol'] == ""){
 		</div>
 	</div>
 <?php }?>
+
+<?echo clasificacion()?>

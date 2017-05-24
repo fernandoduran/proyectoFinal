@@ -1,4 +1,5 @@
 <?php
+$connect = new mysqli('localhost', 'root', '', 'f1History');
 	/**
 	 * @author Fernando Duran Ruiz
 	 * 
@@ -28,7 +29,7 @@
 
 					<a href="" class="btn btn-social-icon btn-twitter"><span class="fa fa-twitter"></span></a>
 
-					<a href="" class="btn btn-social-icon btn-vimeo"><span class="fa fa-vimeo"></span></a>
+					<a href="https://vimeo.com/user66994675" target="_blank" class="btn btn-social-icon btn-vimeo"><span class="fa fa-vimeo"></span></a>
 				</div>
 
 				<div class="menu_top_botons"><br>';
@@ -45,7 +46,7 @@
 			</div>';
 		
 		$result .= '
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-inverse">
   			<div class="container-fluid">
     			<div class="navbar-header">
       				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -176,5 +177,70 @@ echo $result;
 		}
 
 		pinta_items_menu($menu_usuario);
+	}
+
+	function listaPilotos($sql)
+	{	
+		$piloto = new Piloto();
+		
+		while($row = $sql -> fetch_array()){
+
+			$piloto -> _setId($row['id']);
+			$piloto -> _setNom($row['nom']);
+			$piloto -> _setPuntsTotals($row['punts_totals']);
+			$piloto -> _setCarreresTotals($row['carreres_totals']);
+			$piloto -> _setPrimeraEscuderia($row['primera_escuderia']);
+			$piloto -> _setNacionalitat($row['nacionalitat']);
+			$piloto -> _setAnyDebut($row['any_debut']);
+			$piloto -> _setVictories($row['victories']);
+			$piloto -> _setTitols($row['titols']);
+
+			echo '
+				<tr>
+					<td><a class="various" href="../piloto/index.php?sec=ficha&id='.$piloto -> getId().'" data-fancybox-type="iframe">'.$piloto -> getNom().'</a></td>
+					<td>'.$piloto -> getNacionalitat().'</td>
+					<td>'.$piloto -> getAnyDebut().'</td>
+					<td>'.$piloto -> getPrimeraEscuderia().'</td>
+					<td>'.$piloto -> getCarreresTotals().'</td>
+					<td>'.$piloto -> getPuntsTotals().'</td>
+					<td>'.$piloto -> getVictories().'</td>
+					<td>'.$piloto -> getTitols().'</td>
+				</tr>';
+		}
+	}
+
+	function clasificacion()
+	{
+		global $connect;
+		$carrera = new Carrera();
+		$circuit = new Circuit();
+		$connect -> query("SET NAMES 'utf8'");
+		$sql = $connect -> query('SELECT circuit.pais FROM circuit, carrera WHERE carrera.circuit_id = circuit.id');
+
+		$result = '
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12">
+					<div class="table-responsive">
+						<table id="listaPilotos" class="table  table-bordered"  cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Posición</th>';
+		while($row = $sql -> fetch_array()){
+
+			$circuit -> _setPais($row['pais']);
+			$result .= '<th>'.substr(mb_strtoupper($circuit -> getPais()), 0, 2) .'</th>';
+		}
+		$result .= '
+							</thead>
+							
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		';
+
+		return $result;
 	}
 ?>
