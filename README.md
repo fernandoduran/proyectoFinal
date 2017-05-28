@@ -46,7 +46,7 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 		- Nuevos ficheros:
 			- inici/valida.php
 			- inici/surt.php
-			- include/funcions.php
+			- include/funciones.php
 		- Nueva carpeta clases con los archivos:
 			- clases/Usuario.php
 			- clases/Producto.php
@@ -63,3 +63,46 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 			- clases/Classificacio.php
 			- clases/Carrera.php
 			- clases/Circuit.php
+	
+	- Entre las fechas 19/05!7 y 28/05/17:
+		- En el archivo include/funciones.php se han creado las funciones d(), d2() y d3()
+		- En el archivo include/funcions_dibuix.php se han creado las funciones clasificacion() y listaCarreras()
+		- Se ha añadido la tabla clasificacionMundial tanto en el Modelo Relacional como en la BBDD y se ha creado su clase
+		  en clases/ClasificacionMundial.php
+		- Se han creado los archivos y carpetas:
+			- acceso/contingut.php
+			- acceso/index.php
+			- acceso/inde2.php
+			- acceso/registro.php
+			- admin/index.php
+			- admin/index2.php
+			- campeonatos/index.php
+			- campeonatos/index2.php
+			- circuitos/contingut.php
+			- circuitos/index.php
+			- circuitos/index2.php
+			- escuderias/index.php
+			- escuderias/index2.php
+			- js/arrow79.js
+			- pilotos/contingut.php
+			- pilotos/index.php
+			- pilotos/index2.php
+			- pilotos/lista_pilotos.php
+			- super/carreras.php
+			- super/contingut.php
+			- super/index.php
+			- super/index2.php
+			- super/lista_campeonatos.php
+			- super/nueva_carrera.php
+			- super/nueva_clasificacion.php
+			- tienda/index.php
+			- tienda/index2.php
+		
+		- Se ha renombrado el archivo index.php por inicio.php y se ha creado un nuevo index.php con un video de fondo
+		- Se ha modificado la funcion pintaMenu() de include/funcions_dibuix.php
+		- Se han implementado los pluguins:
+			- jQuery validate
+			- jQuery UI Datepicker
+			- DataTables
+			- Fancybox
+		
