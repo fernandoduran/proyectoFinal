@@ -22,6 +22,7 @@ if(isset($_POST['fLogin'])){
 
 					$_SESSION['nomUsuari'] = $user -> getNom();
 					$_SESSION['rol'] = $user -> getRol();
+					$_SESSION['id'] = $user -> getId();
 					
 					
 				} else {
