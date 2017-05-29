@@ -64,7 +64,7 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 			- clases/Carrera.php
 			- clases/Circuit.php
 	
-	- Entre las fechas 19/05!7 y 28/05/17:
+	- Entre las fechas 19/05/17 y 28/05/17:
 		- En el archivo include/funciones.php se han creado las funciones d(), d2() y d3()
 		- En el archivo include/funcions_dibuix.php se han creado las funciones clasificacion() y listaCarreras()
 		- Se ha añadido la tabla clasificacionMundial tanto en el Modelo Relacional como en la BBDD y se ha creado su clase
@@ -105,4 +105,13 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 			- jQuery UI Datepicker
 			- DataTables
 			- Fancybox
+	
+	- A fecha 29/05/17:
+		- Se ha creado el archivo super/nueva_clasif_mundial.php para insertar datos en la tabla clasificacionMundial
+		- Se ha creado un editor para introducir carreras y se han introducido todas las del 2016 en super/nueva_carrera.php
+		- Se ha creado un editor para introducir clasificaciones de cada carrera en super/nueva_clasificacion.php
+		- Se ha creado un editor para introducir clasificaciones de un mundial en super/nueva_clasif_mundial.php
+		- Se ha creado el archivo admin/contingut.php con la inclusión del resto de achivos de la carpeta
+		- Se ha creado el archivo super/nueva_clasif_mundial.php para insertar datos en la tabla clasificacionMundial
+		- Se ha creado en include/funcions_dibuix.php la funcion listaUsuarios()
 		
