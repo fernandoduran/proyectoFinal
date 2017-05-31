@@ -114,4 +114,13 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 		- Se ha creado el archivo admin/contingut.php con la inclusión del resto de achivos de la carpeta
 		- Se ha creado el archivo super/nueva_clasif_mundial.php para insertar datos en la tabla clasificacionMundial
 		- Se ha creado en include/funcions_dibuix.php la funcion listaUsuarios()
+	
+	- A fecha de 31/05!7:
+		- Se ha modificado el Diagrama de Modelo Relacional 
+		- Se ha actualizado la función listaUsuarios() y se han creado los editores para modificar y eliminar usuarios (aun)
+		  en produccion
+		- Se ha modificado el archivo inici/valida.php para guardar en una sesión el ID del usuario que entra al sistema
+		- Se ha modificado el menú del invitado en include/estructura.php y la página de inicio en inici/contingut.php
+		- Se han modificado los estilos propios
+		- Se ha modificado la clase clases/ClasificacionMundial.php y la funcion clasificacion()
 		
