@@ -50,8 +50,58 @@ if($_SESSION['rol'] == ""){
 <?php }?>
 
 <?
-	if($_SESSION['rol'] != 'admin'){
+	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == 'super'){
 
 		echo clasificacion($connect, "2017");
-	}
+	} else {
 ?>
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>Bienvenidos a F1 History</h1>      
+    <p>La primera web con datos históricos de este deporte</p>
+  </div>
+</div>
+  
+<div class="container-fluid bg-3 text-center">    
+  <h3>Ventajas de estar registrado</h3><br>
+  <div class="row">
+  <h4>Imágenes de accidentes</h4><br>
+    <div class="col-sm-3">
+      <img src="../img/portada/accidente.jpg" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3"> 
+      <img src="../img/portada/accidente1.jpg" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3">
+      <img src="../img/portada/accidente2.jpg" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3">
+      <img src="../img/portada/accidente3.jpg" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+  </div>
+</div><br>
+
+<div class="container-fluid bg-3 text-center">    
+  <div class="row">
+  <h4>Merchandasing</h4><br>
+    <div class="col-sm-3">
+      <img src="../img/portada/producto.jpg" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3"> 
+      <img src="../img/portada/producto1.jpg" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3"> 
+      <img src="../img/portada/producto2.jpg" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-3">
+      <img src="../img/portada/producto3.jpg" style="width:100%" alt="Image">
+    </div>
+  </div>
+</div><br><br>
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>Y mucho más...</h1>      
+    <p><a class="various" data-fancybox-type="iframe" href="../acceso/index2.php?sec=registro" style="text-decoration: none;">Registrate</a> ahora!</p>
+  </div>
+</div>
+<?}?>
