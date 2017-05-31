@@ -317,15 +317,19 @@ echo $result;
 				$cmundial -> _setES($row2['ES']);
 				$cmundial -> _setMO($row2['MO']);
 				$cmundial -> _setCA($row2['CA']);
+				$cmundial -> _setVL($row2['VL']);
 				$cmundial -> _setAZ($row2['AZ']);
 				$cmundial -> _setAT($row2['AT']);
 				$cmundial -> _setGR($row2['GR']);
 				$cmundial -> _setHU($row2['HU']);
+				$cmundial -> _setAL($row2['AL']);
 				$cmundial -> _setBE($row2['BE']);
 				$cmundial -> _setIT($row2['IT']);
 				$cmundial -> _setSG($row2['SG']);
 				$cmundial -> _setMA($row2['MA']);
+				$cmundial -> _setKO($row2['KO']);
 				$cmundial -> _setJA($row2['JA']);
+				$cmundial -> _setND($row2['ND']);
 				$cmundial -> _setUSA($row2['USA']);
 				$cmundial -> _setME($row2['ME']);
 				$cmundial -> _setBR($row2['BR']);
@@ -341,17 +345,37 @@ echo $result;
 						<td>'.$cmundial -> getRU().'</td>
 						<td>'.$cmundial -> getES().'</td>
 						<td>'.$cmundial -> getMO().'</td>
-						<td>'.$cmundial -> getCA().'</td>
-						<td>'.$cmundial -> getAZ().'</td>
+						<td>'.$cmundial -> getCA().'</td>';
+
+					if($any == "2008"){	
+						
+						$result .=	'<td>'.$cmundial -> getVL().'</td>';
+					}
+					
+			$result .= '<td>'.$cmundial -> getAZ().'</td>
 						<td>'.$cmundial -> getAT().'</td>
 						<td>'.$cmundial -> getGR().'</td>
-						<td>'.$cmundial -> getHU().'</td>
-						<td>'.$cmundial -> getBE().'</td>
+						<td>'.$cmundial -> getHU().'</td>';
+						
+						/*if($any != "2007" || $any != "2017" || $any != "2015"){
+
+						$result .=	'<td>'.$cmundial -> getAL().'</td>';
+						}*/
+
+					$result.=	'<td>'.$cmundial -> getBE().'</td>
 						<td>'.$cmundial -> getIT().'</td>
 						<td>'.$cmundial -> getSG().'</td>
-						<td>'.$cmundial -> getMA().'</td>
-						<td>'.$cmundial -> getJA().'</td>
-						<td>'.$cmundial -> getUSA().'</td>
+						<td>'.$cmundial -> getMA().'</td>';
+					
+					if($any == "2010" || $any == "2011" || $any == "2012" || $any == "2013"){
+						$result .=	'<td>'.$cmundial -> getKO().'</td>';
+					}
+					
+					$result .=	'<td>'.$cmundial -> getJA().'</td>';
+					if($any == "2011" || $any == "2012" || $any == "2013"){
+					$result .=	'<td>'.$cmundial -> getND().'</td>';
+					}	
+					$result .=	'<td>'.$cmundial -> getUSA().'</td>
 						<td>'.$cmundial -> getME().'</td>
 						<td>'.$cmundial -> getBR().'</td>
 						<td>'.$cmundial -> getAB().'</td>';
@@ -363,15 +387,19 @@ echo $result;
 				+ $cmundial -> getES()
 				+ $cmundial -> getMO()
 				+ $cmundial -> getCA()
+				+ $cmundial -> getVL()
 				+ $cmundial -> getAZ()
 				+ $cmundial -> getAT()
 				+ $cmundial -> getGR()
 				+ $cmundial -> getHU()
+				+ $cmundial -> getAL()
 				+ $cmundial -> getBE()
 				+ $cmundial -> getIT()
 				+ $cmundial -> getSG()
 				+ $cmundial -> getMA()
+				+ $cmundial -> getKO()
 				+ $cmundial -> getJA()
+				+ $cmundial -> getND()
 				+ $cmundial -> getUSA()
 				+ $cmundial -> getME()
 				+ $cmundial -> getBR()
@@ -625,7 +653,7 @@ echo $result;
 	function listaUsuarios($connect, $rol, $id)
 	{	
 		$user = new Usuario();
-
+		$result = "";
 		if($rol == 'admin'){
 
 			$query = 'SELECT * FROM log_user WHERE rol <> "admin" AND rol <> "super"';
@@ -647,7 +675,7 @@ echo $result;
 			$user -> _setDataNaixement($row['data_naixement']);
 			$user -> _setRol($row['rol']);
 
-			$result ='
+			$result .='
 				<tr>
 					<td>'.$user -> getNom().'</td>
 					<td>'.$user -> getCognom().'</td>
@@ -655,8 +683,8 @@ echo $result;
 					<td>'.$user -> getPassword().'</td>
 					<td>'.$user -> getDataNaixement().'</td>
 					<td>'.$user -> getRol().'</td>
-					<td><a class="various" data-fancybox-type="iframe" href="../admin/index.php?sec=edita&id='.$user -> getId().'"><span class="glyphicon glyphicon-pencil"></span></a></td>
-					<td><a class="various" data-fancybox-type="iframe" href="../admin/index.php?sec=eimina&id='.$user -> getId().'"><span class="glyphicon glyphicon-remove"></span></a></td>
+					<td><a class="various" data-fancybox-type="iframe" href="../admin/index2.php?sec=edita&id='.$user -> getId().'"><span class="glyphicon glyphicon-pencil"></span></a></td>
+					<td><a class="various" data-fancybox-type="iframe" href="../admin/index2.php?sec=elimina&id='.$user -> getId().'"><span class="glyphicon glyphicon-remove"></span></a></td>
 				</tr>';
 		}
 		return $result;
