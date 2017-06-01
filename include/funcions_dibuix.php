@@ -210,7 +210,8 @@ echo $result;
 			$piloto -> _setVictories($row['victories']);
 			$piloto -> _setTitols($row['titols']);
 
-			echo '
+			echo
+			'
 				<tr>
 					<td><a class="various" href="../piloto/index.php?sec=ficha&id='.$piloto -> getId().'" data-fancybox-type="iframe">'.$piloto -> getNom().'</a></td>
 					<td>'.$piloto -> getNacionalitat().'</td>
@@ -219,8 +220,22 @@ echo $result;
 					<td>'.$piloto -> getCarreresTotals().'</td>
 					<td>'.$piloto -> getPuntsTotals().'</td>
 					<td>'.$piloto -> getVictories().'</td>
-					<td>'.$piloto -> getTitols().'</td>
-				</tr>';
+					<td>'.$piloto -> getTitols().'</td>';
+				if($_SESSION['rol'] == 'super'){
+
+				echo'<td>
+							<a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=gest_pilotos&acc=edita">
+								<span class="glyphicon glyphicon-pencil"></span>
+							</a>
+						</td>
+						<td>
+							<a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=gest_pilotos&acc=elimina">
+								<span class="glyphicon glyphicon-remove"></span>
+							</a>
+						</td>';
+				}
+
+			echo	'</tr>';
 		}
 	}
 
@@ -304,6 +319,7 @@ echo $result;
 			
 			$sql2 = $connect -> query('SELECT pilot.id AS "pId", pilot.nom, clasificacionMundial.* FROM pilot, clasificacionMundial WHERE pilot.id = clasificacionMundial.pilot_id AND clasificacionMundial.temporada_any = "'.$any.'"');
 			$pos = 1;
+			
 			while ($row2 = $sql2 -> fetch_array()) {
 
 				$piloto -> _setId($row2['pId']);
@@ -334,51 +350,266 @@ echo $result;
 				$cmundial -> _setME($row2['ME']);
 				$cmundial -> _setBR($row2['BR']);
 				$cmundial -> _setAB($row2['AB']);
+				$cmundial -> _setFR($row2['FR']);
 
 				$result .='
 					<tr>
 						<td>'.$pos.'</td>
-						<td>'.$piloto -> getNom().'</td>
-						<td>'.$cmundial -> getAU().'</td>
-						<td>'.$cmundial -> getCH().'</td>
-						<td>'.$cmundial -> getBA().'</td>
-						<td>'.$cmundial -> getRU().'</td>
-						<td>'.$cmundial -> getES().'</td>
-						<td>'.$cmundial -> getMO().'</td>
-						<td>'.$cmundial -> getCA().'</td>';
+						<td>'.$piloto -> getNom().'</td>';
+				if($any == '2007'){
 
-					if($any == "2008"){	
-						
-						$result .=	'<td>'.$cmundial -> getVL().'</td>';
-					}
-					
-			$result .= '<td>'.$cmundial -> getAZ().'</td>
-						<td>'.$cmundial -> getAT().'</td>
-						<td>'.$cmundial -> getGR().'</td>
-						<td>'.$cmundial -> getHU().'</td>';
-						
-						/*if($any != "2007" || $any != "2017" || $any != "2015"){
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getUSA().'</td>
+					<td>'.$cmundial -> getFR().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getAL().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getTU().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getBR().'</td>';
 
-						$result .=	'<td>'.$cmundial -> getAL().'</td>';
-						}*/
+				} elseif ($any == '2008') {
+					
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getTU().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getFR().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getAL().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getVL().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getBR().'</td>';
 
-					$result.=	'<td>'.$cmundial -> getBE().'</td>
-						<td>'.$cmundial -> getIT().'</td>
-						<td>'.$cmundial -> getSG().'</td>
-						<td>'.$cmundial -> getMA().'</td>';
+				} elseif ($any == '2009') {
 					
-					if($any == "2010" || $any == "2011" || $any == "2012" || $any == "2013"){
-						$result .=	'<td>'.$cmundial -> getKO().'</td>';
-					}
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getTU().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getAL().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getVL().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getBR().'</td>
+					<td>'.$cmundial -> getAB().'</td>';
+
+				} elseif ($any == '2010') {
 					
-					$result .=	'<td>'.$cmundial -> getJA().'</td>';
-					if($any == "2011" || $any == "2012" || $any == "2013"){
-					$result .=	'<td>'.$cmundial -> getND().'</td>';
-					}	
-					$result .=	'<td>'.$cmundial -> getUSA().'</td>
-						<td>'.$cmundial -> getME().'</td>
-						<td>'.$cmundial -> getBR().'</td>
-						<td>'.$cmundial -> getAB().'</td>';
+					$result .= '
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getTU().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getVL().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getAL().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getKO().'</td>
+					<td>'.$cmundial -> getBR().'</td>
+					<td>'.$cmundial -> getAB().'</td>';
+
+				} elseif ($any == '2011') {
+					
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getTU().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getVL().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getAL().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getKO().'</td>
+					<td>'.$cmundial -> getND().'</td>
+					<td>'.$cmundial -> getAB().'</td>
+					<td>'.$cmundial -> getBR().'</td>';
+				
+				} elseif ($any == '2012') {
+					
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getVL().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getAL().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getKO().'</td>
+					<td>'.$cmundial -> getND().'</td>
+					<td>'.$cmundial -> getBR().'</td>
+					<td>'.$cmundial -> getUSA().'</td>
+					<td>'.$cmundial -> getAB().'</td>';
+
+				} elseif ($any == '2013') {
+					
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getAL().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getKO().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getND().'</td>
+					<td>'.$cmundial -> getAB().'</td>
+					<td>'.$cmundial -> getUSA().'</td>
+					<td>'.$cmundial -> getBR().'</td>';
+
+				} elseif ($any == '2014') {
+					
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getAT().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getAL().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getRU().'</td>
+					<td>'.$cmundial -> getUSA().'</td>
+					<td>'.$cmundial -> getBR().'</td>
+					<td>'.$cmundial -> getAB().'</td>';
+
+				} elseif ($any == '2015') {
+
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getAT().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getRU().'</td>
+					<td>'.$cmundial -> getUSA().'</td>
+					<td>'.$cmundial -> getME().'</td>
+					<td>'.$cmundial -> getBR().'</td>
+					<td>'.$cmundial -> getAB().'</td>';
+
+				} elseif ($any == '2016') {
+					
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getRU().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getAZ().'</td>
+					<td>'.$cmundial -> getAT().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getAL().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getUSA().'</td>
+					<td>'.$cmundial -> getME().'</td>
+					<td>'.$cmundial -> getBR().'</td>
+					<td>'.$cmundial -> getAB().'</td>';
+
+				} elseif ($any == '2017') {
+					
+					$result .= '
+					<td>'.$cmundial -> getAU().'</td>
+					<td>'.$cmundial -> getCH().'</td>
+					<td>'.$cmundial -> getBA().'</td>
+					<td>'.$cmundial -> getRU().'</td>
+					<td>'.$cmundial -> getES().'</td>
+					<td>'.$cmundial -> getMO().'</td>
+					<td>'.$cmundial -> getCA().'</td>
+					<td>'.$cmundial -> getAZ().'</td>
+					<td>'.$cmundial -> getAT().'</td>
+					<td>'.$cmundial -> getGR().'</td>
+					<td>'.$cmundial -> getHU().'</td>
+					<td>'.$cmundial -> getBE().'</td>
+					<td>'.$cmundial -> getIT().'</td>
+					<td>'.$cmundial -> getSG().'</td>
+					<td>'.$cmundial -> getMA().'</td>
+					<td>'.$cmundial -> getJA().'</td>
+					<td>'.$cmundial -> getUSA().'</td>
+					<td>'.$cmundial -> getME().'</td>
+					<td>'.$cmundial -> getBR().'</td>
+					<td>'.$cmundial -> getAB().'</td>';
+
+				}
+
 				$suma = 
 				$cmundial -> getAU() 
 				+ $cmundial -> getCH()
@@ -403,8 +634,11 @@ echo $result;
 				+ $cmundial -> getUSA()
 				+ $cmundial -> getME()
 				+ $cmundial -> getBR()
+				+ $cmundial -> getFR()
+				+ $cmundial -> getTU()
 				+ $cmundial -> getAB();
-					$result .= '<td>'.$suma.'</td>';
+			
+				$result .= '<td>'.$suma.'</td>';
 				$pos++;
 			}
 					
