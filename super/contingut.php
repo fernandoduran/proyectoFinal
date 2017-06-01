@@ -54,9 +54,11 @@
 			}
 		}
 	} elseif (isset($_POST['fInsertaClasif'])) {
-		$query = $connect -> query('SELECT pilot_id, carrera_id, punts FROM clasificacio');
+
+		$query = $connect -> query('SELECT pilot_id, carrera_id, punts FROM clasificacio WHERE pilot_id ='.$_POST['fPiloto'].' AND carrera_id = '.$_POST['fCircuito'].' AND punts = '.$_POST['fPuntos']);
 
 		if($query -> num_rows > 0){
+
 			echo '
 			<div class="alert alert-warning" role="alert">
 				 <strong>Oops!</strong> Ya existen estos datos.
@@ -147,7 +149,7 @@
 						'.$_POST['fMA'].', '.$_POST['fKO'].',
 						'.$_POST['fJA'].', '.$_POST['fND'].',
 						'.$_POST['fUSA'].','.$_POST['fME'].',
-						'.$_POST['fBR'].', '.$_POST['fAB'].',
+						'.$_POST['fBR'].', '.$_POST['fAB'].'
 					)';
 			var_dump($sql);
 			var_dump('<br>');
