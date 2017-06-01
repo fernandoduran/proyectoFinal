@@ -1,3 +1,13 @@
+<?
+	if($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == ""){
+
+		?>
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+		<?
+	}
+?>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
 <div class="container">
@@ -15,6 +25,9 @@
 						<th>Total puntos obtenidos</th>
 						<th>Victorias</th>
 						<th>Titulos</th>
+						<? if($_SESSION['rol'] == 'super'){?>
+						<th colspan="2">Acción</th>
+						<? } ?>
 					</tr>
 				</thead>
 				<tbody>
@@ -31,5 +44,9 @@
 		</div>
 	</div>
 </div>
-
+<script type="text/javascript">
+	$(document).ready(function(){
+	    $('#listaPilotos').DataTable();
+	});
+</script>
 
