@@ -1,8 +1,8 @@
 <?php
 	
-	if(isset()){
+	//if(isset()){
 
-	} else {
+	//} else {
 
 		switch ($_GET['sec']) {
 			case 'lista_circuitos':
@@ -12,5 +12,5 @@
 				include 'buscador_circuitos.php';
 				break;
 		}
-	}
+	//}
 ?>
