@@ -1,4 +1,14 @@
-<? echo titular('Gestión de usuarios')?>
+<? 
+	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == ''){
+		?>
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+		<?
+	}
+
+	echo titular('Gestión de usuarios');
+?>
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12 col-sm-12 col-xs-12">
