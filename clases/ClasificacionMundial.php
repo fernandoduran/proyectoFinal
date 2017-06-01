@@ -15,19 +15,25 @@
 		private	$ES;
 		private	$MO;	
 		private $CA;
+        private $VL;
 		private	$AZ;
 		private	$AT;
 		private	$GR;
 		private $HU;
+        private $AL;
 		private	$BE;
 		private	$IT;
 		private	$SG;
-		private	$MA;
-		private	$JA;
+        private $MA;
+		private	$KO;
+        private $JA;
+		private	$ND;
 		private	$USA;
 		private	$ME;
 		private	$BR;	
 		private $AB;
+        private $FR;
+        private $TU;
 
 
 	
@@ -530,6 +536,132 @@
     public function _setAB($AB)
     {
         $this->AB = $AB;
+    }
+
+    /**
+     * Gets the value of VL.
+     *
+     * @return mixed
+     */
+    public function getVL()
+    {
+        return $this->VL;
+    }
+
+    /**
+     * Sets the value of VL.
+     *
+     * @param mixed $VL the 
+     *
+     */
+    public function _setVL($VL)
+    {
+        $this->VL = $VL;
+    }
+
+    /**
+     * Gets the value of AL.
+     *
+     * @return mixed
+     */
+    public function getAL()
+    {
+        return $this->AL;
+    }
+
+    /**
+     * Sets the value of AL.
+     *
+     * @param mixed $AL the 
+     *
+     */
+    public function _setAL($AL)
+    {
+        $this->AL = $AL;
+    }
+
+    /**
+     * Gets the value of KO.
+     *
+     * @return mixed
+     */
+    public function getKO()
+    {
+        return $this->KO;
+    }
+
+    /**
+     * Sets the value of KO.
+     *
+     * @param mixed $AL the 
+     *
+     */
+    public function _setKO($KO)
+    {
+        $this->KO = $KO;
+    }
+
+    /**
+     * Gets the value of ND.
+     *
+     * @return mixed
+     */
+    public function getND()
+    {
+        return $this->ND;
+    }
+
+    /**
+     * Sets the value of ND.
+     *
+     * @param mixed $AL the 
+     *
+     */
+    public function _setND($ND)
+    {
+        $this->ND = $ND;
+    }
+
+    /**
+     * Gets the value of FR.
+     *
+     * @return mixed
+     */
+    public function getFR()
+    {
+        return $this->FR;
+    }
+
+    /**
+     * Sets the value of FR.
+     *
+     * @param mixed $FR the 
+     *
+     */
+    public function _setFR($FR)
+    {
+        $this->FR = $FR;
+    }
+
+    /**
+     * Gets the value of TU.
+     *
+     * @return mixed
+     */
+    public function getTU()
+    {
+        return $this->TU;
+    }
+
+    /**
+     * Sets the value of TU.
+     *
+     * @param mixed $TU the 
+     *
+     */
+    public function _setTU($TU)
+    {
+        $this->TU = $TU;
     }
 }
 ?>
