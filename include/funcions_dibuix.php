@@ -165,7 +165,6 @@ echo $result;
 
 		//Menu admin
 		$menu_admin = "#Admin*Gestión usuarios|../admin/index.php?sec=lista_usuarios;";
-		$menu_admin .= "Gestión foro|../admin/index.php?sec=gestion_foro;";
 
 		//Menu super
 		$menu_super = "#Super*Gestión pilotos|../super/index.php?sec=lista_pilotos;";
@@ -922,5 +921,37 @@ echo $result;
 				</tr>';
 		}
 		return $result;
+	}
+
+	function listaCircuitos($connect, $circuito = '')
+	{	
+		$circuit = new Circuit();
+
+		$result = "
+			<div class='container'>
+				<div class='row'>
+					<div class='col-lg-12 col-sm-12 col-xs-12'>";
+
+		if($circuito == ''){
+
+			$query = 'SELECT * FROM circuit';
+
+		} else {
+
+			$query = 'SELECT * FROM circuit WHERE nom = "'.$circuito.'"';
+		}
+
+		$sql = $connect -> query($query);
+
+		while($row = $sql -> fetch_array()){
+
+			$circuit -> _setId($row['id']);
+			$circuit -> _setNom($row['nom']);
+			$circuit -> _setCiutat($row['ciutat']);
+			$circuit -> _setLongitud($row['longitud']);
+			$circuit -> _setCurves($row['curves']);
+			$circuit -> _setZonesActivacioDRS($row['zones_activacio_DRS']);
+			$circuit -> _setZonesDeteccioDRS($row['zones_deteccio_DRS']);
+		}
 	}
 ?>
