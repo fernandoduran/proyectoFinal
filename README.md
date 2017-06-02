@@ -125,7 +125,6 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 		- Se ha modificado la clase clases/ClasificacionMundial.php y la funcion clasificacion()
 	
 	- A fecha de 01/06/17:
-	
 		- Se ha modificado el Modelo Relacional
 		- Se ha modificado la función clasificacion()
 		- Se ha modificado la función listaPilotos()
@@ -136,14 +135,21 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 			- admin/edita_usuarios.php
 			- admin/gestion_usuarios.php
 			- campeonatos/contingut.php
+			- pilotos/lista_pilotos.php
+		- Se han creado los archivos:
 			- circuitos/lista_circuitos.php (archivo nuevo)
 			- circuitos/buscador_circuitos.php (archivo nuevo)
-			- pilotos/lista_pilotos.php
-		
 		- Se ha creado el editor de usuarios en admin/edita_usuarios.php
 		- Se ha creado la lista de usuarios en admin/gestion_usuarios.php
 		- Se ha modificado la tabla clasificaionMundial y su correspondiente clase en clases/ClasificacionMundial.php
 		- Se ha modificado la consulta de comprobación de redundancia de datos en el archivo super/contingut.php para la
 		  inserción de nueva clasificación carrera
-			
+	
+	- A fecha de 02/06/17:
+		- Se han aplicacdo restricciones de acceso por URL a los archivos:
+			- circuitos/contingut.php
+		- Se ha creado la función listaCircuitos() en include/funcions_dibuix.php (aun no se ha aplicado)
+		- Se ha modificado datos en la tabla circuit
+		- Se ha investigado sobre jQuery autocomplete y se ha aplicado en el archivo circuitos/buscador_circuitos.php
+	
 		
