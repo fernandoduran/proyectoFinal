@@ -182,6 +182,7 @@
 	} else {
 
 		switch ($_GET['sec']) {
+
 			case 'lista_circuitos':
 				include 'lista_circuitos.php';
 				break;
@@ -202,6 +203,9 @@
 				break;
 			case 'lista_pilotos':
 				include '../pilotos/lista_pilotos.php';
+				break;
+			case 'gest_pilotos':
+				include 'gestion_pilotos.php';
 				break;
 		}
 	}
