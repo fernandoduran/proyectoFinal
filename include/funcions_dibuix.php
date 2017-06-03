@@ -264,6 +264,11 @@ echo $result;
 							</a>
 						</td>';
 				}
+				if($_SESSION['rol'] == 'registrado')
+					echo '<td> 
+					<form action="" method="POST">
+						<button type="submit" name="fFav" class="btn btn-success"><span class="glyphicon glyphicon-star"></span></button>
+				<input type="hidden" value="'.$piloto -> getId().'" name="fIdPiloto"></form></td>';
 
 			echo	'</tr>';
 		}
