@@ -34,6 +34,7 @@
 				</tbody>	
 					
 				</table>
+				<a class="various" data-fancybox-type="iframe" href="../admin/index2.php?sec=nuevo"><span class="glyphicon glyphicon-plus"></span>Añade un usuario</a>
 			</div>
 		</div>
 	</div>
