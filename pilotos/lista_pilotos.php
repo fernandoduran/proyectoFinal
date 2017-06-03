@@ -28,6 +28,9 @@
 						<? if($_SESSION['rol'] == 'super'){?>
 						<th colspan="2">Acción</th>
 						<? } ?>
+						<?if($_SESSION['rol'] == 'registrado'){?>
+						<th>Favorito</th>
+						<?}?>
 					</tr>
 				</thead>
 				<tbody>
@@ -46,7 +49,16 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
-	    $('#listaPilotos').DataTable();
+	    $('#listaPilotos').DataTable({
+	    	'order': [[7, 'desc']],
+	    	
+	    	'columnDefs' :[{
+
+	    		'targets': [8],
+	    		'visible': true,
+	    		'searchable': false
+	    	}]
+	    });
 	});
 </script>
 
