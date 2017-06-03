@@ -66,7 +66,7 @@ if($_SESSION['rol'] == ""){
   <h3>Ventajas de estar registrado</h3><br>
   <div class="row">
   <h4>Imágenes de accidentes</h4><br>
-    <div class="col-sm-3">
+    <div class="col-sm-3" id="img-1">
       <img src="../img/portada/accidente.jpg" class="img-responsive" style="width:100%" alt="Image">
     </div>
     <div class="col-sm-3"> 
@@ -98,6 +98,23 @@ if($_SESSION['rol'] == ""){
     </div>
   </div>
 </div><br><br>
+<div class="container-fluid bg-3 text-center">   
+  <div class="row">
+  <h4>Videos exclusivos</h4><br>
+    <div class="col-sm-3">
+      <video class="video" controls src="../media/video1.mp4" style="width:100%"></video>
+    </div>
+    <div class="col-sm-3"> 
+      <video class="video" controls src="../media/video2.mp4" style="width:100%"></video>
+    </div>
+    <div class="col-sm-3"> 
+      <video class="video" controls src="../media/video3.mp4" style="width:100%"></video>
+    </div>
+    <div class="col-sm-3">
+      <video class="video" controls src="../media/video4.mp4" style="width:100%"></video>
+    </div>
+  </div>
+</div><br><br>
 <div class="jumbotron">
   <div class="container text-center">
     <h1>Y mucho más...</h1>      
@@ -105,3 +122,12 @@ if($_SESSION['rol'] == ""){
   </div>
 </div>
 <?}?>
+<script type="text/javascript">
+  $(function(){
+    $('.video').on('mouseenter', function(){
+        if( this.paused) this.play();
+    }).on('mouseleave', function(){
+        if( !this.paused) this.pause();
+    });
+});
+</script>
