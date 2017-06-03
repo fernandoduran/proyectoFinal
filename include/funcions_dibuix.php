@@ -1,6 +1,5 @@
 
 <?php
-//$connect = new mysqli('localhost', 'root', '', 'f1history');
 	/**
 	 * @author Fernando Duran Ruiz
 	 * 
@@ -8,7 +7,9 @@
 	 * de ciclo del CFGS Desarrollo de aplicaciones web
 	*/
 
-	//Titulos de las páginas
+	/*
+	 * Función para pintar el titular de cada página
+	*/
 
 	function titular($titulo)
 	{
@@ -24,6 +25,15 @@
 			<div>';
 	}
 
+	/*
+	 * Función que tiene parametrizado el string de
+	 * un menú proviniente de la función pintaMenu()
+	 *
+	 * Se recorre el string con 4 foreach anidados
+	 * haciendo explode en cada caracter especial y
+	 * construyendo de este modo el <nav> de la 
+	 * página.
+	*/
 	function pinta_items_menu($menu)
 	{	
 		$result='
@@ -123,6 +133,12 @@
 echo $result;
 	}
 
+	/*
+	 * Función que contiene los string de cada item
+	 * de menú con sus subitems y enlaces. Dependiendo
+	 * del tipo de usuario, se mostrarán una serie de
+	 * items.
+	*/
 	function pintaMenu()
 	{
 
@@ -193,6 +209,14 @@ echo $result;
 		pinta_items_menu($menu_usuario);
 	}
 
+	/*
+	 * Función que tiene parametrizada un consulta a
+	 * la BBDD que, como resultado, muestra todos los
+	 * pilotos existentes en esta.
+	 *
+	 * Se recorre el resultado de la consulta y se 
+	 * muestra en formato tabla.
+	*/
 	function listaPilotos($sql)
 	{	
 		$piloto = new Piloto();
@@ -220,6 +244,13 @@ echo $result;
 					<td>'.$piloto -> getPuntsTotals().'</td>
 					<td>'.$piloto -> getVictories().'</td>
 					<td>'.$piloto -> getTitols().'</td>';
+				/*
+				 * En caso de que la sesión abierta sea
+				 * la del super usuario, podrá ver en
+				 * la tabla las acciones que puede 
+				 * realizar sobre cada piloto. En este
+				 * caso, editarlo y eliminarlo.
+				*/
 				if($_SESSION['rol'] == 'super'){
 
 				echo'<td>
@@ -237,10 +268,14 @@ echo $result;
 			echo	'</tr>';
 		}
 	}
-
+	/*
+	 * Función que tiene parametrizada la variable que
+	 * se conecta con la BBDD y el valor de un <select>
+	 * de un formulario.
+	*/
 	function clasificacion($connect, $any = '')
 	{
-		
+		//Objetos de clases
 		$carrera = new Carrera();
 		$circuit = new Circuit();
 		$piloto = new Piloto();
@@ -249,6 +284,11 @@ echo $result;
 
 		$connect -> query("SET NAMES 'utf8'");
 		
+		/*
+		 * En función de si se le pasa año se realizará
+		 * una consulta genérica o teniendo en cuenta
+		 * el año que se le pasa.
+		*/
 		if($any == ''){
 
 			$sql = $connect -> query('SELECT carrera.id, circuit.pais, carrera.nom_carrera FROM circuit, carrera WHERE carrera.circuit_id = circuit.id');
@@ -279,6 +319,11 @@ echo $result;
 				$circuit -> _setPais($row['pais']);
 				$carrera -> _setNomCarrera($row['nom_carrera']);
 				
+				/*
+				 * Estructura de control para mostrar
+				 * unas abreviaturas en concreto
+				 * dependiendo del pais de la carrera
+				*/
 				switch ($circuit -> getPais()) {
 					case 'Estados Unidos':
 						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">USA</th>';
@@ -301,6 +346,15 @@ echo $result;
 						case 'Singapur':
 						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">SG</th>';
 						break;
+					/*
+					 * mb_strtoupper convierte en
+					 * mayusculas todos los caracteres
+					 * de un string, incluyendo las
+					 * palabras con acentos.
+					 *
+					 * con substr extraemos las dos
+					 * primeras letras de cada pais
+					*/	
 					default:
 						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">'.substr(mb_strtoupper($circuit -> getPais()), 0, 2) .'</th>';
 						break;
@@ -319,6 +373,11 @@ echo $result;
 			$sql2 = $connect -> query('SELECT pilot.id AS "pId", pilot.nom, clasificacionMundial.* FROM pilot, clasificacionMundial WHERE pilot.id = clasificacionMundial.pilot_id AND clasificacionMundial.temporada_any = "'.$any.'"');
 			$pos = 1;
 			
+			/*
+			 * Búcle que pinta cada una de las filas
+			 * de la tabla donde se muestra la
+			 * clasificación general de un mundial.
+			*/
 			while ($row2 = $sql2 -> fetch_array()) {
 
 				$piloto -> _setId($row2['pId']);
@@ -355,6 +414,12 @@ echo $result;
 					<tr>
 						<td>'.$pos.'</td>
 						<td>'.$piloto -> getNom().'</td>';
+				/*
+				 * El orden y las carreras varian en
+				 * función del año, por ello se ha
+				 * elaborada una estructura de control
+				 * por cada año.
+				*/
 				if($any == '2007'){
 
 					$result .= '
@@ -609,6 +674,10 @@ echo $result;
 
 				}
 
+				/*
+				 * Sumatorio de los puntos de cada
+				 * carrera de cada piloto
+				*/
 				$suma = 
 				$cmundial -> getAU() 
 				+ $cmundial -> getCH()
@@ -711,11 +780,22 @@ echo $result;
 		return $result;
 	}
 
+	/*
+	 * Función que tiene parametrizadas la variable
+	 * de conexión a la BBDD y lso valores de dos
+	 * <select> de un formulario.
+	*/
 	function listaCarreras($connect, $idCarrera, $any)
 	{	
+		// Objetos de clase
 		$carrera = new Carrera();
 		$circuit = new Circuit();
 		$result = "";
+
+		/*
+		 * En función de los valores de los <select>
+		 * se generará una consulta en concreto
+		*/
 		if($idCarrera == "" && $any == ""){
 
 			$query = 'SELECT carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id';
@@ -776,6 +856,11 @@ echo $result;
 					</tbody>
 				</table>';
 
+			/*
+			 * Estructura de control que mostrará
+			 * la imagen del circuito teniendo en 
+			 * cuenta el valor seleccionado.
+			*/
 			switch ($circuit -> getNom()) {
 				
 				case 'Circuito Albert Park':
@@ -883,10 +968,25 @@ echo $result;
 
 	}
 
+	/*
+	 * Función que tiene parametrizada la variable
+	 * de conexión a la BBDD y los valores de las
+	 * $_SESSION['rol'] y $_SESSION['id'] del usuario
+	 * logueado para lsitar los usuarios del sistema.
+	*/
 	function listaUsuarios($connect, $rol, $id)
 	{	
+		// Objeto de clase
 		$user = new Usuario();
 		$result = "";
+
+		/*
+		 * En función de los valores de las sesiones
+		 * la consulta se hará para que el admin no
+		 * puedo ver listados los administradores ni
+		 * los super usuarios; y para que el super
+		 * usuario no puede verse listado a si mismo.
+		*/
 		if($rol == 'admin'){
 
 			$query = 'SELECT * FROM log_user WHERE rol <> "admin" AND rol <> "super"';
@@ -923,24 +1023,34 @@ echo $result;
 		return $result;
 	}
 
+	/*
+	 * Función que tiene parametrizada la variable de
+	 * conexión con la BBDD y el valor de un <input>
+	 * de un formulario.
+	*/
 	function listaCircuitos($connect, $circuito = '')
 	{	
+		// Objeto de clase
 		$circuit = new Circuit();
 
 		$result = "
 			<div class='container'>
 				<div class='row'>
 					<div class='col-lg-12 col-sm-12 col-xs-12'>";
-
+		/*
+		 * En función del valor del input, la consulta
+		 * será genérica o teniendo en cuenta dicho
+		 * valor.
+		*/
 		if($circuito == ''){
 
 			$query = 'SELECT * FROM circuit';
 
 		} else {
 
-			$query = 'SELECT * FROM circuit WHERE nom = "'.$circuito.'"';
+			$query = 'SELECT * FROM circuit WHERE pais = "'.$circuito.'"';
 		}
-
+		$connect -> query("SET NAMES 'utf8'");
 		$sql = $connect -> query($query);
 
 		while($row = $sql -> fetch_array()){
@@ -952,6 +1062,52 @@ echo $result;
 			$circuit -> _setCurves($row['curves']);
 			$circuit -> _setZonesActivacioDRS($row['zones_activacio_DRS']);
 			$circuit -> _setZonesDeteccioDRS($row['zones_deteccio_DRS']);
+			$circuit -> _setVoltes($row['voltes']);
+
+			$result .= '
+			<div class="panel panel-success">
+				<div class="panel-body">
+					<h3 class="text-center">'.$circuit -> getNom().'</h3>';
+
+			$result .= '
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr class="info">
+							<th class="text-center">Ciudad</th>
+							<th class="text-center">Longitud</th>
+							<th class="text-center">Curvas</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>'.$circuit -> getCiutat().'</td>
+							<td>'.$circuit -> getLongitud().'</td>
+							<td>'.$circuit -> getCurves().'</td>
+						</tr>
+					</tbody>
+					<thead>
+						<tr class="info">
+							<th class="text-center">Zonas activación DRS</th>
+							<th class="text-center">Zonas detección DRS</th>
+							<th class="text-center">Vueltas de carrera</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>'.$circuit -> getZonesActivacioDRS().'</td>
+							<td>'.$circuit -> getZonesDeteccioDRS().'</td>
+							<td>'.$circuit -> getVoltes().'</td>
+						</tr>
+					</tbody>
+				</table>
+
+					<img src="../img/circuitos FIA/'.$circuit -> getNom().'.png" width="950" height="663">
+			</div>
+			</div>
+		</div>';
 		}
+
+		return $result;
 	}
 ?>
