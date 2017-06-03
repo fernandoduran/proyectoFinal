@@ -152,4 +152,26 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 		- Se ha modificado datos en la tabla circuit
 		- Se ha investigado sobre jQuery autocomplete y se ha aplicado en el archivo circuitos/buscador_circuitos.php
 	
+	- A fecha de 03/06/17:
+		- Se ha eliminado del menú de admin al gestión del foro (no habrá foro)
+		- Se ha modificado la portada del usuario invitado en inici/contingut.php
+		- Se han añadido videos a la carpeta media
+		- Se han comentado de manera explicativa todas las funciones de include/funcions_dibuix.php
+		- Se ha terminado la funcion listaCircuitos() y se ha aplicado en circuitos/lista_circuitos.php 
+		  y circuitos_buscador_circutios.php
+		- Se han creado los archivos:
+			- favoritos/index.php
+			- favoritos/index2.php
+			- favoritos/contingut.php
+			- favoritos/pilotos_fav.php
+		- Se ha creado la función fichaPiloto() que se utiliza desde favoritos/pilotos_fav.php para listar los pilotos 
+		  favoritos del usuario logueado y desde pilotos/lista_pilotos.php para mostrar la ficha del piloto seleccionado.
+		- En el menu de super usuario se ha añadido la sección gestion temporadas para asociar un piloto con una escudería
+		  en una temporada determinada
+		- Añadida la funcionalidad para eliminar usuarios en admin/lista_usuarios.php y puesta en funcionamiento
+		- Añadida la funcionalidad para añadir pilotos favoritos en pilotos/lista_pilotos.php y puesta en funcionamiento
+		- Añadida la funcionalidad para eliminar pilotos favoritos en favoritos/pilotos_fav.php y puesta en funcionamiento
+		- Añadida la funcionalidad para editar usuarios en admin/lista_usuaruis.phph (aun en produccion)
+		
+	
 		
