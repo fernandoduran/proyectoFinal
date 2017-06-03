@@ -188,6 +188,7 @@ echo $result;
 		$menu_super .= "Gestión campeonatos|../super/index.php?sec=lista_campeonatos;";
 		$menu_super .= "Gestión circuitos|../super/index.php?sec=lista_circuitos;";
 		$menu_super .= "Gestión carreras|../super/index.php?sec=lista_carreras;";
+		$menu_super .= "Gestión temporadas|../super/index.php?sec=asocia_piloto;";
 		$menu_super .= "Gestión tienda|../super/index.php?sec=lista_productos;";
 		
 
@@ -1018,8 +1019,8 @@ echo $result;
 					<td>'.$user -> getNom().'</td>
 					<td>'.$user -> getCognom().'</td>
 					<td>'.$user -> getMail().'</td>
-					<td>'.$user -> getPassword().'</td>
-					<td>'.$user -> getDataNaixement().'</td>
+					<td>ENCRYPTED</td>
+					<td>'.d3($user -> getDataNaixement()).'</td>
 					<td>'.$user -> getRol().'</td>
 					<td><a class="various" data-fancybox-type="iframe" href="../admin/index2.php?sec=edita&id='.$user -> getId().'"><span class="glyphicon glyphicon-pencil"></span></a></td>
 					<td><a class="various" data-fancybox-type="iframe" href="../admin/index2.php?sec=elimina&id='.$user -> getId().'"><span class="glyphicon glyphicon-remove"></span></a></td>
@@ -1113,6 +1114,132 @@ echo $result;
 		</div>';
 		}
 
+		return $result;
+	}
+
+	/*
+	 * Función que tiene parametrizada la variable de
+	 * conexión a al BBDD y el valor de la $_SESSION
+	 * del id del usuario logueado.
+	*/
+
+	function fichaPiloto($connect, $idUser = '', $idPiloto = '')
+	{
+		// Objetos de clases
+		$piloto = new Piloto();
+		$tpe = new TemporadaPilotEscuderia();
+		$scuderia = new Escuderia();
+
+		//Variable que devolverá el resultado
+		$result = "";
+
+		$connect -> query("SET NAMES 'utf8'");
+		/*
+		 * Si la función es llamada con la
+		 * variable $connect y la variable de
+		 * idPiloto se mostrará la ficha del
+		 * piloto entera. Si es llamada con la sesión
+		 * del usuario sólo mostrará los que tenga
+		 * marcados como favoritos.
+		*/
+		if($idUser == ''){
+
+			$sql = $connect -> query('SELECT pilot.*, scuderia.id AS "sID", scuderia.nomEscuderia FROM pilot, scuderia, temporada_pilot_escuderia WHERE scuderia.id = temporada_pilot_escuderia.scuderia_id AND pilot.id = temporada_pilot_escuderia.pilot_id AND pilot.id ='.$idPiloto);
+		} else {
+
+			$sql = $connect -> query('SELECT pilot.*, scuderia.id AS "sID",  scuderia.nomEscuderia FROM pilot, pilot_usuari, scuderia, temporada_pilot_escuderia WHERE scuderia.id = temporada_pilot_escuderia.scuderia_id AND pilot.id = temporada_pilot_escuderia.pilot_id AND pilot.id = pilot_usuari.pilot_id AND pilot_usuari.log_user_id = '.$idUser.' AND temporada_pilot_escuderia.temporada_any = "'.date('Y').'"');
+		}
+
+		while($row = $sql -> fetch_array()){
+
+			//Setter para la tabla pilot
+			$piloto -> _setId($row['id']);
+			$piloto -> _setNom($row['nom']);
+			$piloto -> _setSigles($row['sigles']);
+			$piloto -> _setDataNaixement($row['data_naixement']);
+			$piloto -> _setPes($row['pes']);
+			$piloto -> _setAltura($row['altura']);
+			$piloto -> _setPuntsTotals($row['punts_totals']);
+			$piloto -> _setCarreresTotals($row['carreres_totals']);
+			$piloto -> _setPrimeraEscuderia($row['primera_escuderia']);
+			$piloto -> _setNacionalitat($row['nacionalitat']);
+			$piloto -> _setAnyDebut($row['any_debut']);
+			$piloto -> _setTotalVoltesRapides($row['total_voltes_rapides']);
+			$piloto -> _setVictories($row['victories']);
+			$piloto -> _setTitols($row['titols']);
+
+			//Setters para la tabla scuderia
+			$scuderia -> _setId($row['sID']);
+			$scuderia -> _setNomEscuderia($row['nomEscuderia']);
+
+			$result .= '
+			<div class="panel panel-success">
+				<div class="panel-body">
+					<h3>'.$piloto -> getNom().'</h3>
+					<img src="../img/pilotos/'.$piloto -> getSigles().'.jpg" class="img-responsive img-rounded" style="margin-bottom:3%;">';
+
+			$result .='
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr class="success">
+							<th>Siglas</th>
+							<th>Fecha nacimiento</th>
+							<th>Peso y altura</th>
+							<th>Nacionalidad</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>'.$piloto -> getSigles().'</td>
+							<td>'.d3($piloto -> getDataNaixement()).'</td>
+							<td>'.$piloto -> getPes().' Kg<br>'.$piloto -> getAltura().' cm</td>
+							<td>'.$piloto -> getNacionalitat().'</td>
+						</tr>
+					</tbody>
+					<thead>
+						<tr class="success">
+							<th>Año debut</th>
+							<th>Primera escudería</th>
+							<th>Escudería actual</th>
+							<th>Carreras totales</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>'.$piloto -> getAnyDebut().'</td>
+							<td>'.$piloto -> getPrimeraEscuderia().'</td>
+							<td>'.$scuderia -> getNomEscuderia().'</td>
+							<td>'.$piloto -> getCarreresTotals().'</td>
+						</tr>
+					</tbody>
+					<thead>
+						<tr class="success">
+							<th>Vueltas rápidas</th>
+							<th>Victorias en carreras</th>
+							<th>Puntos totales</th>
+							<th>Titulos mundiales</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>'.$piloto -> getTotalVoltesRapides().'</td>
+							<td>'.$piloto -> getVictories().'</td>
+							<td>'.$piloto -> getPuntsTotals().'</td>
+							<td>'.$piloto -> getTitols().'</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>';
+			if($idUser != ''){
+				$result.='
+					<form action="" method="POST">
+						<button type="submit" name="fEliminaFav" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>Eliminar de favoritos</button>
+						<input type="hidden" name="fPilotId" value="'.$piloto -> getId().'">
+					</form>';
+			}
+			$result .='</div></div>';
+		}
 		return $result;
 	}
 ?>

@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<title>F1 History</title>
 
-	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	
 	<link rel="icon" href="../favicon.ico" type="image/x-icon">
 
 	<!-- Estils propis -->
@@ -29,6 +29,7 @@
 	
 	<!-- Add jQuery library -->
 	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--jQuery Validation-->
@@ -45,7 +46,37 @@
 	 
 	<script type="text/javascript" src="../DataTables/datatables.min.js"></script>
 
-<script type="text/javascript">
+
+
+
+</head>
+<!-- Llibreries -->
+<body>
+<?php
+	include_once "../include/connect.php";
+	include_once '../clases/Carrera.php';
+	include_once '../clases/Carrito.php';
+	include_once '../clases/CarritoProducto.php';
+	include_once '../clases/Circuit.php';
+	include_once '../clases/Classificacio.php';
+	include_once '../clases/Escuderia.php';
+	include_once '../clases/EscuderiaUsuario.php';
+	include_once '../clases/Foro.php';
+	include_once '../clases/Mundial.php';
+	include_once '../clases/Piloto.php';
+	include_once '../clases/PilotoUsuario.php';
+	include_once '../clases/Producto.php';
+	include_once '../clases/Temporada.php';
+	include_once '../clases/TemporadaPilotEscuderia.php';
+	include_once '../clases/ClasificacionMundial.php';
+	include_once "../clases/Usuario.php";
+	include_once "../include/funcions_dibuix.php";
+	include_once "../include/funciones.php";
+	
+?>
+	<?php include_once ("contingut.php")  ?>
+
+	<script type="text/javascript">
 	$(document).ready(function() {
 		$(".various").fancybox({
 			maxWidth	: 1000,
@@ -76,36 +107,6 @@
 		});
 	});
 	</script>
-
-
-</head>
-<!-- Llibreries -->
-<?php
-	include_once "../include/connect.php";
-	include_once '../clases/Carrera.php';
-	include_once '../clases/Carrito.php';
-	include_once '../clases/CarritoProducto.php';
-	include_once '../clases/Circuit.php';
-	include_once '../clases/Classificacio.php';
-	include_once '../clases/Escuderia.php';
-	include_once '../clases/EscuderiaUsuario.php';
-	include_once '../clases/Foro.php';
-	include_once '../clases/Mundial.php';
-	include_once '../clases/Piloto.php';
-	include_once '../clases/PilotoUsuario.php';
-	include_once '../clases/Producto.php';
-	include_once '../clases/Temporada.php';
-	include_once '../clases/TemporadaPilotEscuderia.php';
-	include_once "../clases/Usuario.php";
-	include_once "../include/funcions_dibuix.php";
-	include_once "../include/funciones.php";
-	
-?>
-<body>
-	<?php include_once ("contingut.php")  ?>
-
-	
-
 	<!-- Script per tornar adalt de l'scroll  http://www.scrolltotop.com/ -->
 	<script type="text/javascript" src="../js/arrow79.js"></script>
 	<!--  <ascript src="../js/vendor/modernizr.js"></script>	 -->
