@@ -1,4 +1,9 @@
 <?php
+	if($_SESSION['rol'] != ""){
+		
+		header("Location: ../inicio.php");	
+	}
+	
 	echo titular('Formulario registro');
 ?>
 <script type="text/javascript">
@@ -11,11 +16,11 @@
 			rules: {
 				'fNombre': {
 					required: true,
-					pattern: /^[a-zA-Z]{3,}$/
+					pattern: /^[a-zA-ZñÑáéíóúàèìòùÁÉÍÓÚÀÈÌÒÙäëïöüäëïöüçÇ]{3,}$/
 				},
 				'fApellido':{
 					required: true,
-					pattern: /^[a-zA-Z]{3,}$/
+					pattern: /^[a-zA-ZñÑáéíóúàèìòùÁÉÍÓÚÀÈÌÒÙäëïöüäëïöüçÇ]{3,}$/
 				},
 				'fMail':{
 					required: true,
@@ -23,11 +28,13 @@
 				},
 				'fPass':{
 					required: true,
+					pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/,
 					minlength: 8,
 					maxlength: 16
 				},
 				'fPass2': {
 					minlength: 8,
+					pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/,
 					maxlength: 16,
 					equalTo: '#fPass'
 				},
@@ -50,10 +57,12 @@
 				},
 				'fPass':{
 					required: 'Introduce una contraseña',
+					pattern: 'La contraseña de contener al menos una mayúscula, una minúscula y un número',
 					minlength: 'Introduce un mínimo de 8 caracteres',
 					maxlength: 'Introduce un máximo de 16 caracteres'
 				},
 				'fPass2': {
+					pattern: 'La contraseña de contener al menos una mayúscula, una minúscula y un número',
 					minlength: 'Introduce un mínimo de 8 caracteres',
 					maxlength: 'Introduce un máximo de 16 caracteres',
 					equalTo: 'Las contraseñars no coinciden'

@@ -31,7 +31,7 @@
 					"'.$_POST['fApellido'].'",
 					"'.$_POST['fMail'].'",
 					"'.$pass.'",
-					"'.$_POST['fData'].'",
+					"'.d($_POST['fData']).'",
 					"'.$_POST['fRol'].'"
 					)';
 			$result = $connect -> query($sql);
