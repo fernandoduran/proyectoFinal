@@ -279,509 +279,122 @@ echo $result;
 	 * se conecta con la BBDD y el valor de un <select>
 	 * de un formulario.
 	*/
-	function clasificacion($connect, $any = '')
+	function clasificacion($connect, $any)
 	{
 		//Objetos de clases
 		$carrera = new Carrera();
 		$circuit = new Circuit();
 		$piloto = new Piloto();
 		$clasif = new Classificacio();
-		$cmundial = new ClasificacionMundial();
 
 		$connect -> query("SET NAMES 'utf8'");
-		
-		/*
-		 * En función de si se le pasa año se realizará
-		 * una consulta genérica o teniendo en cuenta
-		 * el año que se le pasa.
-		*/
-		if($any == ''){
+	
 
-			$sql = $connect -> query('SELECT carrera.id, circuit.pais, carrera.nom_carrera FROM circuit, carrera WHERE carrera.circuit_id = circuit.id');
-		
+		$sql = $connect -> query('SELECT carrera.id AS "cId", carrera.nom_carrera, circuit.id AS "ctId", circuit.nom, circuit.pais FROM carrera, circuit WHERE carrera.circuit_id = circuit.id AND carrera.data_carrera LIKE "'.$any.'%"');
+
+		$sqlPilotos = $connect -> query('SELECT pilot.nom, SUM(punts) AS "suma" FROM `clasificacio`, `pilot`, `carrera` WHERE pilot.id = clasificacio.pilot_id AND carrera.id = clasificacio.carrera_id AND carrera.data_carrera LIKE "'.$any.'%" GROUP BY pilot.nom ORDER BY suma DESC');
+
+		if($sqlPilotos -> num_rows > 0){
+
+				$result = '
+			
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12">
+					<h1 class="text-center">Así va el mundial</h1>
+					<div class="col-lg-4 col-lg-push-4 col-sm-4 col-xs-4">
+					<table class="table table-condensed" id="puntosTotales">
+						<thead>
+							<tr>
+								<th class="text-center">Piloto</th>
+								<th class="text-center">Puntos</th>
+							</tr>
+						</thead>';
+			while ($ele = $sqlPilotos -> fetch_array()) {
+				
+				$piloto -> _setNom($ele['nom']);
+
+				$clasif -> _setPunts($ele['suma']);
+				
+				$result .=		'<tbody>
+							<tr>
+								<td>'.$piloto -> getNom().'</td>
+								<td>'.$clasif -> getPunts().'</td></tr>';
+
+			}
+
+			$result .= '</tbody></table></div></div></div></div>';
 		} else {
 
-			$sql = $connect -> query('SELECT carrera.id,circuit.pais, carrera.nom_carrera FROM circuit, carrera WHERE carrera.circuit_id = circuit.id AND data_carrera LIKE "'.$any.'%"');
-		}
-		
-		
-		if($sql -> num_rows > 0 ){
-
 			$result = '
-			<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-12 col-sm-12"><div class="table-responsive">';
-					echo titular('Clasificación mundial '.$any.'');
-			$result.='
-			<table id="listaPilotos" class="table table-bordered"  cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th>Pos.</th>
-										<th>Piloto</th>';
-			while($row = $sql -> fetch_array()){
-
-				$carrera -> _setId($row['id']);
-				$circuit -> _setPais($row['pais']);
-				$carrera -> _setNomCarrera($row['nom_carrera']);
-				
-				/*
-				 * Estructura de control para mostrar
-				 * unas abreviaturas en concreto
-				 * dependiendo del pais de la carrera
-				*/
-				switch ($circuit -> getPais()) {
-					case 'Estados Unidos':
-						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">USA</th>';
-						break;
-					case 'Mónaco':
-						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">MO</th>';
-						break;
-					case 'Bélgica':
-						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">BE</th>';
-						break;
-					case 'México':
-						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">ME</th>';
-						break;
-					case 'Emiratos Arabes Unidos':
-						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">AB</th>';
-						break;
-					case 'Austria':
-						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">AT</th>';
-						break;
-						case 'Singapur':
-						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">SG</th>';
-						break;
-					/*
-					 * mb_strtoupper convierte en
-					 * mayusculas todos los caracteres
-					 * de un string, incluyendo las
-					 * palabras con acentos.
-					 *
-					 * con substr extraemos las dos
-					 * primeras letras de cada pais
-					*/	
-					default:
-						$result .= '<th data-container="body" data-toggle="tooltip" data-placement="top" title="'.$carrera -> getNomCarrera().'">'.substr(mb_strtoupper($circuit -> getPais()), 0, 2) .'</th>';
-						break;
-				}
-
-				$carreras = array($carrera -> getId());
-				
-
-
-			}
-			$result .= '<th>Tot.</th>
-					</thead>
-					<tbody>';
-			
-			
-			$sql2 = $connect -> query('SELECT pilot.id AS "pId", pilot.nom, clasificacionMundial.* FROM pilot, clasificacionMundial WHERE pilot.id = clasificacionMundial.pilot_id AND clasificacionMundial.temporada_any = "'.$any.'"');
-			$pos = 1;
-			
-			/*
-			 * Búcle que pinta cada una de las filas
-			 * de la tabla donde se muestra la
-			 * clasificación general de un mundial.
-			*/
-			while ($row2 = $sql2 -> fetch_array()) {
-
-				$piloto -> _setId($row2['pId']);
-				$piloto -> _setNom($row2['nom']);
-
-				$cmundial -> _setTemporadaAny($row2['temporada_any']);
-				$cmundial -> _setAU($row2['AU']);
-				$cmundial -> _setCH($row2['CH']);
-				$cmundial -> _setBA($row2['BA']);
-				$cmundial -> _setRU($row2['RU']);
-				$cmundial -> _setES($row2['ES']);
-				$cmundial -> _setMO($row2['MO']);
-				$cmundial -> _setCA($row2['CA']);
-				$cmundial -> _setVL($row2['VL']);
-				$cmundial -> _setAZ($row2['AZ']);
-				$cmundial -> _setAT($row2['AT']);
-				$cmundial -> _setGR($row2['GR']);
-				$cmundial -> _setHU($row2['HU']);
-				$cmundial -> _setAL($row2['AL']);
-				$cmundial -> _setBE($row2['BE']);
-				$cmundial -> _setIT($row2['IT']);
-				$cmundial -> _setSG($row2['SG']);
-				$cmundial -> _setMA($row2['MA']);
-				$cmundial -> _setKO($row2['KO']);
-				$cmundial -> _setJA($row2['JA']);
-				$cmundial -> _setND($row2['ND']);
-				$cmundial -> _setUSA($row2['USA']);
-				$cmundial -> _setME($row2['ME']);
-				$cmundial -> _setBR($row2['BR']);
-				$cmundial -> _setAB($row2['AB']);
-				$cmundial -> _setFR($row2['FR']);
-
-				$result .='
-					<tr>
-						<td>'.$pos.'</td>
-						<td>'.$piloto -> getNom().'</td>';
-				/*
-				 * El orden y las carreras varian en
-				 * función del año, por ello se ha
-				 * elaborada una estructura de control
-				 * por cada año.
-				*/
-				if($any == '2007'){
-
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getUSA().'</td>
-					<td>'.$cmundial -> getFR().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getAL().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getTU().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getBR().'</td>';
-
-				} elseif ($any == '2008') {
-					
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getTU().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getFR().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getAL().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getVL().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getBR().'</td>';
-
-				} elseif ($any == '2009') {
-					
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getTU().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getAL().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getVL().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getBR().'</td>
-					<td>'.$cmundial -> getAB().'</td>';
-
-				} elseif ($any == '2010') {
-					
-					$result .= '
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getTU().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getVL().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getAL().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getKO().'</td>
-					<td>'.$cmundial -> getBR().'</td>
-					<td>'.$cmundial -> getAB().'</td>';
-
-				} elseif ($any == '2011') {
-					
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getTU().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getVL().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getAL().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getKO().'</td>
-					<td>'.$cmundial -> getND().'</td>
-					<td>'.$cmundial -> getAB().'</td>
-					<td>'.$cmundial -> getBR().'</td>';
-				
-				} elseif ($any == '2012') {
-					
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getVL().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getAL().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getKO().'</td>
-					<td>'.$cmundial -> getND().'</td>
-					<td>'.$cmundial -> getBR().'</td>
-					<td>'.$cmundial -> getUSA().'</td>
-					<td>'.$cmundial -> getAB().'</td>';
-
-				} elseif ($any == '2013') {
-					
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getAL().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getKO().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getND().'</td>
-					<td>'.$cmundial -> getAB().'</td>
-					<td>'.$cmundial -> getUSA().'</td>
-					<td>'.$cmundial -> getBR().'</td>';
-
-				} elseif ($any == '2014') {
-					
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getAT().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getAL().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getRU().'</td>
-					<td>'.$cmundial -> getUSA().'</td>
-					<td>'.$cmundial -> getBR().'</td>
-					<td>'.$cmundial -> getAB().'</td>';
-
-				} elseif ($any == '2015') {
-
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getAT().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getRU().'</td>
-					<td>'.$cmundial -> getUSA().'</td>
-					<td>'.$cmundial -> getME().'</td>
-					<td>'.$cmundial -> getBR().'</td>
-					<td>'.$cmundial -> getAB().'</td>';
-
-				} elseif ($any == '2016') {
-					
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getRU().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getAZ().'</td>
-					<td>'.$cmundial -> getAT().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getAL().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getUSA().'</td>
-					<td>'.$cmundial -> getME().'</td>
-					<td>'.$cmundial -> getBR().'</td>
-					<td>'.$cmundial -> getAB().'</td>';
-
-				} elseif ($any == '2017') {
-					
-					$result .= '
-					<td>'.$cmundial -> getAU().'</td>
-					<td>'.$cmundial -> getCH().'</td>
-					<td>'.$cmundial -> getBA().'</td>
-					<td>'.$cmundial -> getRU().'</td>
-					<td>'.$cmundial -> getES().'</td>
-					<td>'.$cmundial -> getMO().'</td>
-					<td>'.$cmundial -> getCA().'</td>
-					<td>'.$cmundial -> getAZ().'</td>
-					<td>'.$cmundial -> getAT().'</td>
-					<td>'.$cmundial -> getGR().'</td>
-					<td>'.$cmundial -> getHU().'</td>
-					<td>'.$cmundial -> getBE().'</td>
-					<td>'.$cmundial -> getIT().'</td>
-					<td>'.$cmundial -> getSG().'</td>
-					<td>'.$cmundial -> getMA().'</td>
-					<td>'.$cmundial -> getJA().'</td>
-					<td>'.$cmundial -> getUSA().'</td>
-					<td>'.$cmundial -> getME().'</td>
-					<td>'.$cmundial -> getBR().'</td>
-					<td>'.$cmundial -> getAB().'</td>';
-
-				}
-
-				/*
-				 * Sumatorio de los puntos de cada
-				 * carrera de cada piloto
-				*/
-				$suma = 
-				$cmundial -> getAU() 
-				+ $cmundial -> getCH()
-				+ $cmundial -> getBA()
-				+ $cmundial -> getRU()
-				+ $cmundial -> getES()
-				+ $cmundial -> getMO()
-				+ $cmundial -> getCA()
-				+ $cmundial -> getVL()
-				+ $cmundial -> getAZ()
-				+ $cmundial -> getAT()
-				+ $cmundial -> getGR()
-				+ $cmundial -> getHU()
-				+ $cmundial -> getAL()
-				+ $cmundial -> getBE()
-				+ $cmundial -> getIT()
-				+ $cmundial -> getSG()
-				+ $cmundial -> getMA()
-				+ $cmundial -> getKO()
-				+ $cmundial -> getJA()
-				+ $cmundial -> getND()
-				+ $cmundial -> getUSA()
-				+ $cmundial -> getME()
-				+ $cmundial -> getBR()
-				+ $cmundial -> getFR()
-				+ $cmundial -> getTU()
-				+ $cmundial -> getAB();
-			
-				$result .= '<td>'.$suma.'</td>';
-				$pos++;
-			}
-					
-			/*$sql2 = $connect -> query('SELECT pilot.id AS "pId", pilot.nom, carrera.id AS "cId" FROM pilot, clasificacio, carrera WHERE pilot.id = clasificacio.pilot_id AND carrera.id = clasificacio.carrera_id AND clasificacio.carrera_id AND carrera.data_carrera LIKE "2017%" ');
-
-			$result .= '<tbody><tr>';
-
-			$pos = 1;	
-			while($row2 = $sql2 -> fetch_array()){
-
-				$piloto -> _setId($row2['pId']);
-				$piloto -> _setNom($row2['nom']);
-				$carrera -> _setId($row2['cId']);
-				
-
-				$result .='
-					<tr>
-						<td>'.$pos.'</td>
-						<td>'.$piloto -> getNom().'</td>';
-				$pId = array($piloto -> getId());
-				$cId = array($carrera -> getId());		
-				
-				foreach ($pId as $key) {
-					foreach ($cId as $value) {
-						
-						$sql3 = $connect -> query('SELECT punts FROM clasificacio WHERE clasificacio.pilot_id = '.intval($key).' AND clasificacio.carrera_id = '.intval($value).'');
-						//var_dump('SELECT punts FROM clasificacio WHERE clasificacio.pilot_id = '.intval($key).' AND clasificacio.carrera_id = '.intval($value).'');
-						while ($row3 = $sql3 -> fetch_array()) {
-							
-							$clasif -> _setPunts($row3['punts']);
-						$result .= '<td>'.$clasif -> getPunts().'</td></tr>';
-						}
-					}
-				}
-				$pos++;
-			}*/
-
-
-			$result .=		'</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-			';
-			?>
-			<script>
-				$(document).ready(function(){
-				    $('[data-toggle="tooltip"]').tooltip();   
-				});
-			</script>
-			<?php
-		
-		} else {
-
-			$result = '
-			<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-12 col-sm-12">';
-
-				echo titular('Clasificación mundial '.$any.'');
-			$result .= '
-					<div class="alert alert-warning" role="alert">
-  							<strong>Oops!</strong> No hay resultados.
+					<div class="col-lg-12 col-sm-12">
+						<div class="alert alert-warning" role="alert">
+				 			<strong>Oops!</strong> No hay resultados.
 						</div>
 					</div>
 				</div>
 			</div>';
+		}
+
+		
+		$panel = 1;
+		while ($row = $sql -> fetch_array()) {
+			
+			$carrera -> _setId($row['cId']);
+			$carrera -> _setNomCarrera($row['nom_carrera']);
+
+			$circuit -> _setId($row['ctId']);
+			$circuit -> _setNom($row['nom']);
+			$circuit -> _setPais($row['pais']);
+
+			$idCarrera = array($carrera -> getId());
+
+
+			$result .= '
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-sm-12">
+				<div class="panel-group">
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h1 class="panel-title">'.$carrera -> getNomCarrera().'</h1>
+							<h2>'.$circuit -> getNom().' ('.$circuit -> getPais().')</h2>
+							<a data-toggle="collapse" href="#collapse'.$panel.'">Ver resultados</a>
+						</div>
+					<div id="collapse'.$panel.'" class="panel-collapse collapse">	
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>Piloto</th>
+											<th>Puntos</th>
+										</tr>
+									</thead>
+									<tbody>';
+
+			foreach ($idCarrera as $id) {
+				
+				$sql2 = $connect -> query('SELECT pilot.nom, clasificacio.punts FROM pilot, clasificacio WHERE pilot.id = clasificacio.pilot_id AND clasificacio.carrera_id = '.$id.' ORDER BY punts DESC');
+
+				while($row2 = $sql2 -> fetch_array()){
+
+					$piloto -> _setNom($row2['nom']);
+					$clasif -> _setPunts($row2['punts']);
+
+					$result .= 
+					'<tr>
+						<td>'.$piloto -> getNom().'</td>
+						<td>'.$clasif -> getPunts().'</td>
+					</tr>';
+				} 
+			}
+
+			$result .= 
+			'</tbody></table></div></div></div></div></div></div></div></div>';
+		$panel++;
 		}
 		return $result;
 	}
