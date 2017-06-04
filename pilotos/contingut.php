@@ -33,7 +33,9 @@
 			case 'lista_pilotos':
 				include 'lista_pilotos.php';
 				break;
-			
+			case 'ficha':
+				include 'ficha_piloto.php';
+				break;
 			default:
 				# code...
 				break;
