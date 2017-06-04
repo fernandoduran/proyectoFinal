@@ -1,43 +1,6 @@
 <?
-	echo titular('Gestion Pilotos');
-	$connect -> query("SET NAMES 'utf8'");
-
-	// Objeto de clase
-	$piloto = new Piloto();
-
-	$sql = $connect -> query('SELECT * FROM pilot WHERE id = '.$_GET['id']);
-
-	while ($row = $sql -> fetch_array()) {
-				
-		//Setter tabla pilot
-		$piloto -> _setId($row['id']);
-		$piloto -> _setNom($row['nom']);
-		$piloto -> _setSigles($row['sigles']);
-		$piloto -> _setDataNaixement($row['data_naixement']);
-		$piloto -> _setPes($row['pes']);
-		$piloto -> _setAltura($row['altura']);
-		$piloto -> _setPuntsTotals($row['punts_totals']);
-		$piloto -> _setCarreresTotals($row['carreres_totals']);
-		$piloto -> _setPrimeraEscuderia($row['primera_escuderia']);
-		$piloto -> _setNacionalitat($row['nacionalitat']);
-		$piloto -> _setAnyDebut($row['any_debut']);
-		$piloto -> _setTotalVoltesRapides($row['total_voltes_rapides']);
-		$piloto -> _setVictories($row['victories']);
-		$piloto -> _setTitols($row['titols']);
-	}
+	echo titular('Añade Pilotos');
 ?>
-<? if($_GET['acc'] == 'elimina'){?>
-
-<div class="container">
-	<div class="row">
-		<div class="col-lg-12 col-sm-12 col-xs-12">
-		<form action="" method="POST">
-				<h4>¿Estás seguro que deseas <span class="text-uppercase bg-warning" style="font-weight: bold;">eliminar</span> este usuario?</h4>
-				<input type="submit" name="fElimina" value="Eliminar" class="btn btn-danger">
-				<input type="submit" name="fCancelar" value="Cancelar" class="btn btn-success">
-		</form>
-</div>
-<?} else {?>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#edita').blur(function(e){
@@ -50,7 +13,7 @@
 					required: true,
 					pattern: /^[a-zA-ZñÑáéíóúàèìòùÁÉÍÓÚÀÈÌÒÙäëïöüäëïöüçÇ\s]{3,}$/
 				},
-				'Sigles':{
+				'fSigles':{
 					required: true,
 					pattern: /^[A-Z]{3}$/
 				},
@@ -111,7 +74,7 @@
 					required: '<span style="color:red;">Debe introducir datos</span>',
 					pattern: '<span style="color:red;">El formato no es correcto</span>'
 				},
-				'Sigles':{
+				'fSigles':{
 					required: '<span style="color:red;">Debe introducir datos</span>',
 					pattern: '<span style="color:red;">El formato no es correcto, máximo 3 caracteres en mayúsculas</span>'
 				},
@@ -180,7 +143,7 @@
 							<h4><span class="label label-info">
 								Nombre
 							</span></h4>
-							<input class="form-control" type="text" name="fNombre" value="<?=$piloto -> getNom()?>">
+							<input class="form-control" type="text" name="fNombre">
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">
@@ -188,7 +151,7 @@
 							<h4><span class="label label-info">
 								Siglas
 							</span></h4>
-							<input class="form-control" type="text" name="fSigles" value="<?=$piloto -> getSigles()?>">
+							<input class="form-control" type="text" name="fSigles">
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">
@@ -196,7 +159,7 @@
 							<h4><span class="label label-info">
 								Fecha Nacimiento
 							</span></h4>
-							<input id="fFecha" class="form-control" type="text" name="fFecha" value="<?=d3($piloto -> getDataNaixement())?>">
+							<input id="fFecha" class="form-control" type="text" name="fFecha">
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">
@@ -204,7 +167,7 @@
 							<h4><span class="label label-info">
 								Nacionalidad
 							</span></h4>
-							<input class="form-control" type="text" name="fNacionalidad" value="<?=$piloto -> getNacionalitat()?>">
+							<input class="form-control" type="text" name="fNacionalidad">
 						</div>
 					</div>
 				</div>
@@ -214,7 +177,7 @@
 							<h4><span class="label label-info">
 								Peso
 							</span></h4>
-							<input class="form-control" type="text" name="fPeso" value="<?=$piloto -> getPes()?>">
+							<input class="form-control" type="text" name="fPeso">
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">
@@ -222,7 +185,7 @@
 							<h4><span class="label label-info">
 								Altura
 							</span></h4>
-							<input class="form-control" type="text" name="fAltura" value="<?=$piloto -> getAltura()?>">
+							<input class="form-control" type="text" name="fAltura">
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">
@@ -230,7 +193,7 @@
 							<h4><span class="label label-info">
 								Puntos totales
 							</span></h4>
-							<input class="form-control" type="text" name="fPuntosTotales" value="<?=$piloto -> getPuntsTotals()?>">
+							<input class="form-control" type="text" name="fPuntosTotales">
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">
@@ -238,7 +201,7 @@
 							<h4><span class="label label-info">
 								Carreras disputadas
 							</span></h4>
-							<input class="form-control" type="text" name="fCarrerasTotales" value="<?=$piloto -> getCarreresTotals()?>">
+							<input class="form-control" type="text" name="fCarrerasTotales">
 						</div>
 					</div>
 				</div>
@@ -248,7 +211,7 @@
 							<h4><span class="label label-info">
 								Primera escuderia
 							</span></h4>
-							<input class="form-control" type="text" name="fEscuderia" value="<?=$piloto -> getPrimeraEscuderia()?>">
+							<input class="form-control" type="text" name="fEscuderia">
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">
@@ -256,7 +219,7 @@
 							<h4><span class="label label-info">
 								Año debut
 							</span></h4>
-							<input class="form-control" type="text" name="fDebut" value="<?=$piloto -> getAnyDebut()?>">
+							<input class="form-control" type="text" name="fDebut">
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">
@@ -264,7 +227,7 @@
 							<h4><span class="label label-info">
 								V. rápidas
 							</span></h4>
-							<input class="form-control" type="text" name="fVueltas" value="<?=$piloto -> getTotalVoltesRapides()?>">
+							<input class="form-control" type="text" name="fVueltas">
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">
@@ -272,7 +235,7 @@
 							<h4><span class="label label-info">
 								Victorias
 							</span></h4>
-							<input class="form-control" type="text" name="fVictorias" value="<?=$piloto -> getVictories()?>">
+							<input class="form-control" type="text" name="fVictorias">
 						</div>
 					</div>
 				</div>
@@ -282,19 +245,18 @@
 							<h4><span class="label label-info">
 								Titulos
 							</span></h4>
-							<input class="form-control" type="text" name="fTitulos" value="<?=$piloto -> getTitols()?>">
+							<input class="form-control" type="text" name="fTitulos">
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-lg-3 col-sm-3 col-xs-12">
 						<div class="form-group">
-							<button type="submit" class="btn btn-success" name="fModificaPiloto">Modifica</button>
+							<button type="submit" class="btn btn-success" name="fInsertaPiloto">Inserta</button>
 						</div>
 					</div>
 				</div>
 			</form>
-			<?}?>
 		</div>
 	</div>
 </div>

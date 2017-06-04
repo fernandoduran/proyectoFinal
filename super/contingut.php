@@ -179,6 +179,10 @@
 			}
 
 		}
+	} elseif (isset($_POST['fEliminaPiloto'])) {
+		
+		
+
 	} else {
 
 		switch ($_GET['sec']) {
@@ -206,6 +210,9 @@
 				break;
 			case 'gest_pilotos':
 				include 'gestion_pilotos.php';
+				break;
+			case 'nuevo':
+				include 'anyade_pilotos.php';
 				break;
 		}
 	}
