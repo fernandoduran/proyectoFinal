@@ -36,6 +36,7 @@
 	*/
 	function pinta_items_menu($menu)
 	{	
+		//Variable que devolverá el resultado
 		$result='
 			<div class="menu_top">
 				<div class="menu_top_nom" >
@@ -126,11 +127,11 @@
 		}					
 
         $result .= '
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>';
-echo $result;
+		      </ul>
+		    </div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>';
+		echo $result;
 	}
 
 	/*
@@ -220,8 +221,9 @@ echo $result;
 	*/
 	function listaPilotos($sql)
 	{	
+		// Objeto de clase
 		$piloto = new Piloto();
-		
+		$result = "";
 		while($row = $sql -> fetch_array()){
 
 			$piloto -> _setId($row['id']);
@@ -234,10 +236,10 @@ echo $result;
 			$piloto -> _setVictories($row['victories']);
 			$piloto -> _setTitols($row['titols']);
 
-			echo
+			$result .=
 			'
 				<tr>
-					<td><a class="various" href="../piloto/index.php?sec=ficha&id='.$piloto -> getId().'" data-fancybox-type="iframe">'.$piloto -> getNom().'</a></td>
+					<td><a href="../pilotos/index.php?sec=ficha&id='.$piloto -> getId().'" >'.$piloto -> getNom().'</a></td>
 					<td>'.$piloto -> getNacionalitat().'</td>
 					<td>'.$piloto -> getAnyDebut().'</td>
 					<td>'.$piloto -> getPrimeraEscuderia().'</td>
@@ -254,13 +256,13 @@ echo $result;
 				*/
 				if($_SESSION['rol'] == 'super'){
 
-				echo'<td>
-							<a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=gest_pilotos&acc=edita">
+				$result .='<td>
+							<a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=gest_pilotos&id='.$piloto -> getId().'&acc=edita">
 								<span class="glyphicon glyphicon-pencil"></span>
 							</a>
 						</td>
 						<td>
-							<a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=gest_pilotos&acc=elimina">
+							<a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=gest_pilotos&id='.$piloto -> getId().'&acc=elimina">
 								<span class="glyphicon glyphicon-remove"></span>
 							</a>
 						</td>';
@@ -271,8 +273,26 @@ echo $result;
 						<button type="submit" name="fFav" class="btn btn-success"><span class="glyphicon glyphicon-star"></span></button>
 				<input type="hidden" value="'.$piloto -> getId().'" name="fIdPiloto"></form></td>';
 
-			echo	'</tr>';
+			$result .=	'</tr>';
 		}
+		?>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			$(".various").fancybox({
+				maxWidth	: 800,
+				maxHeight	: 600,
+				fitToView	: false,
+				width		: '70%',
+				height		: '70%',
+				autoSize	: false,
+				closeClick	: false,
+				openEffect	: 'none',
+				closeEffect	: 'none'
+			});
+		});
+		</script>
+		<?
+		return $result;
 	}
 	/*
 	 * Función que tiene parametrizada la variable que
@@ -280,14 +300,19 @@ echo $result;
 	 * de un formulario.
 	*/
 	function clasificacion($connect, $any)
-	{
+	{	
+		/*
+		 * Establecemos el mapa de caracteres para que los
+		 * acentos se muestre correctamente
+		*/
+		$connect -> query("SET NAMES 'utf8'");
+
 		//Objetos de clases
 		$carrera = new Carrera();
 		$circuit = new Circuit();
 		$piloto = new Piloto();
 		$clasif = new Classificacio();
 
-		$connect -> query("SET NAMES 'utf8'");
 	
 
 		$sql = $connect -> query('SELECT carrera.id AS "cId", carrera.nom_carrera, circuit.id AS "ctId", circuit.nom, circuit.pais FROM carrera, circuit WHERE carrera.circuit_id = circuit.id AND carrera.data_carrera LIKE "'.$any.'%"');
@@ -296,20 +321,21 @@ echo $result;
 
 		if($sqlPilotos -> num_rows > 0){
 
-				$result = '
+			//Variable que devolverá el resultado
+			$result = '
 			
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12">
-					<h1 class="text-center">Así va el mundial</h1>
-					<div class="col-lg-4 col-lg-push-4 col-sm-4 col-xs-4">
-					<table class="table table-condensed" id="puntosTotales">
-						<thead>
-							<tr>
-								<th class="text-center">Piloto</th>
-								<th class="text-center">Puntos</th>
-							</tr>
-						</thead>';
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-sm-12">
+						<h1 class="text-center">Así va el mundial</h1>
+						<div class="col-lg-4 col-lg-push-4 col-sm-4 col-xs-4">
+						<table class="table table-condensed" id="puntosTotales">
+							<thead>
+								<tr>
+									<th class="text-center">Piloto</th>
+									<th class="text-center">Puntos</th>
+								</tr>
+							</thead>';
 			while ($ele = $sqlPilotos -> fetch_array()) {
 				
 				$piloto -> _setNom($ele['nom']);
@@ -338,7 +364,7 @@ echo $result;
 			</div>';
 		}
 
-		
+
 		$panel = 1;
 		while ($row = $sql -> fetch_array()) {
 			
@@ -353,27 +379,27 @@ echo $result;
 
 
 			$result .= '
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12 col-sm-12">
-				<div class="panel-group">
-					<div class="panel panel-success">
-						<div class="panel-heading">
-							<h1 class="panel-title">'.$carrera -> getNomCarrera().'</h1>
-							<h2>'.$circuit -> getNom().' ('.$circuit -> getPais().')</h2>
-							<a data-toggle="collapse" href="#collapse'.$panel.'">Ver resultados</a>
-						</div>
-					<div id="collapse'.$panel.'" class="panel-collapse collapse">	
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table class="table table-bordered">
-									<thead>
-										<tr>
-											<th>Piloto</th>
-											<th>Puntos</th>
-										</tr>
-									</thead>
-									<tbody>';
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-sm-12">
+						<div class="panel-group">
+							<div class="panel panel-success">
+								<div class="panel-heading">
+									<h1 class="panel-title">'.$carrera -> getNomCarrera().'</h1>
+									<h2>'.$circuit -> getNom().' ('.$circuit -> getPais().')</h2>
+									<a data-toggle="collapse" href="#collapse'.$panel.'">Ver resultados</a>
+								</div>
+							<div id="collapse'.$panel.'" class="panel-collapse collapse">	
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th>Piloto</th>
+													<th>Puntos</th>
+												</tr>
+											</thead>
+											<tbody>';
 
 			foreach ($idCarrera as $id) {
 				
@@ -394,8 +420,10 @@ echo $result;
 
 			$result .= 
 			'</tbody></table></div></div></div></div></div></div></div></div>';
-		$panel++;
+
+			$panel++;
 		}
+
 		return $result;
 	}
 
@@ -406,9 +434,17 @@ echo $result;
 	*/
 	function listaCarreras($connect, $idCarrera, $any)
 	{	
+		/*
+		 * Establecemos el mapa de caracteres para que los
+		 * acentos se muestre correctamente
+		*/
+		$connect -> query("SET NAMES 'utf8'");
+
 		// Objetos de clase
 		$carrera = new Carrera();
 		$circuit = new Circuit();
+
+		//Variable que devolverá el resultado
 		$result = "";
 
 		/*
@@ -431,7 +467,6 @@ echo $result;
 			$query = 'SELECT carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id AND carrera.id ='.$idCarrera.' AND carrera.data_carrera LIKE "'.$any.'%"';
 		}
 		
-		$sql = $connect -> query($query);
 		if($sql -> num_rows > 0){
 
 			$result .= '
@@ -595,8 +630,16 @@ echo $result;
 	*/
 	function listaUsuarios($connect, $rol, $id)
 	{	
+		/*
+		 * Establecemos el mapa de caracteres para que los
+		 * acentos se muestre correctamente
+		*/
+		$connect -> query("SET NAMES 'utf8'");
+
 		// Objeto de clase
 		$user = new Usuario();
+
+		//Variable que devolverá el resultado
 		$result = "";
 
 		/*
@@ -649,9 +692,16 @@ echo $result;
 	*/
 	function listaCircuitos($connect, $circuito = '')
 	{	
+		/*
+		 * Establecemos el mapa de caracteres para que los
+		 * acentos se muestre correctamente
+		*/
+		$connect -> query("SET NAMES 'utf8'");
+
 		// Objeto de clase
 		$circuit = new Circuit();
 
+		//Variable que devolverá el resultado
 		$result = "
 			<div class='container'>
 				<div class='row'>
@@ -669,7 +719,6 @@ echo $result;
 
 			$query = 'SELECT * FROM circuit WHERE pais = "'.$circuito.'"';
 		}
-		$connect -> query("SET NAMES 'utf8'");
 		$sql = $connect -> query($query);
 
 		while($row = $sql -> fetch_array()){
@@ -736,32 +785,31 @@ echo $result;
 	 * del id del usuario logueado.
 	*/
 
-	function fichaPiloto($connect, $idUser = '', $idPiloto = '')
-	{
+	function fichaPilotoFav($connect, $idUser = '')
+	{	
+		/*
+		 * Establecemos el mapa de caracteres para que los
+		 * acentos se muestre correctamente
+		*/
+		$connect -> query("SET NAMES 'utf8'");
+
 		// Objetos de clases
 		$piloto = new Piloto();
-		$tpe = new TemporadaPilotEscuderia();
 		$scuderia = new Escuderia();
 
 		//Variable que devolverá el resultado
 		$result = "";
 
-		$connect -> query("SET NAMES 'utf8'");
 		/*
 		 * Si la función es llamada con la
 		 * variable $connect y la variable de
-		 * idPiloto se mostrará la ficha del
-		 * piloto entera. Si es llamada con la sesión
-		 * del usuario sólo mostrará los que tenga
+		 * sesión del usuario sólo mostrará los que tenga
 		 * marcados como favoritos.
 		*/
-		if($idUser == ''){
+		
 
-			$sql = $connect -> query('SELECT pilot.*, scuderia.id AS "sID", scuderia.nomEscuderia FROM pilot, scuderia, temporada_pilot_escuderia WHERE scuderia.id = temporada_pilot_escuderia.scuderia_id AND pilot.id = temporada_pilot_escuderia.pilot_id AND pilot.id ='.$idPiloto);
-		} else {
-
-			$sql = $connect -> query('SELECT pilot.*, scuderia.id AS "sID",  scuderia.nomEscuderia FROM pilot, pilot_usuari, scuderia, temporada_pilot_escuderia WHERE scuderia.id = temporada_pilot_escuderia.scuderia_id AND pilot.id = temporada_pilot_escuderia.pilot_id AND pilot.id = pilot_usuari.pilot_id AND pilot_usuari.log_user_id = '.$idUser.' AND temporada_pilot_escuderia.temporada_any = "'.date('Y').'"');
-		}
+		$sql = $connect -> query('SELECT pilot.*, scuderia.id AS "sID",  scuderia.nomEscuderia FROM pilot, pilot_usuari, scuderia, temporada_pilot_escuderia WHERE scuderia.id = temporada_pilot_escuderia.scuderia_id AND pilot.id = temporada_pilot_escuderia.pilot_id AND pilot.id = pilot_usuari.pilot_id AND pilot_usuari.log_user_id = '.$idUser.' AND temporada_pilot_escuderia.temporada_any = "'.date('Y').'"');
+		
 
 		while($row = $sql -> fetch_array()){
 
@@ -852,6 +900,272 @@ echo $result;
 					</form>';
 			}
 			$result .='</div></div>';
+		}
+		return $result;
+	}
+
+	/*
+	 * Función que tiene parametrizada la variable de
+	 * conexión a al BBDD y el valor del id del piloto.
+	*/
+	function fichaPiloto($connect, $idPiloto)
+	{	
+		/*
+		 * Establecemos el mapa de caracteres para que los
+		 * acentos se muestre correctamente
+		*/
+		$connect -> query("SET NAMES 'utf8'");
+
+		// Objetos de clases
+		$piloto = new Piloto();
+		$tpe = new TemporadaPilotEscuderia();
+		$scuderia = new Escuderia();
+
+		//Varible que devolverá el resultado
+		$result = "";
+
+		$sql = $connect -> query('SELECT pilot.*, temporada_pilot_escuderia.xasis, temporada_pilot_escuderia.motor, temporada_pilot_escuderia.numero_pilot, temporada_pilot_escuderia.jefeEquip, temporada_pilot_escuderia.director, scuderia.nomEscuderia, scuderia.seu FROM pilot, temporada_pilot_escuderia, scuderia WHERE pilot.id = temporada_pilot_escuderia.pilot_id AND scuderia.id = temporada_pilot_escuderia.scuderia_id  AND temporada_pilot_escuderia.temporada_any = "'.date('Y').'" AND pilot.id = '.$idPiloto);
+
+		if($sql -> num_rows > 0){
+
+			while ($row = $sql -> fetch_array()) {
+			
+			//Setter tabla pilot
+			$piloto -> _setId($row['id']);
+			$piloto -> _setNom($row['nom']);
+			$piloto -> _setSigles($row['sigles']);
+			$piloto -> _setDataNaixement($row['data_naixement']);
+			$piloto -> _setPes($row['pes']);
+			$piloto -> _setAltura($row['altura']);
+			$piloto -> _setPuntsTotals($row['punts_totals']);
+			$piloto -> _setCarreresTotals($row['carreres_totals']);
+			$piloto -> _setPrimeraEscuderia($row['primera_escuderia']);
+			$piloto -> _setNacionalitat($row['nacionalitat']);
+			$piloto -> _setAnyDebut($row['any_debut']);
+			$piloto -> _setTotalVoltesRapides($row['total_voltes_rapides']);
+			$piloto -> _setVictories($row['victories']);
+			$piloto -> _setTitols($row['titols']);
+
+			//Setters para la tabla scuderia
+			$scuderia -> _setNomEscuderia($row['nomEscuderia']);
+			$scuderia -> _setSeu($row['seu']);
+
+			//Setters para la tabla temporada_pilot_escuderia
+			$tpe -> _setXasis($row['xasis']);
+			$tpe -> _setMotor($row['motor']);
+			$tpe -> _setNumeroPilot($row['numero_pilot']);
+			$tpe -> _setJefeEquip($row['jefeEquip']);
+			$tpe -> _setDirector($row['director']);
+
+			$result .= '
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-sm-12 col-xs-12">
+						<a class="btn btn-primary" href="javascript:history.back()">Volver</a>
+						<h3>'.$piloto -> getNom().'</h3>
+						<div id="carouselPilotos" class="carousel slide" data-ride="carousel">
+						  <ol class="carousel-indicators">
+						    <li data-target="#carouselPilotos" data-slide-to="0" class="active"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="1"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="2"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="3"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="4"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="5"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="6"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="7"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="8"></li>
+						  </ol>
+						  <div class="carousel-inner" role="listbox">
+						    <div class="item active">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'1.jpg" alt="First slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'2.jpg" alt="Second slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'3.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'4.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'5.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'6.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'7.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'8.jpg" alt="Third slide">
+						    </div>
+						  </div>
+						  <a class="left carousel-control" href="#carouselPilotos" role="button" data-slide="prev">
+						    <span class="glyphicon glyphicon-chevron-left"></span>
+    						<span class="sr-only">Previous</span>
+						  </a>
+						  <a class="right carousel-control" href="#carouselPilotos" role="button" data-slide="next">
+						    <span class="glyphicon glyphicon-chevron-right"></span>
+    						<span class="sr-only">Next</span>
+						  </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br><br><br><br>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-sm-6 col-xs-6">
+						<ul style="list-style: none;">
+					 		<li><span style="font-size:20px;"><strong>Siglas:</strong> '.$piloto -> getSigles().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Fecha nacimiento:</strong> '.d3($piloto -> getDataNaixement()).'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Peso:</strong> '.$piloto -> getPes().' Kg</span></li>
+					 		<li><span style="font-size:20px;"><strong>Altura:</strong> '.$piloto -> getAltura().' cm</span></li>
+					 		<li><span style="font-size:20px;"><strong>Nacionalidad:</strong> '.$piloto -> getNacionalitat().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Año debut:</strong> '.$piloto -> getAnyDebut().'</span></li>
+						</ul>
+					</div>
+					<div class="col-lg-6 col-sm-6 col-xs-6">
+						<ul style="list-style: none;">
+						<li><span style="font-size:20px;"><strong>Primera escudería:</strong> '.$piloto -> getPrimeraEscuderia().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Puntos totales:</strong> '.$piloto -> getPuntsTotals().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>GPs disputados:</strong> '.$piloto -> getCarreresTotals().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>V. rápidas:</strong> '.$piloto -> getTotalVoltesRapides().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Victorias:</strong> '.$piloto -> getVictories().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Titulos:</strong> '.$piloto -> getTitols().'</span></li>
+						</ul>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-lg-6 col-sm-6 col-xs-6">
+						<ul style="list-style: none;">
+					 		<li><span style="font-size:20px;"><strong>Equipo actual:</strong> '.$scuderia -> getNomEscuderia().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Sede:</strong> '.$scuderia -> getSeu().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Dorsal:</strong> '.$tpe -> getNumeroPilot().'</li>
+						</ul>
+					</div>
+					<div class="col-lg-6 col-sm-6 col-xs-6">
+						<ul style="list-style: none;">
+					 		<li><span style="font-size:20px;"><strong>Chasis:</strong> '.$tpe -> getXasis().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Motor:</strong> '.$tpe -> getMotor().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Jefe equipo:</strong> '.$tpe -> getJefeEquip().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Director:</strong> '.$tpe -> getDirector().'</span></li>
+						</ul>
+					</div>
+				</div>
+			</div>';
+			}
+
+		} else {
+
+			$sql2 = $connect -> query('SELECT * FROM pilot WHERE id = '.$idPiloto);
+
+			while ($row2 = $sql2 -> fetch_array()) {
+				
+				//Setter tabla pilot
+			$piloto -> _setId($row2['id']);
+			$piloto -> _setNom($row2['nom']);
+			$piloto -> _setSigles($row2['sigles']);
+			$piloto -> _setDataNaixement($row2['data_naixement']);
+			$piloto -> _setPes($row2['pes']);
+			$piloto -> _setAltura($row2['altura']);
+			$piloto -> _setPuntsTotals($row2['punts_totals']);
+			$piloto -> _setCarreresTotals($row2['carreres_totals']);
+			$piloto -> _setPrimeraEscuderia($row2['primera_escuderia']);
+			$piloto -> _setNacionalitat($row2['nacionalitat']);
+			$piloto -> _setAnyDebut($row2['any_debut']);
+			$piloto -> _setTotalVoltesRapides($row2['total_voltes_rapides']);
+			$piloto -> _setVictories($row2['victories']);
+			$piloto -> _setTitols($row2['titols']);
+
+			$result .= '
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-sm-12 col-xs-12">
+						<a class="btn btn-primary" href="javascript:history.back()">Volver</a>
+						<h3>'.$piloto -> getNom().'</h3>
+						<div id="carouselPilotos" class="carousel slide" data-ride="carousel">
+						  <ol class="carousel-indicators">
+						    <li data-target="#carouselPilotos" data-slide-to="0" class="active"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="1"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="2"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="3"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="4"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="5"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="6"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="7"></li>
+						    <li data-target="#carouselPilotos" data-slide-to="8"></li>
+						  </ol>
+						  <div class="carousel-inner" role="listbox">
+						    <div class="item active">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'1.jpg" alt="First slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'2.jpg" alt="Second slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'3.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'4.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'5.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'6.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'7.jpg" alt="Third slide">
+						    </div>
+						    <div class="item">
+						      <img class="d-block img-fluid" src="../img/carouselPilotos/'.$piloto -> getSigles().'8.jpg" alt="Third slide">
+						    </div>
+						  </div>
+						  <a class="left carousel-control" href="#carouselPilotos" role="button" data-slide="prev">
+						    <span class="glyphicon glyphicon-chevron-left"></span>
+    						<span class="sr-only">Previous</span>
+						  </a>
+						  <a class="right carousel-control" href="#carouselPilotos" role="button" data-slide="next">
+						    <span class="glyphicon glyphicon-chevron-right"></span>
+    						<span class="sr-only">Next</span>
+						  </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br><br><br><br>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-sm-6 col-xs-6">
+						<ul style="list-style: none;">
+					 		<li><span style="font-size:20px;"><strong>Siglas:</strong> '.$piloto -> getSigles().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Fecha nacimiento:</strong> '.d3($piloto -> getDataNaixement()).'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Peso:</strong> '.$piloto -> getPes().' Kg</span></li>
+					 		<li><span style="font-size:20px;"><strong>Altura:</strong> '.$piloto -> getAltura().' cm</span></li>
+					 		<li><span style="font-size:20px;"><strong>Nacionalidad:</strong> '.$piloto -> getNacionalitat().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Año debut:</strong> '.$piloto -> getAnyDebut().'</span></li>
+						</ul>
+					</div>
+					<div class="col-lg-6 col-sm-6 col-xs-6">
+						<ul style="list-style: none;">
+						<li><span style="font-size:20px;"><strong>Primera escudería:</strong> '.$piloto -> getPrimeraEscuderia().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Puntos totales:</strong> '.$piloto -> getPuntsTotals().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>GPs disputados:</strong> '.$piloto -> getCarreresTotals().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>V. rápidas:</strong> '.$piloto -> getTotalVoltesRapides().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Victorias:</strong> '.$piloto -> getVictories().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Titulos:</strong> '.$piloto -> getTitols().'</span></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<h3>ACTUALMENTE NO PARTICIPA EN LA FÓRMULA 1</h3>';
+
+
+			}
+		
 		}
 		return $result;
 	}
