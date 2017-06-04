@@ -5,7 +5,7 @@
 	 */
 	function d ($fecha){
 		$val = explode('/',$fecha);
-		var_dump($val);
+		
 		$ret = $val[2].'/'.$val[1].'/'.$val[0];
 		if ($ret=='//' or $ret=='--') $ret='';
 		return $ret;
