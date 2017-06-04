@@ -25,6 +25,98 @@
 		</script>
 		<?php
 	
+	} elseif (isset($_POST['fModifica'])) {
+		
+		$sql = 'UPDATE log_user SET 
+					nom = "'.$_POST['fNombre'].'",
+					cognom = "'.$_POST['fCognom'].'",
+					mail = "'.$_POST['fMail'].'",
+					password = "'.md5($_POST['fPass']).'",
+					data_naixement = "'.d($_POST['fData']).'",
+					rol = "'.$_POST['fRol'].'"
+				WHERE id = '.$_GET['id'];
+
+		$result = $connect -> query($sql);
+			if(!$result){
+				echo '
+				<div class="alert alert-danger" role="alert">
+				  <strong>Error!</strong> Fallo al modificar el usuario: <br><br>'.$connect -> error.'<br><br>'.$sql.'
+				</div>';
+			} else {
+				echo '
+				<div class="alert alert-success" role="alert">
+				  <strong>Genial!</strong> Usuario modificado.
+				</div>';
+				
+			}
+		?>
+		<script type="text/javascript">
+			setTimeout(function(){
+				parent.location.assign('../admin/index.php?sec=lista_usuarios');
+				parent.$.fancybox.close();
+			}, 1500);
+		</script>
+		<?php		
+
+
+	} elseif (isset($_POST['fRegistra'])) {
+		
+		$query = $connect -> query('SELECT mail FROM log_user WHERE mail = "'.$_POST['fMail'].'"');
+
+		if($query -> num_rows > 0){
+
+			echo '<div class="alert alert-warning" role="alert">
+				  <strong>Oops!</strong> Ya existe un usuario con este email.
+				</div>';
+				?>
+				<script type="text/javascript">
+					setTimeout(function(){
+						parent.location.assign('../inici/index.php');
+						parent.$.fancybox.close();
+					}, 1500);
+				</script>
+
+				<?php
+		} else {
+			$pass = md5($_POST['fPass']);
+			$sql = 
+				'INSERT INTO log_user (
+					nom,
+					cognom,
+					mail,
+					password,
+					data_naixement,
+					rol
+				) VALUES (
+					"'.$_POST['fNombre'].'",
+					"'.$_POST['fApellido'].'",
+					"'.$_POST['fMail'].'",
+					"'.$pass.'",
+					"'.d($_POST['fData']).'",
+					"'.$_POST['fRol'].'"
+					)';
+			$result = $connect -> query($sql);
+
+			if(!$result){
+				echo '
+				<div class="alert alert-danger" role="alert">
+				  <strong>Error!</strong> Fallo al registrar usuario: <br><br>'.$connect -> error.'<br><br>'.$sql.'
+				</div>';
+			} else {
+				echo '
+				<div class="alert alert-success" role="alert">
+				  <strong>Genial!</strong> Usuario registrado correctamente.
+				</div>';
+			}
+		?>
+		<script type="text/javascript">
+			setTimeout(function(){
+				parent.location.assign('../admin/index.php?sec=lista_usuarios');
+				parent.$.fancybox.close();
+			}, 1500);
+		</script>
+		<?php
+		}
 	} else {
 		switch ($_GET['sec']) {
 
