@@ -13,6 +13,9 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12 col-sm-12">
+		<? if($_SESSION['rol'] == 'super'){?>
+			<a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=nuevo"><span class="glyphicon glyphicon-plus"></span>Añade pilotos</a>
+			<?}?>
 			<div class="table-responsive">
 				<table id="listaPilotos" class="table  table-bordered"  cellspacing="0" width="100%">
 				<thead>
