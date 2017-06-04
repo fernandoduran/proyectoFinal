@@ -61,7 +61,6 @@
 	include_once '../clases/Producto.php';
 	include_once '../clases/Temporada.php';
 	include_once '../clases/TemporadaPilotEscuderia.php';
-	include_once '../clases/ClasificacionMundial.php';
 	include_once "../clases/Usuario.php";
 	include_once "../include/funcions_dibuix.php";
 	include_once '../include/funciones.php';
