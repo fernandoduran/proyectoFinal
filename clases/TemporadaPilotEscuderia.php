@@ -13,6 +13,7 @@
 		private $pilot_id;
 		private $scuderia_id;
 		private $xasis;
+        private $motor;
 		private $numero_pilot;
 		private $director;
 		private $jefeEquip;
@@ -186,6 +187,27 @@
     public function _setNomEscuderia($nomEscuderia)
     {
         $this->nomEscuderia = $nomEscuderia;
+    }
+
+    /**
+     * Gets the value of motor.
+     *
+     * @return mixed
+     */
+    public function getMotor()
+    {
+        return $this->motor;
+    }
+
+    /**
+     * Sets the value of motor.
+     *
+     * @param mixed $motor the motor
+     *
+     */
+    public function _setMotor($motor)
+    {
+        $this->motor = $motor;
     }
 }
 ?>
