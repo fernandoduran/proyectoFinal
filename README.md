@@ -172,6 +172,21 @@ En este repositorio se encuentran tanto los archivos de código como toda la doc
 		- Añadida la funcionalidad para añadir pilotos favoritos en pilotos/lista_pilotos.php y puesta en funcionamiento
 		- Añadida la funcionalidad para eliminar pilotos favoritos en favoritos/pilotos_fav.php y puesta en funcionamiento
 		- Añadida la funcionalidad para editar usuarios en admin/lista_usuaruis.phph (aun en produccion)
+	
+	- Entre las fechas 04/06/17 y 05/06/17:
+		- Se ha modificado por completo la funcion clasificacion de include/funcions_dibuix()
+		- Se ha modificado la funcion listaCarreras() para añadir la opción de editar y eliminar
+		- Se han elaborado y puesto en funcionamiento los editores para crear, eliminar y modificar pilotos
+		- Se han elaborado y puesto en funcionamiento los editores para eliminar y modificar las carreras
+		- Puesta en funcionamiento la funcionalidad de añadir usuarios
+		- Elaborada la funcion listaEscuderias() para listar las escuderias existentes Esta función es llamada en el archivo
+		  escuderias/lista_escuderias.php y puede buscarse por nombre o listarlas por completo.
+		- Se ha modificado el menú del usuario registrado
+		- Se ha creado el archivo pilotos/index2.php para incluir la etructura sin menu
+		- Se han creado los archivos escuderias/contingut.php, escuderias/buscador_escuderias.php y 
+		escuderias/lista_escuderias.php para listar las escuderias en diferentes secciones o bien hacer una búsqueda por nombre
+		con jQuery autocomplete.
+		- Se han aplicado restricciones de seguridad a todo lo relacionado con la edición de datos y al acceso por url
 		
 	
 		
