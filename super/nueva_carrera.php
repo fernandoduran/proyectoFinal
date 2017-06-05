@@ -1,4 +1,14 @@
-<?php echo titular('Añade nueva carrera')?>
+<?php 
+	echo titular('Añade nueva carrera');
+
+	if($_SESSION['rol'] != 'super'){
+		?>
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+		<?
+	}
+?>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <div class="container">
 	<div class="row">

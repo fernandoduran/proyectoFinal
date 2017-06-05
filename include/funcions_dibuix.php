@@ -78,17 +78,31 @@
     			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       				<ul class="nav navbar-nav">';
       	
+      	/*
+      	 * El primer explode corta el string a partir de #,
+      	 * que indica que es el nombre del menú
+      	*/
       	$titol_dropdown = explode("#", $menu);
 		
 		foreach ($titol_dropdown as $stringMenu) {
 		
 			if($stringMenu != ""){
+
+				/*
+		      	 *  Hacemos un nuevo explode a partir de #,
+		      	 * que indica que es el un nuevo menú
+		      	*/				
 				$itemMenuGeneral = explode("#", $stringMenu);
 				
 				if($itemMenuGeneral[0] != ""){
 
 					foreach ($itemMenuGeneral as $numVolta => $valor) {
 						
+						/*
+						 * El tercer explode a partir de *
+						 * indica que lo que viene después
+						 * es un subitem del menu
+						*/
 						$nomDelItemPrincipal = explode("*", $valor);
 						
 						$result .= '<li class="dropdown">';
@@ -98,12 +112,23 @@
 						
 						foreach ($llista_links as $nom_link) {
 							
+							/*
+							 * El cuarto explode a partir de
+							 * ; es para indicar el final de
+							 * un string
+							*/
 							$subItem = explode(";", $nom_link);
 							
 							$result .= '<ul class="dropdown-menu">';
 
 							foreach ($subItem as $valor) {
 								
+								/*
+								 * El quinto y último explode
+								 * a partir de | es para 
+								 * identificar la url del
+								 * subitem del menu
+								*/
 								$nomDelSubItem = explode("|", $valor);
 								if($nomDelSubItem[0] != ""){
 									if(preg_match('#^https://.*#s', $nomDelSubItem[1])){
@@ -166,7 +191,7 @@
 
 		//Menu escuderías
 		$menu_escuderias = "#Escuderías*Todas|../escuderias/index.php?sec=lista_escuderias;";
-		$menu_escuderias .= "Por sede|../escuderias/index.php?sec=sede;";
+		$menu_escuderias .= "Por sede|../escuderias/index.php?sec=nombre;";
 
 		//Menu favoritos
 		$menu_favoritos = "#Tus favoritos*Pilotos|../favoritos/index.php?sec=pilotos;";
@@ -194,7 +219,11 @@
 		
 
 
-
+		/*
+		 * En función del rol del usuario, la variable
+		 * $menu_usuario que se le pasa a la funcion
+		 * pinta_items_menu() tendrá diferente valor
+		*/
 		switch ($_SESSION['rol']) {
 			
 			case 'registrado':
@@ -223,9 +252,13 @@
 	{	
 		// Objeto de clase
 		$piloto = new Piloto();
+		
+		//Variable que devolverá el resultado
 		$result = "";
+		
 		while($row = $sql -> fetch_array()){
 
+			//Setters de la clase pilot
 			$piloto -> _setId($row['id']);
 			$piloto -> _setNom($row['nom']);
 			$piloto -> _setPuntsTotals($row['punts_totals']);
@@ -235,6 +268,7 @@
 			$piloto -> _setAnyDebut($row['any_debut']);
 			$piloto -> _setVictories($row['victories']);
 			$piloto -> _setTitols($row['titols']);
+
 
 			$result .=
 			'
@@ -267,14 +301,22 @@
 							</a>
 						</td>';
 				}
-				if($_SESSION['rol'] == 'registrado')
-					echo '<td> 
+
+				/*
+				 * Si el valor de la sesión del usuario
+				 * logueado es registrado aparecerá un campo
+				 * para marcar como favoritos los pilotos.
+				*/
+				if($_SESSION['rol'] == 'registrado'){
+					$result .= '<td> 
 					<form action="" method="POST">
 						<button type="submit" name="fFav" class="btn btn-success"><span class="glyphicon glyphicon-star"></span></button>
 				<input type="hidden" value="'.$piloto -> getId().'" name="fIdPiloto"></form></td>';
+				}
 
 			$result .=	'</tr>';
 		}
+		//Llamada al plugin de fancybox
 		?>
 		<script type="text/javascript">
 		$(document).ready(function() {
@@ -294,6 +336,7 @@
 		<?
 		return $result;
 	}
+
 	/*
 	 * Función que tiene parametrizada la variable que
 	 * se conecta con la BBDD y el valor de un <select>
@@ -314,9 +357,16 @@
 		$clasif = new Classificacio();
 
 	
+		/*
+		 * Consulta para mostrar la clasificación de cada
+		 * carrera del año seleccionado
+		*/
+		$sql = $connect -> query('SELECT carrera.id AS "cId", carrera.nom_carrera, carrera.data_carrera, circuit.id AS "ctId", circuit.nom, circuit.pais FROM carrera, circuit WHERE carrera.circuit_id = circuit.id AND carrera.data_carrera LIKE "'.$any.'%"');
 
-		$sql = $connect -> query('SELECT carrera.id AS "cId", carrera.nom_carrera, circuit.id AS "ctId", circuit.nom, circuit.pais FROM carrera, circuit WHERE carrera.circuit_id = circuit.id AND carrera.data_carrera LIKE "'.$any.'%"');
-
+		/*
+		 * Función que hace el sumatorio de puntos de cada
+		 * carrera por cada piloto del año seleccionado
+		*/
 		$sqlPilotos = $connect -> query('SELECT pilot.nom, SUM(punts) AS "suma" FROM `clasificacio`, `pilot`, `carrera` WHERE pilot.id = clasificacio.pilot_id AND carrera.id = clasificacio.carrera_id AND carrera.data_carrera LIKE "'.$any.'%" GROUP BY pilot.nom ORDER BY suma DESC');
 
 		if($sqlPilotos -> num_rows > 0){
@@ -370,58 +420,73 @@
 			
 			$carrera -> _setId($row['cId']);
 			$carrera -> _setNomCarrera($row['nom_carrera']);
+			$carrera -> _setDataCarrera($row['data_carrera']);
 
 			$circuit -> _setId($row['ctId']);
 			$circuit -> _setNom($row['nom']);
 			$circuit -> _setPais($row['pais']);
 
+			//Array de los ID de las carreras
 			$idCarrera = array($carrera -> getId());
 
+			/*
+			 * Si la fecha de la carrera es menor a la fecha
+			 * actual significa que la carrera se ha
+			 * disputado, por tanto se mostrará en pantalla
+			*/
+			if($carrera -> getDataCarrera() < date('Y-m-d')){
 
-			$result .= '
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 col-sm-12">
-						<div class="panel-group">
-							<div class="panel panel-success">
-								<div class="panel-heading">
-									<h1 class="panel-title">'.$carrera -> getNomCarrera().'</h1>
-									<h2>'.$circuit -> getNom().' ('.$circuit -> getPais().')</h2>
-									<a data-toggle="collapse" href="#collapse'.$panel.'">Ver resultados</a>
-								</div>
-							<div id="collapse'.$panel.'" class="panel-collapse collapse">	
-							<div class="panel-body">
-								<div class="table-responsive">
-									<table class="table table-bordered">
-											<thead>
-												<tr>
-													<th>Piloto</th>
-													<th>Puntos</th>
-												</tr>
-											</thead>
-											<tbody>';
 
-			foreach ($idCarrera as $id) {
-				
-				$sql2 = $connect -> query('SELECT pilot.nom, clasificacio.punts FROM pilot, clasificacio WHERE pilot.id = clasificacio.pilot_id AND clasificacio.carrera_id = '.$id.' ORDER BY punts DESC');
+				$result .= '
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-sm-12">
+							<div class="panel-group">
+								<div class="panel panel-success">
+									<div class="panel-heading">
+										<h1 class="panel-title">'.$carrera -> getNomCarrera().' ('.d3($carrera -> getDataCarrera()).')</h1>
+										<h2>'.$circuit -> getNom().' ('.$circuit -> getPais().')</h2>
 
-				while($row2 = $sql2 -> fetch_array()){
+										<a data-toggle="collapse" href="#collapse'.$panel.'">Ver resultados</a>
+									</div>
+								<div id="collapse'.$panel.'" class="panel-collapse collapse">	
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th>Piloto</th>
+														<th>Puntos</th>
+													</tr>
+												</thead>
+												<tbody>';
+				/*
+				 * A raíz del array de los ID de carrera
+				 * se realizará una consulta para saber
+				 * los puntos que ha obtenido cada piloto
+				*/
+				foreach ($idCarrera as $id) {
+					
+					$sql2 = $connect -> query('SELECT pilot.nom, clasificacio.punts FROM pilot, clasificacio WHERE pilot.id = clasificacio.pilot_id AND clasificacio.carrera_id = '.$id.' ORDER BY punts DESC');
 
-					$piloto -> _setNom($row2['nom']);
-					$clasif -> _setPunts($row2['punts']);
+					while($row2 = $sql2 -> fetch_array()){
 
-					$result .= 
-					'<tr>
-						<td>'.$piloto -> getNom().'</td>
-						<td>'.$clasif -> getPunts().'</td>
-					</tr>';
-				} 
+						$piloto -> _setNom($row2['nom']);
+						$clasif -> _setPunts($row2['punts']);
+
+						$result .= 
+						'<tr>
+							<td>'.$piloto -> getNom().'</td>
+							<td>'.$clasif -> getPunts().'</td>
+						</tr>';
+					} 
+				}
+
+				$result .= 
+				'</tbody></table></div></div></div></div></div></div></div></div>';
+
+				$panel++;
 			}
-
-			$result .= 
-			'</tbody></table></div></div></div></div></div></div></div></div>';
-
-			$panel++;
 		}
 
 		return $result;
@@ -453,19 +518,21 @@
 		*/
 		if($idCarrera == "" && $any == ""){
 
-			$query = 'SELECT carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id';
+			$query = 'SELECT carrera.id, carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id';
 		
 		} elseif($idCarrera != "" && $any == "") {
 
-			$query = 'SELECT carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id AND carrera.id ='.$idCarrera;
+			$query = 'SELECT carrera.id, carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id AND carrera.id ='.$idCarrera;
 		
 		} elseif($idCarrera == "" && $any != "") {
 
-			$query = 'SELECT carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id AND carrera.data_carrera LIKE "'.$any.'%"';
+			$query = 'SELECT carrera.id, carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id AND carrera.data_carrera LIKE "'.$any.'%"';
 		
 		} elseif ($idCarrera != "" && $any != "") {
 			$query = 'SELECT carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id AND carrera.id ='.$idCarrera.' AND carrera.data_carrera LIKE "'.$any.'%"';
 		}
+
+		$sql = $connect -> query($query);
 		
 		if($sql -> num_rows > 0){
 
@@ -485,12 +552,14 @@
 								<th>Circuito</th>
 								<th>Pais</th>
 								<th>Fecha carrera</th>
+								<th colspan="2">Acción</th>
 							</tr>
 						</thead>
 						<tbody>';
 			
 			while($row = $sql -> fetch_array()){
 
+				$carrera -> _setId($row['id']);
 				$carrera -> _setNomCarrera($row['nom_carrera']);
 				$carrera -> _setDataCarrera($row['data_carrera']);
 				$circuit -> _setNom($row['nom']);
@@ -503,6 +572,12 @@
 						<td>'.$circuit -> getNom().'</td>
 						<td>'.$circuit -> getPais().'</td>
 						<td>'.$carrera -> getDataCarrera().'</td>
+						<td><a class="various" data-fancybox-type="iframe" href="../super/index.php?sec=edita_carrera&id='.$carrera -> getId().'">
+							<span class="glyphicon glyphicon-pencil"></span></a>
+						</td>
+						<td><a class="various" data-fancybox-type="iframe" href="../super/index.php?sec=elimina_carrera&id='.$carrera -> getId().'">
+							<span class="glyphicon glyphicon-remove"></span></a>
+						</td>
 					</tr>';
 
 			}
@@ -799,6 +874,7 @@
 
 		//Variable que devolverá el resultado
 		$result = "";
+		$result2 = "";
 
 		/*
 		 * Si la función es llamada con la
@@ -808,99 +884,99 @@
 		*/
 		
 
-		$sql = $connect -> query('SELECT pilot.*, scuderia.id AS "sID",  scuderia.nomEscuderia FROM pilot, pilot_usuari, scuderia, temporada_pilot_escuderia WHERE scuderia.id = temporada_pilot_escuderia.scuderia_id AND pilot.id = temporada_pilot_escuderia.pilot_id AND pilot.id = pilot_usuari.pilot_id AND pilot_usuari.log_user_id = '.$idUser.' AND temporada_pilot_escuderia.temporada_any = "'.date('Y').'"');
+		$sql = $connect -> query('SELECT pilot.* FROM pilot, pilot_usuari WHERE pilot.id = pilot_usuari.pilot_id AND pilot_usuari.log_user_id = '.$idUser);
 		
+		if($sql -> num_rows > 0){
 
-		while($row = $sql -> fetch_array()){
+			while($row = $sql -> fetch_array()){
 
-			//Setter para la tabla pilot
-			$piloto -> _setId($row['id']);
-			$piloto -> _setNom($row['nom']);
-			$piloto -> _setSigles($row['sigles']);
-			$piloto -> _setDataNaixement($row['data_naixement']);
-			$piloto -> _setPes($row['pes']);
-			$piloto -> _setAltura($row['altura']);
-			$piloto -> _setPuntsTotals($row['punts_totals']);
-			$piloto -> _setCarreresTotals($row['carreres_totals']);
-			$piloto -> _setPrimeraEscuderia($row['primera_escuderia']);
-			$piloto -> _setNacionalitat($row['nacionalitat']);
-			$piloto -> _setAnyDebut($row['any_debut']);
-			$piloto -> _setTotalVoltesRapides($row['total_voltes_rapides']);
-			$piloto -> _setVictories($row['victories']);
-			$piloto -> _setTitols($row['titols']);
+				//Setter para la tabla pilot
+				$piloto -> _setId($row['id']);
+				$piloto -> _setNom($row['nom']);
+				$piloto -> _setSigles($row['sigles']);
+				$piloto -> _setDataNaixement($row['data_naixement']);
+				$piloto -> _setPes($row['pes']);
+				$piloto -> _setAltura($row['altura']);
+				$piloto -> _setPuntsTotals($row['punts_totals']);
+				$piloto -> _setCarreresTotals($row['carreres_totals']);
+				$piloto -> _setPrimeraEscuderia($row['primera_escuderia']);
+				$piloto -> _setNacionalitat($row['nacionalitat']);
+				$piloto -> _setAnyDebut($row['any_debut']);
+				$piloto -> _setTotalVoltesRapides($row['total_voltes_rapides']);
+				$piloto -> _setVictories($row['victories']);
+				$piloto -> _setTitols($row['titols']);
 
-			//Setters para la tabla scuderia
-			$scuderia -> _setId($row['sID']);
-			$scuderia -> _setNomEscuderia($row['nomEscuderia']);
+				$result .= '
+				<div class="panel panel-success">
+					<div class="panel-body">
+						<h3>'.$piloto -> getNom().'</h3>
+						<img src="../img/pilotos/'.$piloto -> getSigles().'.jpg" class="img-responsive img-rounded" style="margin-bottom:3%;">';
 
-			$result .= '
-			<div class="panel panel-success">
-				<div class="panel-body">
-					<h3>'.$piloto -> getNom().'</h3>
-					<img src="../img/pilotos/'.$piloto -> getSigles().'.jpg" class="img-responsive img-rounded" style="margin-bottom:3%;">';
-
-			$result .='
-			<div class="table-responsive">
-				<table class="table table-bordered">
-					<thead>
-						<tr class="success">
-							<th>Siglas</th>
-							<th>Fecha nacimiento</th>
-							<th>Peso y altura</th>
-							<th>Nacionalidad</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>'.$piloto -> getSigles().'</td>
-							<td>'.d3($piloto -> getDataNaixement()).'</td>
-							<td>'.$piloto -> getPes().' Kg<br>'.$piloto -> getAltura().' cm</td>
-							<td>'.$piloto -> getNacionalitat().'</td>
-						</tr>
-					</tbody>
-					<thead>
-						<tr class="success">
-							<th>Año debut</th>
-							<th>Primera escudería</th>
-							<th>Escudería actual</th>
-							<th>Carreras totales</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>'.$piloto -> getAnyDebut().'</td>
-							<td>'.$piloto -> getPrimeraEscuderia().'</td>
-							<td>'.$scuderia -> getNomEscuderia().'</td>
-							<td>'.$piloto -> getCarreresTotals().'</td>
-						</tr>
-					</tbody>
-					<thead>
-						<tr class="success">
-							<th>Vueltas rápidas</th>
-							<th>Victorias en carreras</th>
-							<th>Puntos totales</th>
-							<th>Titulos mundiales</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>'.$piloto -> getTotalVoltesRapides().'</td>
-							<td>'.$piloto -> getVictories().'</td>
-							<td>'.$piloto -> getPuntsTotals().'</td>
-							<td>'.$piloto -> getTitols().'</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>';
-			if($idUser != ''){
-				$result.='
-					<form action="" method="POST">
-						<button type="submit" name="fEliminaFav" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>Eliminar de favoritos</button>
-						<input type="hidden" name="fPilotId" value="'.$piloto -> getId().'">
-					</form>';
+				$result .='
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr class="success">
+								<th>Siglas</th>
+								<th>Fecha nacimiento</th>
+								<th>Peso</th>
+								<th>Altura</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>'.$piloto -> getSigles().'</td>
+								<td>'.d3($piloto -> getDataNaixement()).'</td>
+								<td>'.$piloto -> getPes().' Kg<br></td>
+								<td>'.$piloto -> getAltura().' cm</td>
+							</tr>
+						</tbody>
+						<thead>
+							<tr class="success">
+								<th>Nacionalidad</th>
+								<th>Año debut</th>
+								<th>Primera escudería</th>
+								<th>Carreras totales</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>'.$piloto -> getNacionalitat().'</td>
+								<td>'.$piloto -> getAnyDebut().'</td>
+								<td>'.$piloto -> getPrimeraEscuderia().'</td>
+								<td>'.$piloto -> getCarreresTotals().'</td>
+							</tr>
+						</tbody>
+						<thead>
+							<tr class="success">
+								<th>Vueltas rápidas</th>
+								<th>Victorias en carreras</th>
+								<th>Puntos totales</th>
+								<th>Titulos mundiales</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>'.$piloto -> getTotalVoltesRapides().'</td>
+								<td>'.$piloto -> getVictories().'</td>
+								<td>'.$piloto -> getPuntsTotals().'</td>
+								<td>'.$piloto -> getTitols().'</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>';
+				if($idUser != ''){
+					$result.='
+						<form action="" method="POST">
+							<button type="submit" name="fEliminaFav" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>Eliminar de favoritos</button>
+							<input type="hidden" name="fPilotId" value="'.$piloto -> getId().'">
+						</form>';
+				}
+				$result .='</div></div>';
 			}
-			$result .='</div></div>';
+
 		}
+		
 		return $result;
 	}
 
@@ -1166,6 +1242,122 @@
 
 			}
 		
+		}
+		return $result;
+	}
+
+	/*
+	 * Función que tiene parametrizada la variable de
+	 * conexión a la BBDD, el año del cual se quiere ver
+	 * la información de la escuderia y, de manera opcional,
+	 * el nombre de la escuderia.
+	*/
+
+	function listaEscuderias($connect, $any, $escuderia = '')
+	{	
+
+		$connect -> query("SET NAMES 'utf8'");
+		if($escuderia == ''){
+
+			$query = 'SELECT scuderia.*,temporada_pilot_escuderia.temporada_any,temporada_pilot_escuderia.xasis, temporada_pilot_escuderia.motor, temporada_pilot_escuderia.jefeEquip, temporada_pilot_escuderia.director FROM scuderia, temporada_pilot_escuderia WHERE scuderia.id = temporada_pilot_escuderia.scuderia_id AND temporada_any = "'.$any.'" GROUP BY scuderia.nomEscuderia';
+		} else {
+
+			$query = 'SELECT scuderia.*,temporada_pilot_escuderia.temporada_any, temporada_pilot_escuderia.xasis, temporada_pilot_escuderia.motor, temporada_pilot_escuderia.jefeEquip, temporada_pilot_escuderia.director FROM scuderia, temporada_pilot_escuderia WHERE temporada_any = "'.$any.'" AND scuderia.nomEscuderia = "'.$escuderia.'" AND scuderia.id = temporada_pilot_escuderia.scuderia_id GROUP BY scuderia.nomEscuderia';
+		}
+
+		$sql = $connect -> query($query);
+		$result = "";
+		while ($row = $sql -> fetch_array()) {
+			
+			//Objetos de clase
+			$scuderia = new Escuderia();
+			$tpe = new TemporadaPilotEscuderia();
+
+			//Variable que devolverá el resultado
+			
+
+			//Setters tabla scuderia
+			$scuderia -> _setId($row['id']);
+			$scuderia -> _setNomEscuderia($row['nomEscuderia']);
+			$scuderia -> _setSeu($row['seu']);
+			$scuderia -> _setDebut($row['debut']);
+
+			//Setters para la tabla temporada_pilot_escuderia
+			$tpe -> _setTemporadaAny($row['temporada_any']);
+			$tpe -> _setXasis($row['xasis']);
+			$tpe -> _setMotor($row['motor']);
+			$tpe -> _setJefeEquip($row['jefeEquip']);
+			$tpe -> _setDirector($row['director']);
+
+			$idEscuderia = array($scuderia -> getId());
+
+			$result .= '
+			<div class="container">
+				<div class="row">
+					<div class="panel panel-default">
+						<div class="panel-body">
+					<div class="col-lg-6 col-sm-6 col-xs-6">
+						<ul style="list-style: none;">
+					 		<li><span style="font-size:20px;"><strong>Nombre:</strong> '.$scuderia -> getNomEscuderia().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Debut:</strong> '.$scuderia -> getDebut().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Peso:</strong> '.$scuderia -> getSeu().' Kg</span></li>
+						</ul>
+					
+					</div>
+					<div class="col-lg-6 col-sm-6 col-xs-6">
+					
+						<ul style="list-style: none;">
+						<li><span style="font-size:20px;"><strong>Primera escudería:</strong> '.$tpe -> getXasis().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>Puntos totales:</strong> '.$tpe -> getMotor().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>GPs disputados:</strong> '.$tpe -> getJefeEquip().'</span></li>
+					 		<li><span style="font-size:20px;"><strong>V. rápidas:</strong> '.$tpe -> getDirector().'</span></li>
+						</ul>
+					</div>
+
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th colspan="3">Pilotos</th>
+						</tr>
+					</thead>
+					<tbody>';
+				foreach ($idEscuderia as $scuderiaId) {
+					
+					$sql2 = $connect -> query('SELECT pilot.nom FROM pilot, temporada_pilot_escuderia WHERE pilot.id = temporada_pilot_escuderia.pilot_id AND temporada_pilot_escuderia.scuderia_id = '.$scuderiaId.' AND temporada_pilot_escuderia.temporada_any = "'.$any.'"');
+
+					$colspan = 1;
+					while ($row2 = $sql2 -> fetch_array()) {
+						
+						//Objeto de clase
+						$piloto = new Piloto();
+
+						//Setter tabla pilot
+						$piloto -> _setNom($row2['nom']);
+
+						if($sql -> num_rows > 0){
+
+							$result .= '
+							<tr>
+								<td>'.$piloto -> getNom().'</td></tr>';
+
+						} else {
+
+							$result .= '
+							<tr>
+								<td>Sin pilotos</td>
+							</tr>';
+						}
+						$colspan++;
+					}
+				}
+
+			$result .=	'
+						</tbody>
+					</table>
+				</div>
+			</div>';
+
+
 		}
 		return $result;
 	}

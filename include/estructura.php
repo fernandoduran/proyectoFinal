@@ -160,7 +160,7 @@
 		});
 	});
 	</script>
-	<footer class="site-footer">
+	<footer class="site-footer navbar-bottom">
 		<div class="inner">
 			<div class="footer-upper">
 				<div class="social-wrapper">

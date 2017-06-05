@@ -1,4 +1,11 @@
 <?php
+	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == ''){
+		?>
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+		<?
+	}
 	echo titular(''.ucwords($_GET['sec']).' usuario');
 	$user = new Usuario();
 

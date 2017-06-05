@@ -12,7 +12,7 @@
 		<div class="col-lg-12 col-sm-12 col-xs-12">
 			
 				<?
-					echo fichaPiloto($connect, $_SESSION['id']);
+					echo fichaPilotoFav($connect, $_SESSION['id']);
 				?>
 			
 		</div>

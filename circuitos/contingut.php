@@ -1,10 +1,9 @@
 <?php
 	
 	if(isset($_POST['fBusca'])){
-
-		echo '<div class="alert alert-warning" role="alert">
-				 <h1><strong>Muy pronto!</strong> Tendrás los resultados.</h1>
-				</div>';
+		
+		echo listaCircuitos($connect, $_POST['fCircuito']);
+		
 	} else {
 		
 		if($_SESSION['rol'] != 'registrado'){

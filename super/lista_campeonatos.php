@@ -1,4 +1,14 @@
-<?php echo titular('Campeonatos de fórmula 1')?>
+<?php 
+	echo titular('Campeonatos de fórmula 1');
+
+	if($_SESSION['rol'] != 'super'){
+		?>
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+		<?
+	}
+?>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
 <div class="container">

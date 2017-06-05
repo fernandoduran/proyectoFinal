@@ -1,5 +1,11 @@
 <?php
-
+	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == ''){
+		?>
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+		<?
+	}
 
 	echo titular(''.ucwords($_GET['sec']).' usuario');
 ?>
@@ -11,5 +17,4 @@
 				<input type="submit" name="fElimina" value="Eliminar" class="btn btn-danger">
 				<input type="submit" name="fCancelar" value="Cancelar" class="btn btn-success">
 		</form>
-	
 </div>

@@ -1,20 +1,27 @@
-<?php
 
+<?php
+	if($_SESSION['rol'] != 'registrado'){
+		?>
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+		<?
+	}
+	
 	function datosCircuito($connect){
 		$circuit = new Circuit();
 
 		$resultado = "";
 		$connect -> query("SET NAMES 'utf8'");
-		$sql = $connect -> query('SELECT nom, pais FROM circuit ORDER BY pais');
+		$sql = $connect -> query('SELECT pais FROM circuit GROUP BY pais');
 
 		if($sql -> num_rows > 0){
 
 			while($row = $sql -> fetch_assoc()){
 
-				$circuit -> _setNom($row['nom']);
 				$circuit -> _setPais($row['pais']);
 
-				$resultado .= '"'.$circuit -> getNom().' ('.$circuit -> getPais().')",';
+				$resultado .= '"'.$circuit -> getPais().'",';
 			}
 		}
 		return $resultado;
@@ -56,7 +63,7 @@
 					<form action="" method="POST">
 						<div class="form-group">
 							<h4><span for="fCircuito" class="label label-primary">Circuito</span></h4>
-							<input type="text" name="fCircuito" id="fCircuito">
+							<input type="text" name="fCircuito" id="fCircuito" class="form-control">
 						</div>
 						<input type="submit" name="fBusca" value="Buscar" class="btn btn-primary"><br>
 					</form>
@@ -65,5 +72,3 @@
 		</div>
 	</div>
 </div>
-<? //echo listaCircuitos($connect, $_POST['fCircuito']);
-?>

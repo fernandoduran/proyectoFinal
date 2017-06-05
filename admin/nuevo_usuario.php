@@ -1,4 +1,13 @@
-<?echo titular('Añade usuarios')?>
+<?
+	echo titular('Añade usuarios');
+	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == ''){
+		?>
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+		<?
+	}
+?>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#nuevo').blur(function(e){

@@ -1,5 +1,14 @@
 <? 
 	echo titular('Nueva clasificación de carrera');
+
+	if($_SESSION['rol'] != 'super'){
+		?>
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+		<?
+	}
+	
 	$connect -> query("SET NAMES 'utf8'");
 ?>
 <div class="container">
