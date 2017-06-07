@@ -1,19 +1,7 @@
-<?php 
-	echo titular('Campeonatos de fórmula 1');
-
-	if($_SESSION['rol'] != 'super'){
-		?>
-		<script type="text/javascript">
-			parent.location.assign('../inicio.php');
-		</script>
-		<?
-	}
-?>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-
+<?echo titular('Gestión de temporadas')?>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-lg-12 col-sm-12">
+		<div class="col-lg-12 col-sm-12 col-xs-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<form action="" method="POST">
@@ -38,18 +26,14 @@
 						</div>
 						<input type="submit" name="fBusca" value="Buscar" class="btn btn-primary"><br>
 					</form>
-					<br>
-					<a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=nueva_clasif"><span class="glyphicon glyphicon-plus"></span>Añade clasificación carrera</a>
 				</div>
 			</div>
+			<?
+				if(isset($_POST['fBusca'])){
+				
+					echo listaTemporadas($connect, $_POST['fAny']);
+				}
+			?>
 		</div>
 	</div>
 </div>
-
-<?php
-	if(isset($_POST['fBusca'])){
-
-		echo clasificacion($connect, $_POST['fAny']);
-	}
-?>
-

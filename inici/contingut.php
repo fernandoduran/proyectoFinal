@@ -7,7 +7,8 @@ if(empty($_SESSION['rol'])){
 
 if($_SESSION['rol'] == ""){
 	?>
-	<div class="container" style="padding-top: 10%">
+
+	<div class="container">
 		<div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">
 			<div class="row">
 				<div class="col-lg-7 col-sm-7 col-xs-12">
@@ -83,18 +84,18 @@ if($_SESSION['rol'] == ""){
 
 <div class="container-fluid bg-3 text-center">    
   <div class="row">
-  <h4>Merchandasing</h4><br>
+  <h4>Los coches</h4><br>
     <div class="col-sm-3">
-      <img src="../img/portada/producto.jpg" style="width:100%" alt="Image">
+      <img src="../img/escuderias/coche.jpg" style="width:100%" alt="Image">
     </div>
     <div class="col-sm-3"> 
-      <img src="../img/portada/producto1.jpg" style="width:100%" alt="Image">
+      <img src="../img/escuderias/coche1.jpg" style="width:100%" alt="Image">
     </div>
     <div class="col-sm-3"> 
-      <img src="../img/portada/producto2.jpg" style="width:100%" alt="Image">
+      <img src="../img/escuderias/coche2.jpg" style="width:100%" alt="Image">
     </div>
     <div class="col-sm-3">
-      <img src="../img/portada/producto3.jpg" style="width:100%" alt="Image">
+      <img src="../img/escuderias/coche3.jpg" style="width:100%" alt="Image">
     </div>
   </div>
 </div><br><br>

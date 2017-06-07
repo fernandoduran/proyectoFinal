@@ -10,7 +10,7 @@
 ?>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12 col-sm-12">
 			<div class="panel panel-default">

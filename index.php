@@ -2,6 +2,9 @@
 <html>
     <head>
        <meta charset="utf-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+       <!-- Add jQuery library -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -11,6 +14,9 @@
         	    margin: 0;
         	    padding: 0;
         	}
+            body{
+                background-color: black;
+            }
 
         	#content {
         	    background: #fff  ; /* Para Internet Explorer */
@@ -41,7 +47,7 @@
        
         <script type="text/javascript">
         	$(document).ready(function() {
-        	    $( "#skip" ).slideUp( 30 ).delay( 10000 ).fadeIn( 400 );
+        	    $( "#skip" ).slideUp( 30 ).delay( 1500 ).fadeIn( 400 );
         	});
         </script>
         <script type="text/javascript">
@@ -50,11 +56,17 @@
                 video.currentTime = 0;
             parent.location.assign("inicio.php");
             }
+
+            $(document).ready(function(){
+                $('#video').bind('ended', function(){
+                    parent.location.assign("inicio.php");
+                })
+            })
         </script>
     </head>
     <body>
-    	<iframe id="video" src="https://player.vimeo.com/video/218791955?autoplay=1&title=0&byline=0&portrait=0" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-        
+    	<!--<iframe id="video" src="https://player.vimeo.com/video/218791955?autoplay=1&title=0&byline=0&portrait=0" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen load></iframe>-->
+        <video id="video" src="../media/This_is_Formula_1(youtube.com).mp4" autoplay controls preload></video>
         <button type="button" class="btn btn-default" id="skip" onclick="skip()">Skip</button>
     </body>
 </html>

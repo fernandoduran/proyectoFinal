@@ -42,8 +42,13 @@
 
 	})
 </script>
+
+
 <div class="container">
 	<div class="row">
+		<div class="jumbotron">
+			<h1>Escuderías actuales e históricas</h1>
+		</div>
 		<div class="col-lg-8 col-lg-push-1 col-sm-8 col-xs-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -65,7 +70,7 @@
 									<select name="fAny" class="form-control
 									">
 										<?php
-											$sql = $connect -> query('SELECT any FROM temporada');
+											$sql = $connect -> query('SELECT any FROM temporada ORDER BY any DESC');
 
 											while ($row = $sql -> fetch_array()) {
 												

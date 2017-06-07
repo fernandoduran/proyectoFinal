@@ -3,7 +3,7 @@
     width:100%;
     background:#171717 repeat top center;
     background-size:100% auto;
-    margin-top: 20%;
+    margin-top: 40%;
 }
 
 .site-footer .inner {
@@ -27,7 +27,7 @@
 
 .footer-upper {
     position:relative;
-    margin:0 40px;
+    margin:40 40px;
     padding:60px 0 0;
 }
 .footer-upper a {

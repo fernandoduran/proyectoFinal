@@ -311,6 +311,9 @@
 			case 'nuevo':
 				include 'anyade_pilotos.php';
 				break;
+			case 'asocia_piloto':
+				include 'temporada.php';
+				break;
 		}
 	}
 ?>
