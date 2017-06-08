@@ -1,4 +1,5 @@
 <?php
+
 	if($_SESSION['rol'] != ""){
 		
 		header("Location: ../inicio.php");	

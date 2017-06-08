@@ -6,6 +6,7 @@
 	 ****************** Gestión de carreras ******************
 	 *********************************************************
 	*/
+
 	if(isset($_POST['fInsertaCarrera'])){
 		
 		$query = $connect -> query('SELECT nom_carrera, data_carrera, circuit_id FROM carrera WHERE nom_carrera = "'.$_POST['fNombreCarrera'].'" AND data_carrera = "'.d($_POST['fFecha']).'" AND circuit_id ='.$_POST['fCircuito']);
@@ -326,6 +327,36 @@
 
 		}
 
+	} elseif (isset($_POST['fModificaEscuderia'])) {
+		
+		$sql = 'UPDATE scuderia SET 
+				nomEscuderia = "'.$_POST['fNombre'].'",
+				seu = "'.$_POST['fSede'].'",
+				debut = "'.$_POST['fDebut'].'" WHERE id = '.$_GET['id'];
+
+		$result = $connect -> query($sql);
+			
+			if(!$result){
+				echo '
+				<div class="alert alert-danger" role="alert">
+				  <strong>Error!</strong> Fallo al modificar la escuderia: <br><br>'.$connect -> error.'<br><br>'.$sql.'
+				</div>';
+			
+			} else {
+				echo '
+				<div class="alert alert-success" role="alert">
+				  <strong>Genial!</strong> Escuderia modificada correctamente.
+				</div>';
+			}
+		?>
+		<script type="text/javascript">
+			setTimeout(function(){
+				parent.location.assign('../super/index.php?sec=gest_escuderias');
+				parent.$.fancybox.close();
+			}, 3500);
+		</script>
+		<?php
+
 	} else {
 
 		switch ($_GET['sec']) {
@@ -360,6 +391,12 @@
 				break;
 			case 'nueva_temp':
 				include 'nueva_temp.php';
+				break;
+			case 'gest_escuderias':
+				include 'gestion_escuderias.php';
+				break;
+			case 'edita_scuderia':
+				include 'edita_escuderia.php';
 				break;
 		}
 	}

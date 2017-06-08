@@ -18,8 +18,6 @@
 		private $rol;
 
 
-	
-
     /**
      * Gets the value of id.
      *

@@ -1,4 +1,5 @@
 <?echo titular('Nuevo reglamento')?>
+ 
  <script type="text/javascript">
 	tinymce.init({
   	selector: 'textarea',
@@ -14,6 +15,7 @@
 	});
 /*styleselect, formatselect, fontselect, fontsizeselect,*/
 </script>
+
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12 col-sm-12 col-xs-12">

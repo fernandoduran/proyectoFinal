@@ -2,6 +2,7 @@
 	echo titular('Campeonatos de fórmula 1');
 
 	if($_SESSION['rol'] != 'super'){
+		
 		?>
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');

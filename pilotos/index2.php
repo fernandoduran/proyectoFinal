@@ -1,1 +1,4 @@
-<?php include '../include/estructura2.php'; ?>
+<?php 
+
+	include '../include/estructura2.php'; 
+?>

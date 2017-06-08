@@ -1,4 +1,5 @@
 <?php
+
 	if (isset($_POST['fRegistra'])) {
 		$query = $connect -> query('SELECT mail FROM log_user WHERE mail = "'.$_POST['fMail'].'"');
 

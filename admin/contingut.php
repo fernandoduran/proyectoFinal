@@ -1,4 +1,5 @@
 <?php
+
 	$connect -> query("SET NAMES 'utf8'");
 	
 	if (isset($_POST['fElimina'])) {

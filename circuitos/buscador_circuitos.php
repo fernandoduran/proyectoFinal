@@ -1,5 +1,5 @@
-
 <?php
+
 	if($_SESSION['rol'] != 'registrado'){
 		?>
 		<script type="text/javascript">

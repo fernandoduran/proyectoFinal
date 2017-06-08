@@ -1,5 +1,6 @@
 <?
 	echo titular('Añade Pilotos');
+	
 	if($_SESSION['rol'] != 'super'){
 		?>
 		<script type="text/javascript">
@@ -166,7 +167,7 @@
 							<h4><span class="label label-info">
 								Fecha Nacimiento
 							</span></h4>
-							<input id="fFecha" class="form-control" type="text" name="fFecha">
+							<input id="fFecha" class="form-control" type="text" name="fFecha" readonly>
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">

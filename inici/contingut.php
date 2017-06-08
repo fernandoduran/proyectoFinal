@@ -1,12 +1,13 @@
 <?php
 
-if(empty($_SESSION['rol'])){
+  if(empty($_SESSION['rol'])){
 
-	$_SESSION['rol'] = "";
-}
+  	$_SESSION['rol'] = "";
+  }
 
-if($_SESSION['rol'] == ""){
-	?>
+  if($_SESSION['rol'] == ""){
+	
+?>
 
 	<div class="container">
 		<div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">
@@ -19,7 +20,7 @@ if($_SESSION['rol'] == ""){
 			</div>
 		</div>
 	
-		<div class="col-lg-5 col-md-6 col-md-push-3 col-sm-12 col-xs-12">
+		<div class="col-lg-5 col-md-6 col-md-push-2 col-sm-12 col-xs-12">
 			<div class="login-container">
             	<div id="output"></div>
             	<div class="avatar"></div>

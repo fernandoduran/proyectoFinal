@@ -77,7 +77,6 @@
 				<?
 				break;
 		}
-			
 
 	} elseif ($_SESSION['rol'] == 'registrado') {
 

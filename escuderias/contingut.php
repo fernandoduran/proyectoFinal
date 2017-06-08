@@ -19,6 +19,7 @@
 			</div>';
 		}
 		?>
+		
 		<script type="text/javascript">
 			setTimeout(function(){
 				parent.location.assign('../pilotos/index.php?sec=lista_pilotos');

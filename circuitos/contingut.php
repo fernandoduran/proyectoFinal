@@ -10,8 +10,6 @@
 			case 'lista_circuitos':
 				include  'buscador_circuitos.php';
 				break;
-
-
 		}
 	}
 ?>

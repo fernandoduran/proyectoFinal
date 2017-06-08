@@ -1,6 +1,8 @@
 <?php 
 	echo titular('Carreras');
+	
 	if($_SESSION['rol'] != 'super'){
+		
 		?>
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
@@ -8,6 +10,7 @@
 		<?
 	}
 ?>
+
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
 <div class="container-fluid">

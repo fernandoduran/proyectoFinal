@@ -1,4 +1,5 @@
 <?
+
 	echo titular('Añade usuarios');
 	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == ''){
 		?>

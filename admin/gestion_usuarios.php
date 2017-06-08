@@ -1,4 +1,5 @@
 <? 
+
 	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == ''){
 		?>
 		<script type="text/javascript">

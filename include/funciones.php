@@ -18,6 +18,7 @@
 	function d2($fecha){
 	
 		$val=explode('-',$fecha);
+		
 		$ret = $val[2].'-'.$val[1].'-'.$val[0];
 		if ($ret=='//' or $ret=='--') $ret='';
 		return $ret;

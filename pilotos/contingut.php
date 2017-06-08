@@ -18,6 +18,7 @@
 			  <strong>Genial!</strong> Ya es uno de tus favoritos!.
 			</div>';
 		}
+		
 		?>
 		<script type="text/javascript">
 			setTimeout(function(){

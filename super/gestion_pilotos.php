@@ -1,5 +1,6 @@
 <?
 	echo titular('Gestion Pilotos');
+	
 	if($_SESSION['rol'] != 'super'){
 		?>
 		<script type="text/javascript">
@@ -7,6 +8,7 @@
 		</script>
 		<?
 	}
+	
 	$connect -> query("SET NAMES 'utf8'");
 
 	// Objeto de clase

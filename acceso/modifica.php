@@ -1,4 +1,5 @@
 <?echo titular('Canvio de contraseña')?>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#modifica').blur(function(e){

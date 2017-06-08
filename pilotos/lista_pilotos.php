@@ -8,6 +8,7 @@
 		<?
 	}
 ?>
+
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
 <div class="container-fluid">

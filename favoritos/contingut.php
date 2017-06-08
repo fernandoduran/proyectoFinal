@@ -20,14 +20,16 @@
 			  <strong>Vaya...</strong> Sentimos que este piloto ya no sea tu favorito.
 			</div>';
 		}
+
 		?>
 		<script type="text/javascript">
 			setTimeout(function(){
 				parent.location.assign('../favoritos/index.php?sec=pilotos');
 				parent.$.fancybox.close();
-			}, 1500);
+			}, 2500);
 		</script>
 		<?php 
+	
 	} else {
 
 		switch ($_GET['sec']) {

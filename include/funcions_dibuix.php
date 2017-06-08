@@ -1,5 +1,6 @@
 
 <?php
+
 	/**
 	 * @author Fernando Duran Ruiz
 	 * 
@@ -208,6 +209,9 @@
 		$menu_favoritos = "#Tus favoritos*Pilotos|../favoritos/index.php?sec=pilotos;";
 		$menu_favoritos .= "Escuderias|../favoritos/index.php?sec=escuderias;";
 
+		//Menu media
+		$menu_media = "#Galerias*Videos|../media/index.php?sec=videos;";
+		$menu_media .= "Imágenes|../media/index.php?sec=fotos;";
 
 		//Menu admin
 		$menu_admin = "#Admin*Gestión usuarios|../admin/index.php?sec=lista_usuarios;";
@@ -217,6 +221,7 @@
 		$menu_super .= "Gestión campeonatos|../super/index.php?sec=lista_campeonatos;";
 		$menu_super .= "Gestión carreras|../super/index.php?sec=lista_carreras;";
 		$menu_super .= "Gestión temporadas|../super/index.php?sec=asocia_piloto;";
+		$menu_super .= "Gestión escuderias|../super/index.php?sec=gest_escuderias;";
 		
 		/*
 		 * En función del rol del usuario, la variable
@@ -226,13 +231,13 @@
 		switch ($_SESSION['rol']) {
 			
 			case 'registrado':
-				$menu_usuario = $menu_campeonatos.$menu_circuitos.$menu_pilotos.$menu_escuderias.$menu_favoritos;
+				$menu_usuario = $menu_campeonatos.$menu_circuitos.$menu_pilotos.$menu_escuderias.$menu_favoritos.$menu_media;
 				break;
 			case 'admin':
 				$menu_usuario = $menu_admin;
 				break;
 			case 'super':
-				$menu_usuario = $menu_admin.$menu_super;
+				$menu_usuario = $menu_admin.$menu_super.$menu_media;
 				break;
 		}
 
@@ -1492,5 +1497,61 @@
 		</div>';
 
 		return $result;
+	}
+
+	/*
+	 * Función que lista las escuderías en una tabla para
+	 * que el super usuario pueda modificar sus datos.
+	*/
+	function gestionEscuderias($connect)
+	{
+
+		//Mapa de caractertes
+		$connect -> query("SET NAMES 'utf8'");
+
+		//Objetos de clase
+		$scud = new Escuderia();
+
+		//Variable de retorno
+		$result = "
+			<div class='table-responsive'>
+				<table class='table table-bordered'>
+					<thead>
+						<tr>
+							
+							<th>Nombre</th>
+							<th>Sede</th>
+							<th>Año debut</th>
+							<th>Edita</th> 
+						</tr>
+					</thead>
+					<tbody>";
+
+		$sql = $connect -> query('SELECT * FROM scuderia');
+
+		while ($row = $sql -> fetch_array()) {
+			
+			$scud -> _setId($row['id']);
+			$scud -> _setNomEscuderia($row['nomEscuderia']);
+			$scud -> _setSeu($row['seu']);
+			$scud -> _setDebut($row['debut']);
+
+			$result .= "
+				<tr>
+					<td>".$scud -> getNomEscuderia()."</td>
+					<td>".$scud -> getSeu()."</td>
+					<td>".$scud -> getDebut()."</td>
+					<td><a class='various' data-fancybox-type='iframe' href='../super/index2.php?sec=edita_scuderia&id=".$scud -> getId()."'><span class='glyphicon glyphicon-pencil'></span></a></td>
+				</tr>";
+		}
+
+		$result .= "
+			</tbody>
+		</table>
+	</div>";
+
+	return $result;
+
+		
 	}
 ?>

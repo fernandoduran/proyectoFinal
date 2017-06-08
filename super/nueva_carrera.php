@@ -2,6 +2,7 @@
 	echo titular('Añade nueva carrera');
 
 	if($_SESSION['rol'] != 'super'){
+		
 		?>
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');

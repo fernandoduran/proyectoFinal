@@ -1,6 +1,5 @@
 <?php
 
-
 $user = new Usuario();
 
 if(isset($_POST['fLogin'])){
