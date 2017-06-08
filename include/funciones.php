@@ -4,6 +4,7 @@
 	 * Devuelve la fecha en formato dd/mm/aaaa
 	 */
 	function d ($fecha){
+		
 		$val = explode('/',$fecha);
 		
 		$ret = $val[2].'/'.$val[1].'/'.$val[0];

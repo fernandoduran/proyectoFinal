@@ -36,6 +36,7 @@
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js" type="text/javascript"></script>
 	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
+	<script src='../js/tinymce/tinymce.min.js'></script>
 
 	<!-- Fancybox -->
 	<link rel="stylesheet" href="../js/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
@@ -55,22 +56,18 @@
 <?php
 	include_once "../include/connect.php";
 	include_once '../clases/Carrera.php';
-	include_once '../clases/Carrito.php';
-	include_once '../clases/CarritoProducto.php';
 	include_once '../clases/Circuit.php';
 	include_once '../clases/Classificacio.php';
 	include_once '../clases/Escuderia.php';
 	include_once '../clases/EscuderiaUsuario.php';
-	include_once '../clases/Foro.php';
-	include_once '../clases/Mundial.php';
 	include_once '../clases/Piloto.php';
 	include_once '../clases/PilotoUsuario.php';
-	include_once '../clases/Producto.php';
 	include_once '../clases/Temporada.php';
 	include_once '../clases/TemporadaPilotEscuderia.php';
 	include_once "../clases/Usuario.php";
 	include_once "../include/funcions_dibuix.php";
-	include_once "../include/funciones.php";
+	include_once '../include/funciones.php';
+	
 	
 ?>
 	<?php include_once ("contingut.php")  ?>
@@ -90,7 +87,10 @@
 			helpers: {
 				overlay: {
 					locked: false
-				}
+				},
+			overlay : {
+	          	closeClick : false  // Evita que se cierre al hacer click fuera del modal
+	        	}
 			}
 		});
 		$(".various_petit").fancybox({
@@ -102,7 +102,10 @@
 			autoSize	: true,
 			closeClick	: false,
 			openEffect	: 'none',
-			closeEffect	: 'none'
+			closeEffect	: 'none',
+			overlay : {
+	          	closeClick : false  // Evita que se cierre al hacer click fuera del modal
+	        	}
 		});
 	});
 	</script>

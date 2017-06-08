@@ -1,5 +1,9 @@
 <?php
 	session_start();
+	if(!$_SESSION){
+		$_SESSION['rol'] = "";
+	}
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,6 +38,7 @@
 	<!--jQuery Validation-->
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js" type="text/javascript"></script>
 
+	<script src='../js/tinymce/tinymce.min.js'></script>
 	
 	<!-- Fancybox -->
 	<link rel="stylesheet" href="../js/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
@@ -42,23 +47,19 @@
 	<!-- DataTables -->
 	<link rel="stylesheet" type="text/css" href="../DataTables/datatables.min.css"/>
 	<script type="text/javascript" src="../DataTables/datatables.min.js"></script>
+	
 
 </head>
 <!-- Llibreries -->
 <?php
 	include_once "../include/connect.php";
 	include_once '../clases/Carrera.php';
-	include_once '../clases/Carrito.php';
-	include_once '../clases/CarritoProducto.php';
 	include_once '../clases/Circuit.php';
 	include_once '../clases/Classificacio.php';
 	include_once '../clases/Escuderia.php';
 	include_once '../clases/EscuderiaUsuario.php';
-	include_once '../clases/Foro.php';
-	include_once '../clases/Mundial.php';
 	include_once '../clases/Piloto.php';
 	include_once '../clases/PilotoUsuario.php';
-	include_once '../clases/Producto.php';
 	include_once '../clases/Temporada.php';
 	include_once '../clases/TemporadaPilotEscuderia.php';
 	include_once "../clases/Usuario.php";
@@ -73,7 +74,7 @@
 	
 	if(!$_SESSION['rol']){
 		?>
-		<nav class="navbar navbar-inverse navbar-fixed-top">
+		<nav class="navbar navbar-inverse navbar-top">
   			<div class="container-fluid">
     			<div class="navbar-header">
       				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -93,17 +94,11 @@
             					<li><a href="../campeonatos/index.php?sec=2017">2017</a></li>
           					</ul>
         				</li>
-        				<li class="dropdown">
-          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Circuitos <span class="caret"></span></a>
-          					<ul class="dropdown-menu">
-            					<li><a href="../circuitos/index.php?sec=lista_circuitos&any=<?=date('Y')?>">2017</a></li>
-          					</ul>
-        				</li>
       				</ul>
 
       <ul class="nav navbar-nav navbar-right">
         <li><a class="various" data-fancybox-type="iframe" href="../acceso/index2.php?sec=registro"><span class="glyphicon glyphicon-user"></span> Registrate</a></li>
-        <li><a href="../acceso/index.php?sec=contacto"><span class="glyphicon glyphicon-envelope"></span> Contacto</a></li>
+        
 
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -143,7 +138,10 @@
 			helpers: {
 				overlay: {
 					locked: false
-				}
+				},
+			overlay : {
+	          	closeClick : false  // Evita que se cierre al hacer click fuera del modal
+	        	}
 			}
 		});
 
@@ -156,7 +154,10 @@
 			autoSize	: true,
 			closeClick	: false,
 			openEffect	: 'none',
-			closeEffect	: 'none'
+			closeEffect	: 'none',
+			overlay : {
+	          	closeClick : false  // Evita que se cierre al hacer click fuera del modal
+	        	}
 		});
 	});
 	</script>
@@ -181,12 +182,7 @@
 			</div>
 
 			<div class="group footer-lower">
-				<div class="toolbar">
-					<ul>
-						<li><a href="/en/toolbar/contacts.html">Contacto</a></li>
-						<li><a href="/en/toolbar/privacy-policy.html">Politicas de privacidad</a></li>
-					</ul>
-				</div>
+
 				<p class="copyright">©2017 Formula One History</p>
 			</div>
 		</div>

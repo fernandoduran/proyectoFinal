@@ -8,6 +8,16 @@
 	*/
 
 	/*
+	 * Al no hacerse tratamiento de imagenes en los
+	 * formularios, se ha creado un array con las siglas
+	 * de los pilotos existentes para que, si se añaden 
+	 * datos nuevos,
+	 * no aparezca el icono de aviso de que no se ha
+	 * encontrado el archivo.
+	*/
+	$arraySiglas = array('VET','HAM','BOT','RAI','VES','RIC','PER','MAS','SAI','OCO','HUL','GRO','MAG','KVY','WEH','STR','GIO','PAL','VAN','ALO','ERI','ROS','NAS','GUT','HAR','RSI','STE','MER','MAL','BUT','VER','BIA','SUT','CHI','KOB','LOT','WEB','DIR','PIC','KOV','VDG','MSC','SEN','PET','GLO','DAM','DLR','KAR','HEI','ALG','BUE','BAR','TRU','LIU','CHD','KUB','DIG','YAM','KLI','BAD','FIS','PIQ','NAK','BOU','COU','SAT','DAV','WUR','SPE','ALB','WIN');
+
+	/*
 	 * Función para pintar el titular de cada página
 	*/
 
@@ -42,22 +52,23 @@
 				<div class="menu_top_nom" >
 					<a href="../inici/"><img alt="Logo página" src="../img/logoF1_2.jpg" width="55"></a>
 
-					<a href="" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
+					<a href="https://www.facebook.com/Formula1" target="_blank" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
 
-					<a href="" class="btn btn-social-icon btn-twitter"><span class="fa fa-twitter"></span></a>
+					<a href="https://twitter.com/f1" target="_blank" class="btn btn-social-icon btn-twitter"><span class="fa fa-twitter"></span></a>
+					
+					<a href="https://www.instagram.com/f1/" target="_blank" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>
 
 					<a href="https://vimeo.com/user66994675" target="_blank" class="btn btn-social-icon btn-vimeo"><span class="fa fa-vimeo"></span></a>
 				</div>
 
 				<div class="menu_top_botons"><br>';
-
-									
+		
 						if($_SESSION['nomUsuari'] <> ""){
-							$result.='<span class="glyphicon glyphicon-user"></span> Bienvenido '.$_SESSION['nomUsuari'].' | 
-        <a href="../inici/surt.php" style="color:#ff693f"><span class="glyphicon glyphicon-log-out"></span> Salir</a>';
+							$result.='
+							<a class="various" data-fancybox-type="iframe" href="../acceso/index2.php?sec=modifica&id='.$_SESSION['id'].'"><span class="glyphicon glyphicon-user"></span> Bienvenido '.$_SESSION['nomUsuari'].' </a>| 
+        					<a href="../inici/surt.php" style="color:#ff693f"><span class="glyphicon glyphicon-log-out"></span> Salir</a>';
 						}
 					
-
 		$result.='
 				</div>
 			</div>';
@@ -190,35 +201,23 @@
 		$menu_pilotos .= "Por nacionalidad|../pilotos/index.php?sec=nacionalidad;";
 
 		//Menu escuderías
-		$menu_escuderias = "#Escuderías*Todas|../escuderias/index.php?sec=lista_escuderias;";
-		$menu_escuderias .= "Por sede|../escuderias/index.php?sec=nombre;";
+		$menu_escuderias = "#Escuderías*Buscardor|../escuderias/index.php?sec=lista_escuderias;";
+		
 
 		//Menu favoritos
 		$menu_favoritos = "#Tus favoritos*Pilotos|../favoritos/index.php?sec=pilotos;";
 		$menu_favoritos .= "Escuderias|../favoritos/index.php?sec=escuderias;";
 
-		//Menu tienda
-		$menu_tienda = "#Tienda*Productos|../tienda/index.php?sec=lista_productos;";
-		$menu_tienda .= "Carrito|../tienda/..index.php?sec=carrito;";
-		$menu_tienda .= "Mis compras|../tienda/index.php?sec=historico;";
-		//Menu multimedia
-		$menu_media = "#Multimedia*Imagenes|../media/index.php?sec=imagenes;";
-		$menu_media .= "Videos|../media/index.php?sec=videos;";
 
 		//Menu admin
 		$menu_admin = "#Admin*Gestión usuarios|../admin/index.php?sec=lista_usuarios;";
 
 		//Menu super
 		$menu_super = "#Super*Gestión pilotos|../super/index.php?sec=lista_pilotos;";
-		$menu_super .= "Gestión escuderías|../super/index.php?sec=lista_escuderias;";
 		$menu_super .= "Gestión campeonatos|../super/index.php?sec=lista_campeonatos;";
-		$menu_super .= "Gestión circuitos|../super/index.php?sec=lista_circuitos;";
 		$menu_super .= "Gestión carreras|../super/index.php?sec=lista_carreras;";
 		$menu_super .= "Gestión temporadas|../super/index.php?sec=asocia_piloto;";
-		$menu_super .= "Gestión tienda|../super/index.php?sec=lista_productos;";
 		
-
-
 		/*
 		 * En función del rol del usuario, la variable
 		 * $menu_usuario que se le pasa a la funcion
@@ -227,13 +226,13 @@
 		switch ($_SESSION['rol']) {
 			
 			case 'registrado':
-				$menu_usuario = $menu_campeonatos.$menu_circuitos.$menu_pilotos.$menu_escuderias.$menu_favoritos.$menu_tienda.$menu_media;
+				$menu_usuario = $menu_campeonatos.$menu_circuitos.$menu_pilotos.$menu_escuderias.$menu_favoritos;
 				break;
 			case 'admin':
 				$menu_usuario = $menu_admin;
 				break;
 			case 'super':
-				$menu_usuario = $menu_admin.$menu_super.$menu_media;
+				$menu_usuario = $menu_admin.$menu_super;
 				break;
 		}
 
@@ -250,6 +249,7 @@
 	*/
 	function listaPilotos($sql)
 	{	
+
 		// Objeto de clase
 		$piloto = new Piloto();
 		
@@ -329,7 +329,10 @@
 				autoSize	: false,
 				closeClick	: false,
 				openEffect	: 'none',
-				closeEffect	: 'none'
+				closeEffect	: 'none',
+				overlay : {
+	          	closeClick : false  // Evita que se cierre al hacer click fuera del modal
+	        	}
 			});
 		});
 		</script>
@@ -860,8 +863,10 @@
 	 * del id del usuario logueado.
 	*/
 
-	function fichaPilotoFav($connect, $idUser = '')
+	function fichaPilotoFav($connect, $idUser)
 	{	
+		//Acceso al array de pilotos
+		global $arraySiglas;
 		/*
 		 * Establecemos el mapa de caracteres para que los
 		 * acentos se muestre correctamente
@@ -883,6 +888,7 @@
 		 * marcados como favoritos.
 		*/
 		
+
 
 		$sql = $connect -> query('SELECT pilot.* FROM pilot, pilot_usuari WHERE pilot.id = pilot_usuari.pilot_id AND pilot_usuari.log_user_id = '.$idUser);
 		
@@ -906,11 +912,16 @@
 				$piloto -> _setVictories($row['victories']);
 				$piloto -> _setTitols($row['titols']);
 
+
 				$result .= '
 				<div class="panel panel-success">
 					<div class="panel-body">
-						<h3>'.$piloto -> getNom().'</h3>
-						<img src="../img/pilotos/'.$piloto -> getSigles().'.jpg" class="img-responsive img-rounded" style="margin-bottom:3%;">';
+						<h3>'.$piloto -> getNom().'</h3>';
+				
+				if(in_array($piloto -> getSigles(), $arraySiglas)){
+
+					$result .=	'<img src="../img/pilotos/'.$piloto -> getSigles().'.jpg" class="img-responsive img-rounded" style="margin-bottom:3%;">';
+				}	
 
 				$result .='
 				<div class="table-responsive">
@@ -986,6 +997,8 @@
 	*/
 	function fichaPiloto($connect, $idPiloto)
 	{	
+		//Acceso al array de pilotos
+		global $arraySiglas;
 		/*
 		 * Establecemos el mapa de caracteres para que los
 		 * acentos se muestre correctamente
@@ -1001,6 +1014,7 @@
 		$result = "";
 
 		$sql = $connect -> query('SELECT pilot.*, temporada_pilot_escuderia.xasis, temporada_pilot_escuderia.motor, temporada_pilot_escuderia.numero_pilot, temporada_pilot_escuderia.jefeEquip, temporada_pilot_escuderia.director, scuderia.nomEscuderia, scuderia.seu FROM pilot, temporada_pilot_escuderia, scuderia WHERE pilot.id = temporada_pilot_escuderia.pilot_id AND scuderia.id = temporada_pilot_escuderia.scuderia_id  AND temporada_pilot_escuderia.temporada_any = "'.date('Y').'" AND pilot.id = '.$idPiloto);
+
 
 		if($sql -> num_rows > 0){
 
@@ -1033,8 +1047,9 @@
 			$tpe -> _setJefeEquip($row['jefeEquip']);
 			$tpe -> _setDirector($row['director']);
 
+		if(in_array($piloto -> getSigles(), $arraySiglas)){
 			$result .= '
-			<div class="container">
+			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-12 col-sm-12 col-xs-12">
 						<a class="btn btn-primary" href="javascript:history.back()">Volver</a>
@@ -1088,9 +1103,10 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<br><br><br><br>
-			<div class="container">
+			</div>';
+		}
+		$result .=	'<br><br><br><br>
+			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-6 col-sm-6 col-xs-6">
 						<ul style="list-style: none;">
@@ -1156,8 +1172,9 @@
 			$piloto -> _setVictories($row2['victories']);
 			$piloto -> _setTitols($row2['titols']);
 
+			if(in_array($piloto -> getSigles(), $arraySiglas)){
 			$result .= '
-			<div class="container">
+			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-12 col-sm-12 col-xs-12">
 						<a class="btn btn-primary" href="javascript:history.back()">Volver</a>
@@ -1211,8 +1228,9 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<br><br><br><br>
+			</div>';
+		}
+		$result .=	'<br><br><br><br>
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-6 col-sm-6 col-xs-6">
@@ -1353,12 +1371,126 @@
 
 			$result .=	'
 						</tbody>
-					</table>
+					</table>';
+
+			/*
+			 * Si el valor de la sesión del usuario
+			 * logueado es registrado aparecerá un campo
+			 * para marcar como favoritas las escuderias.
+			*/
+			if($_SESSION['rol'] == 'registrado'){
+				$result .= '<td> 
+				<form action="" method="POST">
+					<button type="submit" name="fFav" class="btn btn-success"><span class="glyphicon glyphicon-star"></span></button>
+			<input type="hidden" value="'.$scuderia -> getId().'" name="fIdEscuderia"></form></td>';
+			}	
+
+			$result .=	'
 				</div>
 			</div>';
 
 
 		}
+		return $result;
+	}
+
+	/*
+	 * Función para listar las escuderias favoritas del
+	 * usuario logueado.
+	*/
+	function escuderiasFav($connect, $idUser)
+	{
+		
+		//Mapa de caracteres
+		$connect -> query("SET NAMES 'utf8'");
+
+		//Variable de retorno para el resultado
+		$result = "";
+
+		$sql = $connect -> query('SELECT scuderia.* FROM scuderia, escuderia_usuari WHERE scuderia.id = escuderia_usuari.scuderia_id');
+
+		while ($row = $sql -> fetch_array()) {
+				
+			//Objetos de clase
+			$scud = new Escuderia();
+
+			//Setters tabla scuderia
+			$scud -> _setId($row['id']);
+			$scud -> _setNomEscuderia($row['nomEscuderia']);
+			$scud -> _setSeu($row['seu']);
+			$scud -> _setDebut($row['debut']);
+
+			
+			$result .= 
+			'<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12 col-sm-12 col-xs-12">
+						<div class="col-lg-4 col-sm-4 col-xs-4">
+							<ul style="list-style:none">
+								<li><span style="font-size:20px;"><strong>Nombre: </strong>Nombre '.$scud -> getNomEscuderia().'</span></li>
+							</ul>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-xs-4">
+							<ul style="list-style:none">
+								<li><span style="font-size:20px;"><strong>Año debut: </strong>Año debut '.$scud -> getDebut().'</span></li>
+							</ul>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-xs-4">
+							<ul style="list-style:none">
+								<li><span style="font-size:20px;"><strong>Sede: </strong>Sede '.$scud -> getSeu().'</span></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>';
+		}
+
+		return $result;
+	}
+
+	/*
+	 * Función para gestionar las diferentes temporadas
+	*/
+	function listaTemporadas($connect, $any)
+	{
+		//Objetos de clase
+		$temp = new Temporada();
+
+		//Mapa de caracteres
+		$connect -> query("SET NAMES 'utf8'");
+
+		//Variable de retorno
+		$result = "
+		<div class='table-responsive'>
+			<table class='table table-bordered'>
+				<thead>
+					<tr>
+						<th>Año</th>
+						<th>Reglamento</th>
+					</tr>
+				</thead>
+				<tbody>";
+
+		$sql = $connect -> query('SELECT * FROM temporada WHERE any = '.$any.' ORDER BY any DESC');
+
+		while ($row = $sql -> fetch_array()) {
+			
+			//Setters tabla temporada
+			$temp -> _setAny($row['any']);
+			$temp -> _setReglament($row['reglament']);
+
+			$result .= '
+				<tr>
+					<td>'.$temp -> getAny().'</td>
+					<td>'.$temp -> getReglament().'</td>
+				</tr>';
+
+		}
+		$result .= '
+				</tbody>
+			</table>
+		</div>';
+
 		return $result;
 	}
 ?>
