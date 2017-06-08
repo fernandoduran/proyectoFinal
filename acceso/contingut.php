@@ -12,11 +12,12 @@
 					setTimeout(function(){
 						parent.location.assign('../inici/index.php');
 						parent.$.fancybox.close();
-					}, 1500);
+					}, 3500);
 				</script>
 
 				<?php
 		} else {
+			$connect -> query("SET NAMES 'utf8'");
 			$pass = md5($_POST['fPass']);
 			$sql = 
 				'INSERT INTO log_user (
@@ -34,6 +35,9 @@
 					"'.d($_POST['fData']).'",
 					"'.$_POST['fRol'].'"
 					)';
+			
+			
+
 			$result = $connect -> query($sql);
 
 			if(!$result){
@@ -51,7 +55,7 @@
 					setTimeout(function(){
 						parent.location.assign('../inici/index.php');
 						parent.$.fancybox.close();
-					}, 1500);
+					}, 3500);
 				</script>
 				<?php
 			}
@@ -63,9 +67,8 @@
 			case 'registro':
 				include 'registro.php';
 				break;
-			
-			default:
-				# code...
+			case 'modifica':
+				include 'modifica.php';
 				break;
 		}
 	}

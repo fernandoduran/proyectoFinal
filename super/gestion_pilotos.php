@@ -195,7 +195,7 @@
 							<h4><span class="label label-info">
 								Siglas
 							</span></h4>
-							<input class="form-control" type="text" name="fSigles" value="<?=$piloto -> getSigles()?>">
+							<input class="form-control" type="text" name="fSigles" value="<?=$piloto -> getSigles()?>" readonly>
 						</div>
 					</div>
 					<div class="col-lg-3 col-sm-3 col-xs-12">

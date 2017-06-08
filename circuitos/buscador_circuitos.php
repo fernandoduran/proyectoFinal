@@ -1,6 +1,6 @@
 
 <?php
-	if($_SESSION['rol'] == 'admin'){
+	if($_SESSION['rol'] != 'registrado'){
 		?>
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');

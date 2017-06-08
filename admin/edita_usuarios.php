@@ -8,7 +8,7 @@
 	}
 	echo titular(''.ucwords($_GET['sec']).' usuario');
 	$user = new Usuario();
-
+	$connect -> query("SET NAMES 'utf8'");
 	$sql = $connect -> query('SELECT * FROM log_user WHERE id ='.$_GET['id']);
 
 	while($row = $sql -> fetch_array()){
@@ -43,16 +43,10 @@
 					email: true
 				},
 				'fPass':{
-					required: true,
+					required: false,
 					pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/,
 					minlength: 8,
 					maxlength: 16
-				},
-				'fPass2': {
-					minlength: 8,
-					pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/,
-					maxlength: 16,
-					equalTo: '#fPass'
 				},
 				'fData':{
 					required: true
@@ -72,16 +66,9 @@
 					email: '<span style="color: red;">El mail no és válido</span>'
 				},
 				'fPass':{
-					required: '<span style="color: red;">Introduce una contraseña</span>',
 					pattern: '<span style="color: red;">La contraseña de contener al menos una mayúscula, una minúscula y un número</span>',
 					minlength: '<span style="color: red;">Introduce un mínimo de 8 caracteres</span>',
 					maxlength: '<span style="color: red;">Introduce un máximo de 16 caracteres</span>'
-				},
-				'fPass2': {
-					pattern: '<span style="color: red;">La contraseña de contener al menos una mayúscula, una minúscula y un número</span>',
-					minlength: '<span style="color: red;">Introduce un mínimo de 8 caracteres</span>',
-					maxlength: '<span style="color: red;">Introduce un máximo de 16 caracteres</span>',
-					equalTo: '<span style="color: red;">Las contraseñars no coinciden</span>'
 				},
 				'fData':{
 					required: '<span style="color: red;">Introduce tu fecha de nacimiento</span>'
@@ -108,7 +95,7 @@
 			<input class="form-control" type="password" name="fPass">
 
 			<h4><span class="label label-info">Fecha de nacimiento</span></h4>
-			<input id="fData" class="form-control" type="text" name="fData" value="<?=d3($user -> getDataNaixement())?>">
+			<input id="fData" class="form-control" type="text" name="fData" value="<?=d3($user -> getDataNaixement())?>" readonly>
 			
 			<h4><span class="label label-info">Rol</span></h4>
 			<select class="form-control" name="fRol">

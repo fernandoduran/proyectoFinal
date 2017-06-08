@@ -1,4 +1,6 @@
 <?php
+	$connect -> query("SET NAMES 'utf8'");
+	
 	if (isset($_POST['fElimina'])) {
 		
 		$sql = 'DELETE FROM log_user WHERE id ='.$_GET['id'];
@@ -21,13 +23,25 @@
 			setTimeout(function(){
 				parent.location.assign('../admin/index.php?sec=lista_usuarios');
 				parent.$.fancybox.close();
-			}, 1500);
+			}, 3500);
 		</script>
 		<?php
 	
 	} elseif (isset($_POST['fModifica'])) {
 		
-		$sql = 'UPDATE log_user SET 
+		if($_POST['fPass'] == ""){
+
+			$sql = 'UPDATE log_user SET 
+					nom = "'.$_POST['fNombre'].'",
+					cognom = "'.$_POST['fCognom'].'",
+					mail = "'.$_POST['fMail'].'",
+					data_naixement = "'.d($_POST['fData']).'",
+					rol = "'.$_POST['fRol'].'"
+				WHERE id = '.$_GET['id'];
+
+		} else {
+
+			$sql = 'UPDATE log_user SET 
 					nom = "'.$_POST['fNombre'].'",
 					cognom = "'.$_POST['fCognom'].'",
 					mail = "'.$_POST['fMail'].'",
@@ -35,6 +49,8 @@
 					data_naixement = "'.d($_POST['fData']).'",
 					rol = "'.$_POST['fRol'].'"
 				WHERE id = '.$_GET['id'];
+		}
+		
 
 		$result = $connect -> query($sql);
 			if(!$result){
@@ -54,7 +70,7 @@
 			setTimeout(function(){
 				parent.location.assign('../admin/index.php?sec=lista_usuarios');
 				parent.$.fancybox.close();
-			}, 1500);
+			}, 3500);
 		</script>
 		<?php		
 
@@ -73,7 +89,7 @@
 					setTimeout(function(){
 						parent.location.assign('../inici/index.php');
 						parent.$.fancybox.close();
-					}, 1500);
+					}, 3500);
 				</script>
 
 				<?php
@@ -95,6 +111,7 @@
 					"'.d($_POST['fData']).'",
 					"'.$_POST['fRol'].'"
 					)';
+			
 			$result = $connect -> query($sql);
 
 			if(!$result){
@@ -113,7 +130,7 @@
 			setTimeout(function(){
 				parent.location.assign('../admin/index.php?sec=lista_usuarios');
 				parent.$.fancybox.close();
-			}, 1500);
+			}, 3500);
 		</script>
 		<?php
 		}

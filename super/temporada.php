@@ -4,6 +4,8 @@
 		<div class="col-lg-12 col-sm-12 col-xs-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
+					
+					<a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=nueva_temp"><span class="glyphicon glyphicon-plus">Nuevo reglamento</span></a>
 					<form action="" method="POST">
 						<div class="form-group">
 							<h4><span for="fAny" class="label label-primary">Año</span></h4>

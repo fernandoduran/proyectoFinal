@@ -100,7 +100,7 @@
 				</div>
 				<div class="form-group">
 					<label class="label label-info" for="fData">Fecha nacimiento: </label><br>
-						<input id="fData" class="form-control" type="text" name="fData" placeholder="DD/MM/AAAA">
+						<input id="fData" class="form-control" type="text" name="fData" placeholder="DD/MM/AAAA" readonly>
 
 					<!-- DATEPICKER -->
 						<script>

@@ -60,11 +60,6 @@
 			}
 		}
 
-	} elseif (isset($_POST['fModificaCarrera'])) {
-		# code...
-	} elseif (isset($_POST['fEliminaCarrera'])) {
-		# code...
-
 	/*
 	 *********************************************************
 	 **************** Gestión de clasificación ***************
@@ -133,7 +128,9 @@
 
 		$query = $connect -> query('SELECT nom, sigles FROM pilot WHERE nom = "'.$_POST['fNombre'].'" AND sigles = "'.$_POST['fSigles'].'" ');
 
-		if($query -> num_rows > 0){
+		$query2 = $connect -> query('SELECT nom, sigles FROM pilot WHERE nom = "'.$_POST['fNombre'].'" AND sigles = "'.$_POST['fSigles'].'" ');
+
+		if($query -> num_rows > 0 || $query2 -> num_rows > 0){
 
 			echo '
 			<div class="alert alert-warning" role="alert">
@@ -280,13 +277,60 @@
 			}, 1500);
 		</script>
 		<?php
+	
+
+	} elseif (isset($_POST['fInsertaReglamento'])) {
+		
+		$query = $connect -> query('SELECT any FROM temporada WHERE any = "'.$_POST['fAny'].'"');
+
+		if($query -> num_rows > 0){
+			echo '
+			<div class="alert alert-warning" role="alert">
+				 <strong>Oops!</strong> Ya existe esta temporada.
+				</div>';
+			?>
+			<script type="text/javascript">
+				setTimeout(function(){
+					parent.location.assign('../super/index.php?sec=asocia_piloto');
+					parent.$.fancybox.close();
+				}, 1500);
+			</script>
+			<?php
+
+		} else {
+
+			$sql = 'INSERT INTO temporada VALUES("'.$_POST['fAny'].'", "'.$_POST['fReglamento'].'")';
+
+			$result = $connect -> query($sql);
+			
+			if(!$result){
+				echo '
+				<div class="alert alert-danger" role="alert">
+				  <strong>Error!</strong> Fallo insertar reglamento: <br><br>'.$connect -> error.'<br><br>'.$sql.'
+				</div>';
+			
+			} else {
+				echo '
+				<div class="alert alert-success" role="alert">
+				  <strong>Genial!</strong> Reglamento insertado correctamente.
+				</div>';
+			}
+		?>
+		<script type="text/javascript">
+			setTimeout(function(){
+				parent.location.assign('../super/index.php?sec=asocia_piloto');
+				parent.$.fancybox.close();
+			}, 1500);
+		</script>
+		<?php
+
+		}
+
 	} else {
 
 		switch ($_GET['sec']) {
 
-			case 'lista_circuitos':
-				include 'lista_circuitos.php';
-				break;
+
 			case 'lista_campeonatos':
 				include 'lista_campeonatos.php';
 				break;
@@ -313,6 +357,9 @@
 				break;
 			case 'asocia_piloto':
 				include 'temporada.php';
+				break;
+			case 'nueva_temp':
+				include 'nueva_temp.php';
 				break;
 		}
 	}
