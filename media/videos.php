@@ -1,4 +1,4 @@
-<?if($_SESSION['rol'] != 'registrado' || $_SESSION['rol'] != 'super'){?>
+<?if($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == ''){?>
 <script type="text/javascript">
 	parent.location.assign('../inicio.php');
 </script>
