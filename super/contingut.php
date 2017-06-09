@@ -60,7 +60,32 @@
 				<?php
 			}
 		}
+	} elseif (isset($_POST['fModificaCarrera'])) {
+		
+		$sql = 'UPDATE carrera SET nom_carrera = "'.$_POST['fNombre'].'", data_carrera = "'.d($_POST['fFecha']).'" WHERE id = '.$_GET['id'];
 
+		$result = $connect -> query($sql);
+		
+		if(!$result){
+			echo '
+			<div class="alert alert-danger" role="alert">
+			  <strong>Error!</strong> Fallo al modificar la carrera: <br><br>'.$connect -> error.'<br><br>'.$sql.'
+			</div>';
+		} else {
+			echo '
+			<div class="alert alert-success" role="alert">
+			  <strong>Genial!</strong> Carrera modificada correctamente.
+			</div>';
+			?>
+			<script type="text/javascript">
+				setTimeout(function(){
+					parent.location.assign('../super/index.php?sec=lista_carreras');
+					parent.$.fancybox.close();
+				}, 1500);
+			</script>
+			<?php
+		}
+		
 	/*
 	 *********************************************************
 	 **************** Gestión de clasificación ***************
@@ -278,7 +303,11 @@
 			}, 1500);
 		</script>
 		<?php
-	
+	/*
+	 *********************************************************
+	 ****************** Gestión de temporada *****************
+	 *********************************************************
+	*/
 
 	} elseif (isset($_POST['fInsertaReglamento'])) {
 		
@@ -326,6 +355,11 @@
 		<?php
 
 		}
+	/*
+	 *********************************************************
+	 ***************** Gestión de escuderias *****************
+	 *********************************************************
+	*/
 
 	} elseif (isset($_POST['fModificaEscuderia'])) {
 		
@@ -397,6 +431,9 @@
 				break;
 			case 'edita_scuderia':
 				include 'edita_escuderia.php';
+				break;
+			case 'edita_carrera':
+				include 'edita_carrera.php';
 				break;
 		}
 	}

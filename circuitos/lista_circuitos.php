@@ -5,7 +5,7 @@
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 ?>
 <div class="container-fluid">
@@ -17,7 +17,7 @@
 					<br><small>Actuales y míticos</small>
 				</h2>
 			</div>
-			<? echo listaCircuitos($connect)?>
+			<?php echo listaCircuitos($connect)?>
 		</div>
 	</div>
 </div>

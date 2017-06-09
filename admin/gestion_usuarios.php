@@ -1,11 +1,11 @@
-<? 
+<?php 
 
 	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == ''){
 		?>
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 
 	echo titular('Gestión de usuarios');
@@ -28,7 +28,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?
+					<?php
 
 						echo listaUsuarios($connect, $_SESSION['rol'], $_SESSION['id']);
 					?>

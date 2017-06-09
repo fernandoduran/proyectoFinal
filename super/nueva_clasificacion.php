@@ -1,4 +1,4 @@
-<? 
+<?php 
 	echo titular('Nueva clasificación de carrera');
 
 	if($_SESSION['rol'] != 'super'){

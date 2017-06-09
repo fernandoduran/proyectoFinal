@@ -5,7 +5,7 @@
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 	
 	function datosCircuito($connect){

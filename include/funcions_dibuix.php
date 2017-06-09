@@ -9,6 +9,12 @@
 	*/
 
 	/*
+	 * Al usar la función date, en escritorios que estén en
+	 * otro idioma, puede no funcionar, por lo que se ha
+	 * especificado la zona horaria.
+	*/
+	date_default_timezone_set('Europe/Madrid');
+	/*
 	 * Al no hacerse tratamiento de imagenes en los
 	 * formularios, se ha creado un array con las siglas
 	 * de los pilotos existentes para que, si se añaden 
@@ -341,7 +347,7 @@
 			});
 		});
 		</script>
-		<?
+		<?php
 		return $result;
 	}
 
@@ -537,7 +543,7 @@
 			$query = 'SELECT carrera.id, carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id AND carrera.data_carrera LIKE "'.$any.'%"';
 		
 		} elseif ($idCarrera != "" && $any != "") {
-			$query = 'SELECT carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id AND carrera.id ='.$idCarrera.' AND carrera.data_carrera LIKE "'.$any.'%"';
+			$query = 'SELECT carrera.id, carrera.nom_carrera, carrera.data_carrera, circuit.nom, circuit.pais FROM carrera, circuit WHERE circuit.id = carrera.circuit_id AND carrera.id ='.$idCarrera.' AND carrera.data_carrera LIKE "'.$any.'%"';
 		}
 
 		$sql = $connect -> query($query);
@@ -560,7 +566,7 @@
 								<th>Circuito</th>
 								<th>Pais</th>
 								<th>Fecha carrera</th>
-								<th colspan="2">Acción</th>
+								<th>Acción</th>
 							</tr>
 						</thead>
 						<tbody>';
@@ -580,11 +586,8 @@
 						<td>'.$circuit -> getNom().'</td>
 						<td>'.$circuit -> getPais().'</td>
 						<td>'.$carrera -> getDataCarrera().'</td>
-						<td><a class="various" data-fancybox-type="iframe" href="../super/index.php?sec=edita_carrera&id='.$carrera -> getId().'">
+						<td><a class="various" data-fancybox-type="iframe" href="../super/index2.php?sec=edita_carrera&id='.$carrera -> getId().'">
 							<span class="glyphicon glyphicon-pencil"></span></a>
-						</td>
-						<td><a class="various" data-fancybox-type="iframe" href="../super/index.php?sec=elimina_carrera&id='.$carrera -> getId().'">
-							<span class="glyphicon glyphicon-remove"></span></a>
 						</td>
 					</tr>';
 
@@ -598,94 +601,97 @@
 			 * la imagen del circuito teniendo en 
 			 * cuenta el valor seleccionado.
 			*/
-			switch ($circuit -> getNom()) {
-				
-				case 'Circuito Albert Park':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
-				
-				case 'Shanghai International Circuit':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
-				
-				case 'Circuito de Sakhir':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+			if($idCarrera > 0){
 
-				case 'Sochi Autodrom':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+				switch ($circuit -> getNom()) {
+					
+					case 'Circuito Albert Park':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
+					
+					case 'Shanghai International Circuit':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
+					
+					case 'Circuito de Sakhir':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Circuit de Montmeló':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Sochi Autodrom':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Circuito de Montecarlo':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Circuit de Montmeló':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Circuito Gilles-Villeneuve':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Circuito de Montecarlo':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Baku City Circuit':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Circuito Gilles-Villeneuve':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Red Bull Ring':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Baku City Circuit':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Silverstone Circuit':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Red Bull Ring':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Circuito Hungaroring':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Silverstone Circuit':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Hockenheimring':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Circuito Hungaroring':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Spa-Francorchamps':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Hockenheimring':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Autodromo di Monza':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Spa-Francorchamps':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Marina Bay':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Autodromo di Monza':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Sepang':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Marina Bay':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Suzuka':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Sepang':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Austin':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Suzuka':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Autódromo Hermanos Rodriguez':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Austin':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Autódromo José Carlos Pace - Interlagos':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
-					break;
+					case 'Autódromo Hermanos Rodriguez':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
 
-				case 'Yas Marina':
-					$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive"/>';
-					break;
-				default:
-					$result .= '<img src="../img/circuitos/calendario-f1-17.jpg" class="img-responsive">';
-					break;
+					case 'Autódromo José Carlos Pace - Interlagos':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive">';
+						break;
+
+					case 'Yas Marina':
+						$result .= '<img src="../img/circuitos/'.$circuit -> getNom().'.png" class="img-responsive"/>';
+						break;
+					default:
+						$result .= '<img src="../img/circuitos/calendario-f1-17.jpg" class="img-responsive">';
+						break;
+				}
 			}
 
 			$result .='	</div>
@@ -1466,7 +1472,7 @@
 
 		//Variable de retorno
 		$result = "
-		<div class='table-responsive'>
+		
 			<table class='table table-bordered'>
 				<thead>
 					<tr>
@@ -1494,7 +1500,7 @@
 		$result .= '
 				</tbody>
 			</table>
-		</div>';
+		';
 
 		return $result;
 	}

@@ -1,4 +1,4 @@
-<?echo titular('Nuevo reglamento')?>
+<?php echo titular('Nuevo reglamento')?>
  
  <script type="text/javascript">
 	tinymce.init({

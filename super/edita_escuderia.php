@@ -1,10 +1,10 @@
-<? 
+<?php 
 	if($_SESSION['rol'] != 'super'){
 		?>
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 	//Mapa de caractertes
 	$connect -> query("SET NAMES 'utf8'");

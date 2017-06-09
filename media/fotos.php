@@ -1,8 +1,10 @@
-<?if($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == ''){?>
-<script type="text/javascript">
-	parent.location.assign('../inicio.php');
-</script>
-<?}?>
+<?php
+	if($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == ''){?>
+		
+		<script type="text/javascript">
+			parent.location.assign('../inicio.php');
+		</script>
+<?php } ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12 col-sm-12 col-xs-12">

@@ -5,7 +5,7 @@
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 	echo titular(''.ucwords($_GET['sec']).' usuario');
 	$user = new Usuario();
@@ -101,22 +101,22 @@
 			<h4><span class="label label-info">Rol</span></h4>
 			<select class="form-control" name="fRol">
 				<option selected value="<?=$user -> getRol()?>" ><?=$user -> getRol()?></option>
-				<?
+				<?php
 					if($user -> getRol() == 'admin'){
 					?>
 					<option value="super" <?if($_SESSION['rol'] == 'admin'){echo "disabled";}?>>Super usuario</option>
 					<option value="registrado" <?if($_SESSION['rol'] == 'admin'){echo "disabled";}?>>Usuario básico</option>
-					<?
+					<?php
 					} elseif ($user -> getRol() == 'super') {
 						?>
 					<option value="admin" <?if($_SESSION['rol'] == 'admin'){echo "disabled";}?>>Administrador</option>
 					<option value="registrado" <?if($_SESSION['rol'] == 'admin'){echo "disabled";}?>>Usuario básico</option>
-					<?
+					<?php
 					} elseif ($user -> getRol() == 'registrado') {
 						?>
 					<option value="admin" <?if($_SESSION['rol'] == 'admin'){echo "disabled";}?>>Administrador</option>
 					<option value="super" <?if($_SESSION['rol'] == 'admin'){echo "disabled";}?>>Super usuario</option>
-					<?
+					<?php
 					}
 				?>
 			</select>

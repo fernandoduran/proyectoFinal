@@ -168,7 +168,7 @@
 			<div class="footer-upper">
 				<div class="social-wrapper">
 			
-					<span class="follow-us">Sigue a F1 History<span>
+					<span class="follow-us">Sigue a F1 History</span>
 				
 					<a href="https://twitter.com/f1" target="_blank" title="Sigue a F1 History en Twitter"><span class="fa fa-twitter"></span></a>
 				

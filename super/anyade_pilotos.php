@@ -1,4 +1,4 @@
-<?
+<?php
 	echo titular('Añade Pilotos');
 	
 	if($_SESSION['rol'] != 'super'){
@@ -6,7 +6,7 @@
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 ?>
 <script type="text/javascript">

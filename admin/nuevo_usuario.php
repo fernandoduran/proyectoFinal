@@ -1,4 +1,4 @@
-<?
+<?php
 
 	echo titular('Añade usuarios');
 	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == ''){
@@ -6,7 +6,7 @@
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 ?>
 <script type="text/javascript">
@@ -103,7 +103,7 @@
 				</div>
 				<div class="form-group">
 					<h4><span class="label label-info" for="fData">Fecha nacimiento:</span></h4>
-						<input id="fData" class="form-control" type="text" name="fData" placeholder="DD/MM/AAAA">
+						<input id="fData" class="form-control" type="text" name="fData" placeholder="DD/MM/AAAA" readonly>
 
 					<!-- DATEPICKER -->
 						<script>
@@ -138,8 +138,8 @@
 				</div>
 			<select class="form-control" name="fRol">
 				<option selected value="registrado">Registrado</option>
-				<option value="super" disabled>Super usuario</option>
-				<option value="admin" disabled>Administrador</option>
+				<option value="super" <?php if($_SESSION['rol'] == 'admin'){echo 'disabled';}?>>Super usuario</option>
+				<option value="admin" <?php if($_SESSION['rol'] == 'admin'){echo 'disabled';}?>>Administrador</option>
 				
 			</select><br>
 				<input type="submit" name="fRegistra" value="Da de alta" class="btn btn-success">

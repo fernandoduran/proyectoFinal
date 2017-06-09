@@ -1,10 +1,10 @@
 <?php
 
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$bbdd = 'f1History';
+	$host = 'localhost';
+	$user = 'root';
+	$pass = '';
+	$bbdd = 'f1history';
 
-$connect = new mysqli($host, $user, $pass, $bbdd);
+	$connect = new mysqli($host, $user, $pass, $bbdd);
 
 ?>

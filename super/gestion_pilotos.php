@@ -1,4 +1,4 @@
-<?
+<?php
 	echo titular('Gestion Pilotos');
 	
 	if($_SESSION['rol'] != 'super'){
@@ -6,7 +6,7 @@
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 	
 	$connect -> query("SET NAMES 'utf8'");
@@ -35,7 +35,7 @@
 		$piloto -> _setTitols($row['titols']);
 	}
 ?>
-<? if($_GET['acc'] == 'elimina'){?>
+<?php if($_GET['acc'] == 'elimina'){?>
 
 <div class="container">
 	<div class="row">
@@ -46,7 +46,7 @@
 				<input type="submit" name="fCancelar" value="Cancelar" class="btn btn-success">
 		</form>
 </div>
-<?} else {?>
+<?php } else {?>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#edita').blur(function(e){

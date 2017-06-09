@@ -5,7 +5,7 @@
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 
 	echo titular(''.ucwords($_GET['sec']).' usuario');

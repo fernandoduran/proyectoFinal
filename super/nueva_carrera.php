@@ -7,7 +7,7 @@
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 ?>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />

@@ -51,7 +51,7 @@
 	</div>
 <?php }?>
 
-<?
+<?php
 	if($_SESSION['rol'] == 'registrado' || $_SESSION['rol'] == 'super'){
 
 		echo clasificacion($connect, "2017");
@@ -123,7 +123,7 @@
     <p><a class="various" data-fancybox-type="iframe" href="../acceso/index2.php?sec=registro" style="text-decoration: none;">Registrate</a> ahora!</p>
   </div>
 </div>
-<?}?>
+<?php } ?>
 <script type="text/javascript">
   $(function(){
     $('.video').on('mouseenter', function(){

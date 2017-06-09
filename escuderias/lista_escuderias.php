@@ -1,11 +1,11 @@
-<?
+<?php
 
 	if($_SESSION['rol'] != 'registrado'){
 		?>
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 ?>
 <div class="container">
@@ -45,7 +45,7 @@
 					</form>
 				</div>
 			</div>
-			<?	
+			<?php	
 				if(isset($_POST['fBusca'])){
 
 					echo listaEscuderias($connect, $_POST['fAny']);

@@ -11,4 +11,4 @@
 		</div>
 	</div>
 </div>
-<? echo clasificacion($connect, $_GET['sec'])?>
+<?php echo clasificacion($connect, $_GET['sec'])?>

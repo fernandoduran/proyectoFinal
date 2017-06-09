@@ -1,4 +1,6 @@
-<?echo titular('Canvio de contraseña')?>
+<?php
+	echo titular('Canvio de contraseña');
+?>
 
 <script type="text/javascript">
 	$(document).ready(function(){

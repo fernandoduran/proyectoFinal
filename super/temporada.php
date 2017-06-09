@@ -1,4 +1,4 @@
-<?echo titular('Gestión de temporadas')?>
+<?php echo titular('Gestión de temporadas')?>
 
 <div class="container-fluid">
 	<div class="row">
@@ -31,7 +31,7 @@
 					</form>
 				</div>
 			</div>
-			<?
+			<?php
 				if(isset($_POST['fBusca'])){
 				
 					echo listaTemporadas($connect, $_POST['fAny']);

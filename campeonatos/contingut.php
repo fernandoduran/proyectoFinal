@@ -11,70 +11,70 @@
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 			case '2015':
 				?>
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 			case '2014':
 				?>
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 			case '2013':
 				?>
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 			case '2012':
 				?>
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 			case '2011':
 				?>
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 			case '2010':
 				?>
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 			case '2009':
 				?>
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 			case '2008':
 				?>
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 			case '2007':
 				?>
 				<script type="text/javascript">
 					parent.location.assign('../inicio.php');
 				</script>
-				<?
+				<?php
 				break;
 		}
 
@@ -120,6 +120,6 @@
 		<script type="text/javascript">
 			parent.location.assign('../inicio.php');
 		</script>
-		<?
+		<?php
 	}
 ?>
